@@ -7,32 +7,28 @@
 //
 
 import UIKit
+import CoreData
 
 class DocumentBuilder {
     
     private let image: UIImage
     private let annotations: DerivedAnnotations
+    private let context: NSManagedObjectContext
     
     private var document: Document!
-//    private var organization: String?
-//    private var person: String?
-//    private var photoImageData: Data?
-//    private var notes = [String]()
-//    private var urlValues = [CNLabeledValue<NSString>]()
-//    private var emailValues = [CNLabeledValue<NSString>]()
-//    private var phoneNumberValues = [CNLabeledValue<CNPhoneNumber>]()
-//    private var addressValues = [CNLabeledValue<CNPostalAddress>]()
     
-    init(image: UIImage, annotations: DerivedAnnotations) {
+    init(image: UIImage, annotations: DerivedAnnotations, context: NSManagedObjectContext) {
         self.image = image
         self.annotations = annotations
+        self.context = context
     }
     
     func build() -> Document {
         
-        let imageData = UIImagePNGRepresentation(image)
+        let imageData = UIImagePNGRepresentation(image) // FIXME: Use JPEG compression
         self.document = Document(
-            image: imageData!
+            imageData: imageData!,
+            context: context
         )
         
         makeOrganization()
@@ -54,8 +50,14 @@ class DocumentBuilder {
         
         // Use detected orgs
         if let entities = annotations.textAnnotations?.organizationEntities {
-            let organizations = entities.map { $0.content }
-            document.organizations.append(contentsOf: organizations)
+            for entity in entities {
+                let fragment = TextFragment(
+                    type: .organization,
+                    value: entity.content,
+                    context: context
+                )
+                document.addToTextFragments(fragment)
+            }
         }
         
         // TODO: Use orgs from detected logos
@@ -68,8 +70,14 @@ class DocumentBuilder {
         guard let entities = annotations.textAnnotations?.personEntities else {
             return
         }
-        let names = entities.map { $0.content }
-        document.names.append(contentsOf: names)
+        for entity in entities {
+            let fragment = TextFragment(
+                type: .person,
+                value: entity.content,
+                context: context
+            )
+            document.addToTextFragments(fragment)
+        }
     }
 
     //
@@ -90,19 +98,25 @@ class DocumentBuilder {
             return
         }
         for annotation in annotations {
+            let fragment: TextFragment
             if let url = URL(string: annotation.content) {
                 // Annotation is a valid URL
                 // TODO: Distinguish between email and other URL type
-                let value = Fragment(
-                    label: nil,
-                    content: url.absoluteString
+                fragment = TextFragment(
+                    type: .url,
+                    value: url.absoluteString,
+                    context: context
                 )
-                document.urlAddresses.append(value)
             }
             else {
                 // Annotation is not avalid URL.
-                document.notes.append(annotation.content)
+                fragment = TextFragment(
+                    type: .note,
+                    value: annotation.content,
+                    context: context
+                )
             }
+            document.addToTextFragments(fragment)
         }
     }
     
@@ -110,10 +124,16 @@ class DocumentBuilder {
     //  Add person, organization, address, urls from text entities.
     //
     private func makeAddresses() {
-        guard let locations = annotations.locations else {
+        guard let entities = annotations.locations else {
             return
         }
-        document.locations.append(contentsOf: locations)
+        for entity in entities {
+            let location = Location(
+                placemark: entity,
+                context: context
+            )
+            document.addToLocations(location)
+        }
     }
     
     //
@@ -123,13 +143,14 @@ class DocumentBuilder {
         guard let entities = annotations.textAnnotations?.phoneEntities else {
             return
         }
-        let fragments = entities.map {
-            Fragment(
-                label: nil,
-                content: $0.content
+        for entity in entities {
+            let fragment = TextFragment(
+                type: .phoneNumber,
+                value: entity.content,
+                context: context
             )
+            document.addToTextFragments(fragment)
         }
-        document.phoneNumbers.append(contentsOf: fragments)
     }
     
     // 
@@ -139,13 +160,14 @@ class DocumentBuilder {
         guard let entities = annotations.textAnnotations?.emailEntities else {
             return
         }
-        let fragments = entities.map {
-            Fragment(
-                label: nil,
-                content: $0.content
+        for entity in entities {
+            let fragment = TextFragment(
+                type: .email,
+                value: entity.content,
+                context: context
             )
+            document.addToTextFragments(fragment)
         }
-        document.emailAddresses.append(contentsOf: fragments)
     }
     
     //
@@ -155,12 +177,13 @@ class DocumentBuilder {
         guard let entities = annotations.textAnnotations?.urlEntities else {
             return
         }
-        let fragments = entities.map {
-            Fragment(
-                label: nil,
-                content: $0.content
+        for entity in entities {
+            let fragment = TextFragment(
+                type: .url,
+                value: entity.content,
+                context: context
             )
+            document.addToTextFragments(fragment)
         }
-        document.urlAddresses.append(contentsOf: fragments)
     }
 }

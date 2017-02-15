@@ -8,9 +8,11 @@
 
 import Foundation
 import Contacts
+import MapKit
+import CoreLocation
 
 extension ScannerService {
-    static func mock() -> ScannerService {
+    static func mock(coreData: CoreDataStack) -> ScannerService {
         let imageAnnotationService = MockImageAnnotationService(
             response: ImageAnnotationResponse(
                 textAnnotations: [
@@ -81,19 +83,26 @@ extension ScannerService {
             error: nil
         )
         
-        var location = Location()
-        location.subThroughfare = "1"
-        location.throughfare = "Infinite Loop"
-        location.subLocality = "Mission District"
-        location.locality = "Cupertino"
-        location.subAdministrativeArea = "Santa Clara"
-        location.administrativeArea = "CA"
-        location.postalCode = "95014"
-        location.countryCode = "US"
-        location.country = "United States"
+        let coordinate = CLLocationCoordinate2D(
+            latitude: 37.33053,
+            longitude: -122.02887
+        )
+        
+        let address = CNMutablePostalAddress()
+        address.street = "1 Infinite Loop"
+        address.city = "Santa Clara"
+        address.state = "California"
+        address.postalCode = "95014"
+        address.country = "United States"
+        address.isoCountryCode = " US"
+        
+        let placemark = MKPlacemark(
+            coordinate: coordinate,
+            postalAddress: address
+        )
         
         let addressResolutionService = MockAddressResolutionService(
-            response: location,
+            response: placemark,
             error: nil
         )
         
@@ -101,6 +110,7 @@ extension ScannerService {
             imageAnnotationService: imageAnnotationService,
             textAnnotationService: textAnnotationService,
             addressResolutionService: addressResolutionService,
+            coreData: coreData,
             queue: OperationQueue()
         )
         return service;

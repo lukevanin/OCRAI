@@ -11,7 +11,7 @@ import CoreLocation
 
 struct MockAddressResolutionService: AddressResolutionService {
     
-    let response: Location?
+    let response: CLPlacemark?
     let error: Error?
     
     func resolve(entity: Entity, completion: @escaping AddressResolutionCompletion) -> Cancellable {

@@ -7,7 +7,10 @@
 //
 
 import Foundation
+import CoreData
 import CoreLocation
+
+private let entityName = "Document"
 
 //@property (nonatomic, readonly, copy, nullable) NSString *name; // eg. Apple Inc.
 //@property (nonatomic, readonly, copy, nullable) NSString *thoroughfare; // street name, eg. Infinite Loop
@@ -23,120 +26,91 @@ import CoreLocation
 //@property (nonatomic, readonly, copy, nullable) NSString *ocean; // eg. Pacific Ocean
 //@property (nonatomic, readonly, copy, nullable) NSArray<NSString *> *areasOfInterest; // eg. Golden Gate Park
 
-struct Coordinate {
-    let latitude: Double
-    let longitude: Double
-}
+//struct Coordinate {
+//    let latitude: Double
+//    let longitude: Double
+//}
+//
+//struct Location {
+//    var coordinate: Coordinate?
+//    var throughfare: String?
+//    var subThroughfare: String?
+//    var locality: String?
+//    var subLocality: String?
+//    var administrativeArea: String?
+//    var subAdministrativeArea: String?
+//    var postalCode: String?
+//    var countryCode: String?
+//    var country: String?
+//    
+//    init() {
+//    }
+//}
+//
+//struct Fragment {
+//    var label: String?
+//    var content: String
+//    
+//    init(label: String? = nil, content: String) {
+//        self.label = label
+//        self.content = content
+//    }
+//}
+//
+//struct Document {
+//    var image: Data
+//    var faces: [Data]
+//    var logos: [Data]
+//    var names: [String]
+//    var organizations: [String]
+//    var phoneNumbers: [Fragment]
+//    var urlAddresses: [Fragment]
+//    var emailAddresses: [Fragment]
+//    var locations: [Location]
+//    var notes: [String]
+//    
+//    init(image: Data) {
+//        self.image = image
+//        self.faces = []
+//        self.logos = []
+//        self.names = []
+//        self.organizations = []
+//        self.phoneNumbers = []
+//        self.urlAddresses = []
+//        self.emailAddresses = []
+//        self.locations = []
+//        self.notes = []
+//    }
+//}
 
-struct Location {
-    var coordinate: Coordinate?
-    var throughfare: String?
-    var subThroughfare: String?
-    var locality: String?
-    var subLocality: String?
-    var administrativeArea: String?
-    var subAdministrativeArea: String?
-    var postalCode: String?
-    var countryCode: String?
-    var country: String?
-    
-    init() {
+/*
+ 
+
+ */
+
+
+extension Document {
+    convenience init(imageData: Data, context: NSManagedObjectContext) {
+        guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
+            fatalError("Cannot initialize entity \(entityName)")
+        }
+        self.init(entity: entity, insertInto: context)
+        self.identifier = UUID().uuidString
+        self.imageData = imageData as NSData
     }
 }
 
-struct Fragment {
-    var label: String?
-    var content: String
-    
-    init(label: String? = nil, content: String) {
-        self.label = label
-        self.content = content
-    }
-}
 
-struct Document {
-    var image: Data
-    var faces: [Data]
-    var logos: [Data]
-    var names: [String]
-    var organizations: [String]
-    var phoneNumbers: [Fragment]
-    var urlAddresses: [Fragment]
-    var emailAddresses: [Fragment]
-    var locations: [Location]
-    var notes: [String]
-    
-    init(image: Data) {
-        self.image = image
-        self.faces = []
-        self.logos = []
-        self.names = []
-        self.organizations = []
-        self.phoneNumbers = []
-        self.urlAddresses = []
-        self.emailAddresses = []
-        self.locations = []
-        self.notes = []
-    }
-}
-
-
+/*
 
 // MARK: String
 
-extension Coordinate: CustomStringConvertible {
+extension CLLocationCoordinate: CustomStringConvertible {
     var description: String {
         return String(format: "lat: %0.4f, lng: %0.4f", latitude, longitude)
     }
 }
 
-extension Location: CustomStringConvertible {
-    var description: String {
-        var components = [String]()
-        
-        if let coordinate = coordinate {
-            components.append("Coordinates: \(coordinate)")
-        }
-        
-        if let throughfare = throughfare {
-            components.append("Throughfare: \(throughfare)")
-        }
-        
-        if let subThroughfare = subThroughfare {
-            components.append("Sub-throughfare: \(subThroughfare)")
-        }
-        
-        if let locality = locality {
-            components.append("Locality: \(locality)")
-        }
-        
-        if let subLocality = subLocality {
-            components.append("Sub-locality: \(subLocality)")
-        }
-        
-        if let administrativeArea = administrativeArea {
-            components.append("Administrative area: \(administrativeArea)")
-        }
-        
-        if let subAdministrativeArea = subAdministrativeArea {
-            components.append("Sub-administrative area: \(subAdministrativeArea)")
-        }
-        
-        if let postalCode = postalCode {
-            components.append("Postal code: \(postalCode)")
-        }
-        
-        if let countryCode = countryCode {
-            components.append("Country code: \(countryCode)")
-        }
-        
-        if let country = country {
-            components.append("Country: \(country)")
-        }
-
-        return components.joined(separator: "\n")
-    }
-}
 
 extension Fragment: CustomStringConvertible {
     var description: String {
@@ -184,3 +158,5 @@ extension Document: CustomStringConvertible {
         return components.joined(separator: "\n")
     }
 }
+ 
+ */

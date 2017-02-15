@@ -25,6 +25,8 @@ class ViewController: UIViewController {
     
     private let googleKey = "AIzaSyDTdcgltBmKzyR1n-eG2Vjc7L4vBBbpQ90"
     
+    private lazy var
+    
     private lazy var scannerService: ScannerService = {
         return ScannerService.mock()
     }()

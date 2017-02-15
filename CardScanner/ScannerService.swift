@@ -12,9 +12,9 @@ import CoreLocation
 struct DerivedAnnotations {
     var imageAnnotations: ImageAnnotationResponse?
     var textAnnotations: TextAnnotationResponse?
-    var locations: [Location]?
+    var locations: [CLPlacemark]?
     
-    init(imageAnnotations: ImageAnnotationResponse? = nil, textAnnotations: TextAnnotationResponse? = nil, locations: [Location]? = nil) {
+    init(imageAnnotations: ImageAnnotationResponse? = nil, textAnnotations: TextAnnotationResponse? = nil, locations: [CLPlacemark]? = nil) {
         self.imageAnnotations = imageAnnotations
         self.textAnnotations = textAnnotations
         self.locations = locations
@@ -27,15 +27,17 @@ private class ScanOperation: AsyncOperation {
     
     private let image: UIImage
     private let service: ScannerService
+    private let coreData: CoreDataStack
     private let completion: ScannerService.Completion
     
     private var imageAnnotationTask: Cancellable?
     private var textAnnotationTask: Cancellable?
     private var addressResolutionTask: Cancellable?
     
-    init(image: UIImage, service: ScannerService, completion: @escaping ScannerService.Completion) {
+    init(image: UIImage, service: ScannerService, coreData: CoreDataStack, completion: @escaping ScannerService.Completion) {
         self.image = image
         self.service = service
+        self.coreData = coreData
         self.completion = completion
     }
     
@@ -57,18 +59,23 @@ private class ScanOperation: AsyncOperation {
     
     private func annotate(completion: @escaping ScannerService.Completion) {
         fetchAnnotations() { annotations, error in
-            guard let annotations = annotations else {
-                completion(nil, error)
-                return
+            DispatchQueue.main.async {
+                guard let annotations = annotations else {
+                    completion(nil, error)
+                    return
+                }
+                
+                self.coreData.performBackgroundChanges { (context) in
+                    let builder = DocumentBuilder(
+                        image: self.image,
+                        annotations: annotations,
+                        context: context
+                    )
+                    
+                    let document = builder.build()
+                    completion(document.identifier, nil)
+                }
             }
-            
-            let builder = DocumentBuilder(
-                image: self.image,
-                annotations: annotations
-            )
-            
-            let document = builder.build()
-            completion(document, nil)
         }
     }
     
@@ -138,11 +145,12 @@ private class ScanOperation: AsyncOperation {
 
 struct ScannerService {
     
-    typealias Completion = (Document?, Error?) -> Void
+    typealias Completion = (String?, Error?) -> Void
     
     let imageAnnotationService: ImageAnnotationService
     let textAnnotationService: TextAnnotationService
     let addressResolutionService: AddressResolutionService
+    let coreData: CoreDataStack
     let queue: OperationQueue
     
     func cancelAllScans() {
@@ -153,6 +161,7 @@ struct ScannerService {
         let operation = ScanOperation(
             image: image,
             service: self,
+            coreData: coreData,
             completion: completion
         )
         queue.addOperation(operation)
