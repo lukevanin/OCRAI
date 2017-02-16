@@ -39,6 +39,7 @@
 		FC91B75C1E4C36AB00AF11C6 /* TextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B75B1E4C36AB00AF11C6 /* TextAnnotationService.swift */; };
 		FC91B7671E4C3B8700AF11C6 /* MockImageAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B7661E4C3B8700AF11C6 /* MockImageAnnotationService.swift */; };
 		FC91B76C1E4C3C5C00AF11C6 /* AppleTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B76B1E4C3C5C00AF11C6 /* AppleTextAnnotationService.swift */; };
+		FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */; };
 		FCED88471E4CC72D00623684 /* ScannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED88461E4CC72D00623684 /* ScannerService.swift */; };
 		FCED88491E4CC7B300623684 /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED88481E4CC7B300623684 /* Cancellable.swift */; };
 		FCED884B1E4CC90F00623684 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED884A1E4CC90F00623684 /* AsyncOperation.swift */; };
@@ -84,6 +85,7 @@
 		FC91B7661E4C3B8700AF11C6 /* MockImageAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockImageAnnotationService.swift; sourceTree = "<group>"; };
 		FC91B76B1E4C3C5C00AF11C6 /* AppleTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleTextAnnotationService.swift; sourceTree = "<group>"; };
 		FCD3DE4A1E52DE2E000ED5F7 /* CardScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CardScanner.entitlements; sourceTree = "<group>"; };
+		FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedListViewController.swift; sourceTree = "<group>"; };
 		FCED88461E4CC72D00623684 /* ScannerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerService.swift; sourceTree = "<group>"; };
 		FCED88481E4CC7B300623684 /* Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
 		FCED884A1E4CC90F00623684 /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				FC8E71721E4AD5B300D37719 /* UIViewController+ImagePicker.swift */,
 				FC8E71731E4AD5B300D37719 /* UIImage+Resize.swift */,
 				FCED884A1E4CC90F00623684 /* AsyncOperation.swift */,
+				FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -225,10 +228,10 @@
 		FC91B7621E4C370400AF11C6 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				FC8E71621E4AD56C00D37719 /* ScanViewController.swift */,
 				FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */,
 				FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */,
 				FC0BF6CB1E54A99200A0ED29 /* CameraViewController.swift */,
+				FC8E71621E4AD56C00D37719 /* ScanViewController.swift */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 			files = (
 				FCED88491E4CC7B300623684 /* Cancellable.swift in Sources */,
 				FCED88471E4CC72D00623684 /* ScannerService.swift in Sources */,
+				FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */,
 				FCED884D1E4D795C00623684 /* DocumentBuilder.swift in Sources */,
 				FC91B75A1E4C32D800AF11C6 /* ImageAnnotationService.swift in Sources */,
 				FC0BF6D01E54AA1F00A0ED29 /* DocumentViewController.swift in Sources */,

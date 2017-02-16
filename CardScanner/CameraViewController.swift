@@ -16,7 +16,8 @@ class CameraViewController: UIViewController {
     private var captureSession: AVCaptureSession!
     private var photoOutput: AVCapturePhotoOutput!
     fileprivate var imageContext: CIContext!
-    fileprivate var selectedImageData: Data? {
+    
+    var selectedImageData: Data? {
         didSet {
             self.updateViewState()
         }

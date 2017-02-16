@@ -140,7 +140,9 @@ extension CoreDataStack {
                 }
             }
             
-            completion?()
+            DispatchQueue.main.async {
+                completion?()
+            }
         }
     }
 }

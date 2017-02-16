@@ -12,6 +12,27 @@ import CoreLocation
 
 private let entityName = "Document"
 
+
+extension Document {
+    convenience init(imageData: Data, context: NSManagedObjectContext) {
+        guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
+            fatalError("Cannot initialize entity \(entityName)")
+        }
+        self.init(entity: entity, insertInto: context)
+        self.identifier = UUID().uuidString
+        self.imageData = imageData as NSData
+        self.creationDate = Date(timeIntervalSinceNow: 0) as NSDate
+    }
+}
+
+extension NSManagedObjectContext {
+    func documents(withIdentifier identifier: String) throws -> [Document] {
+        let request: NSFetchRequest<Document> = Document.fetchRequest()
+        request.predicate = NSPredicate(format: "identifier == %@", identifier)
+        return try fetch(request)
+    }
+}
+
 //@property (nonatomic, readonly, copy, nullable) NSString *name; // eg. Apple Inc.
 //@property (nonatomic, readonly, copy, nullable) NSString *thoroughfare; // street name, eg. Infinite Loop
 //@property (nonatomic, readonly, copy, nullable) NSString *subThoroughfare; // eg. 1
@@ -88,17 +109,6 @@ private let entityName = "Document"
 
  */
 
-
-extension Document {
-    convenience init(imageData: Data, context: NSManagedObjectContext) {
-        guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            fatalError("Cannot initialize entity \(entityName)")
-        }
-        self.init(entity: entity, insertInto: context)
-        self.identifier = UUID().uuidString
-        self.imageData = imageData as NSData
-    }
-}
 
 
 /*
