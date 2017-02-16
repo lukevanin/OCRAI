@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC0BF6CC1E54A99200A0ED29 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6CB1E54A99200A0ED29 /* CameraViewController.swift */; };
+		FC0BF6CE1E54A9E200A0ED29 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */; };
+		FC0BF6D01E54AA1F00A0ED29 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */; };
+		FC0BF6D31E54AA4E00A0ED29 /* BasicFragmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6D21E54AA4E00A0ED29 /* BasicFragmentCell.swift */; };
+		FC0BF6D51E54AA5C00A0ED29 /* LocationFragmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6D41E54AA5C00A0ED29 /* LocationFragmentCell.swift */; };
+		FC0BF6D71E54AA8600A0ED29 /* DocumentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6D61E54AA8600A0ED29 /* DocumentCell.swift */; };
+		FC0BF6DA1E54AB8300A0ED29 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0BF6D91E54AB8300A0ED29 /* MapKit.framework */; };
+		FC0BF6DC1E54B40900A0ED29 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */; };
 		FC329D9B1E5419640047F692 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9A1E5419640047F692 /* CoreDataStack.swift */; };
 		FC329D9E1E5419820047F692 /* OCRAI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9C1E5419820047F692 /* OCRAI.xcdatamodeld */; };
 		FC329DA01E541F930047F692 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9F1E541F930047F692 /* Location.swift */; };
@@ -41,6 +49,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FC0BF6CB1E54A99200A0ED29 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
+		FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
+		FC0BF6D21E54AA4E00A0ED29 /* BasicFragmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicFragmentCell.swift; sourceTree = "<group>"; };
+		FC0BF6D41E54AA5C00A0ED29 /* LocationFragmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFragmentCell.swift; sourceTree = "<group>"; };
+		FC0BF6D61E54AA8600A0ED29 /* DocumentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentCell.swift; sourceTree = "<group>"; };
+		FC0BF6D91E54AB8300A0ED29 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		FC329D9A1E5419640047F692 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FC329D9D1E5419820047F692 /* OCRAI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OCRAI.xcdatamodel; sourceTree = "<group>"; };
 		FC329D9F1E541F930047F692 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -82,12 +98,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC0BF6DA1E54AB8300A0ED29 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FC0BF6D11E54AA3700A0ED29 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FC0BF6D61E54AA8600A0ED29 /* DocumentCell.swift */,
+				FC0BF6D21E54AA4E00A0ED29 /* BasicFragmentCell.swift */,
+				FC0BF6D41E54AA5C00A0ED29 /* LocationFragmentCell.swift */,
+				FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		FC0BF6D81E54AB8300A0ED29 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FC0BF6D91E54AB8300A0ED29 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FC7966FF1E52C36600D54859 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +140,7 @@
 			children = (
 				FC8E715F1E4AD56C00D37719 /* CardScanner */,
 				FC8E715E1E4AD56C00D37719 /* Products */,
+				FC0BF6D81E54AB8300A0ED29 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,6 +159,7 @@
 				FC91B7611E4C36FF00AF11C6 /* App */,
 				FC91B7631E4C371200AF11C6 /* UI */,
 				FC91B7621E4C370400AF11C6 /* View Controller */,
+				FC0BF6D11E54AA3700A0ED29 /* View */,
 				FC7966FF1E52C36600D54859 /* Model */,
 				FC91B75F1E4C36DF00AF11C6 /* Service */,
 				FC91B7601E4C36E500AF11C6 /* Utility */,
@@ -188,6 +226,9 @@
 			isa = PBXGroup;
 			children = (
 				FC8E71621E4AD56C00D37719 /* ScanViewController.swift */,
+				FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */,
+				FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */,
+				FC0BF6CB1E54A99200A0ED29 /* CameraViewController.swift */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -275,6 +316,9 @@
 						DevelopmentTeam = DBK476475Y;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 0;
 							};
@@ -322,9 +366,13 @@
 				FCED88471E4CC72D00623684 /* ScannerService.swift in Sources */,
 				FCED884D1E4D795C00623684 /* DocumentBuilder.swift in Sources */,
 				FC91B75A1E4C32D800AF11C6 /* ImageAnnotationService.swift in Sources */,
+				FC0BF6D01E54AA1F00A0ED29 /* DocumentViewController.swift in Sources */,
 				FC7967011E52C37500D54859 /* Document.swift in Sources */,
 				FCED884F1E4D8E9F00623684 /* AddressResolutionService.swift in Sources */,
 				FC329DA01E541F930047F692 /* Location.swift in Sources */,
+				FC0BF6DC1E54B40900A0ED29 /* CameraView.swift in Sources */,
+				FC0BF6D31E54AA4E00A0ED29 /* BasicFragmentCell.swift in Sources */,
+				FC0BF6D51E54AA5C00A0ED29 /* LocationFragmentCell.swift in Sources */,
 				FC8E71761E4AD5B300D37719 /* UIViewController+ImagePicker.swift in Sources */,
 				FC8E71771E4AD5B300D37719 /* UIImage+Resize.swift in Sources */,
 				FC91B76C1E4C3C5C00AF11C6 /* AppleTextAnnotationService.swift in Sources */,
@@ -332,6 +380,8 @@
 				FCED88531E4F037400623684 /* MockTextAnnotationService.swift in Sources */,
 				FC8E717B1E4AED7D00D37719 /* GoogleNaturalLanguageAPI.swift in Sources */,
 				FC8E71791E4AD5B300D37719 /* ContentError.swift in Sources */,
+				FC0BF6CC1E54A99200A0ED29 /* CameraViewController.swift in Sources */,
+				FC0BF6CE1E54A9E200A0ED29 /* DocumentsViewController.swift in Sources */,
 				FC329DA21E5420780047F692 /* TextFragment.swift in Sources */,
 				FC7966FE1E52118200D54859 /* MockScannerService.swift in Sources */,
 				FC8E71781E4AD5B300D37719 /* GoogleVisionAPI.swift in Sources */,
@@ -343,6 +393,7 @@
 				FCED88511E4F014200623684 /* MockCancellable.swift in Sources */,
 				FC91B7671E4C3B8700AF11C6 /* MockImageAnnotationService.swift in Sources */,
 				FC7966FC1E52046100D54859 /* GoogleImageAnnotationService.swift in Sources */,
+				FC0BF6D71E54AA8600A0ED29 /* DocumentCell.swift in Sources */,
 				FCED884B1E4CC90F00623684 /* AsyncOperation.swift in Sources */,
 				FC8E71611E4AD56C00D37719 /* AppDelegate.swift in Sources */,
 				FC7966F81E5201F300D54859 /* MockAddressResolutionService.swift in Sources */,
