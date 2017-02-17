@@ -16,7 +16,7 @@ struct Entity {
 struct TextAnnotationResponse {
     let personEntities: [Entity]
     let organizationEntities: [Entity]
-    let addressEntites: [Entity]
+    let addressEntities: [Entity]
     let phoneEntities: [Entity]
     let urlEntities: [Entity]
     let emailEntities: [Entity]

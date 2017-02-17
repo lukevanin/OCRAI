@@ -33,8 +33,11 @@ class DocumentsViewController: UITableViewController {
             delegate: self
         )
     }()
-
+    
     @IBAction func onAddAction(_ sender: Any) {
+        let image = UIImage(named: "card-sample-1")!
+        let data = UIImageJPEGRepresentation(image, 1.0)
+        importDocumentFromImage(data: data!)
     }
     
     @IBAction func exitToDocuments(_ sender: UIStoryboardSegue) {
@@ -97,6 +100,19 @@ class DocumentsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DocumentCell
+        
+        if let item = listController.object(at: indexPath), let imageData = item.imageData {
+            if let image = UIImage(data: imageData as Data) {
+                cell.pictureImageView.image = image
+                cell.pictureImageView.isHidden = false
+                cell.placeholderImageView.isHidden = true
+            }
+            else {
+                cell.pictureImageView.isHidden = true
+                cell.placeholderImageView.isHidden = false
+            }
+        }
+        
         return cell
     }
 }

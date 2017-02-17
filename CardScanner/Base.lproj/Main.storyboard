@@ -146,7 +146,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="180"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2AF-rX-AFp" id="G51-3d-BLK">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="179"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="179.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tYz-vh-cjj">
@@ -155,8 +155,9 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f4q-UB-CsY">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f4q-UB-CsY">
                                             <rect key="frame" x="8" y="8" width="304" height="139"/>
+                                            <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card" translatesAutoresizingMaskIntoConstraints="NO" id="J7R-yI-Tco" userLabel="placeholder">
                                             <rect key="frame" x="120" y="37.5" width="80" height="80"/>
@@ -188,6 +189,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="IeT-pS-dDZ">
+                        <barButtonItem key="leftBarButtonItem" title="Add Test Image" id="U9p-G4-Vdf">
+                            <connections>
+                                <action selector="onAddAction:" destination="4ko-Us-cua" id="GAd-sX-KDz"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="DoY-ad-TO1">
                             <connections>
                                 <segue destination="aHG-OR-GDB" kind="presentation" identifier="camera" id="s1c-eM-dg8"/>
@@ -203,8 +209,8 @@
         <scene sceneID="Jc0-U4-Hc2">
             <objects>
                 <tableViewController id="cWp-oD-HdF" customClass="DocumentViewController" customModule="CardScanner" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" id="5FV-FR-1xC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="700"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" id="5FV-FR-1xC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="viy-im-j8j">
@@ -215,21 +221,27 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="172"/>
                                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 </imageView>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="JM3-Wu-Zi0">
+                                    <rect key="frame" x="142" y="68" width="37" height="37"/>
+                                    <color key="color" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </activityIndicatorView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="hRW-FC-ZUF" firstAttribute="top" secondItem="viy-im-j8j" secondAttribute="top" id="015-mn-w8d"/>
+                                <constraint firstItem="JM3-Wu-Zi0" firstAttribute="centerX" secondItem="viy-im-j8j" secondAttribute="centerX" id="7Eq-53-sgg"/>
                                 <constraint firstItem="hRW-FC-ZUF" firstAttribute="leading" secondItem="viy-im-j8j" secondAttribute="leading" id="Phz-ic-jrF"/>
                                 <constraint firstAttribute="bottom" secondItem="hRW-FC-ZUF" secondAttribute="bottom" id="fhq-Am-DOa"/>
+                                <constraint firstItem="JM3-Wu-Zi0" firstAttribute="centerY" secondItem="viy-im-j8j" secondAttribute="centerY" id="uzx-LC-Upk"/>
                                 <constraint firstAttribute="trailing" secondItem="hRW-FC-ZUF" secondAttribute="trailing" id="wm7-Pw-AF3"/>
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="69" id="W7W-1c-Oxo" userLabel="Basic Cell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="69" id="W7W-1c-Oxo" userLabel="Basic Cell" customClass="BasicFragmentCell" customModule="CardScanner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="200" width="320" height="69"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="W7W-1c-Oxo" id="JjJ-Fn-fM9">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9R-59-tZv">
@@ -254,12 +266,16 @@
                                         <constraint firstAttribute="trailing" secondItem="5bV-lk-rf5" secondAttribute="trailing" constant="8" id="d2w-tD-Kja"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="contentLabel" destination="5bV-lk-rf5" id="CbA-oJ-tbB"/>
+                                    <outlet property="titleLabel" destination="B9R-59-tZv" id="e5c-ck-1kB"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" rowHeight="231" id="t63-O4-qNK" userLabel="Location Cell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" rowHeight="231" id="t63-O4-qNK" userLabel="Location Cell" customClass="LocationFragmentCell" customModule="CardScanner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="269" width="320" height="231"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t63-O4-qNK" id="4FT-EQ-w38">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="231"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="230"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3hf-u1-vdr">
@@ -269,27 +285,76 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ACc-VL-tqJ">
-                                            <rect key="frame" x="8" y="199.5" width="304" height="23"/>
+                                            <rect key="frame" x="8" y="196" width="304" height="26.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="UMl-dD-yw8">
-                                            <rect key="frame" x="8" y="28" width="304" height="164"/>
+                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsBuildings="NO" showsCompass="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMl-dD-yw8">
+                                            <rect key="frame" x="8" y="28" width="304" height="160"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="160" id="nVM-vR-NLj"/>
+                                            </constraints>
                                         </mapView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="ACc-VL-tqJ" firstAttribute="top" secondItem="UMl-dD-yw8" secondAttribute="bottom" constant="8" symbolic="YES" id="6lz-t8-ZVS"/>
                                         <constraint firstAttribute="trailing" secondItem="ACc-VL-tqJ" secondAttribute="trailing" constant="8" id="8i9-SW-QSb"/>
-                                        <constraint firstAttribute="trailing" secondItem="UMl-dD-yw8" secondAttribute="trailing" constant="8" id="BbO-Qg-6yf"/>
                                         <constraint firstItem="ACc-VL-tqJ" firstAttribute="leading" secondItem="4FT-EQ-w38" secondAttribute="leading" constant="8" id="JeZ-GS-5J8"/>
                                         <constraint firstItem="3hf-u1-vdr" firstAttribute="top" secondItem="4FT-EQ-w38" secondAttribute="top" constant="8" id="LrU-QJ-vbc"/>
                                         <constraint firstItem="UMl-dD-yw8" firstAttribute="top" secondItem="3hf-u1-vdr" secondAttribute="bottom" constant="8" symbolic="YES" id="MqT-e2-Vce"/>
-                                        <constraint firstItem="UMl-dD-yw8" firstAttribute="leading" secondItem="4FT-EQ-w38" secondAttribute="leading" constant="8" id="RZ3-hG-iIL"/>
                                         <constraint firstAttribute="bottom" secondItem="ACc-VL-tqJ" secondAttribute="bottom" constant="8" id="WQc-mb-N5x"/>
                                         <constraint firstItem="3hf-u1-vdr" firstAttribute="leading" secondItem="4FT-EQ-w38" secondAttribute="leading" constant="8" id="aPi-Pj-Fad"/>
+                                        <constraint firstItem="UMl-dD-yw8" firstAttribute="leading" secondItem="4FT-EQ-w38" secondAttribute="leading" constant="8" id="dl0-CN-S50"/>
+                                        <constraint firstAttribute="trailing" secondItem="UMl-dD-yw8" secondAttribute="trailing" constant="8" id="mss-KH-8gn"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="contentLabel" destination="ACc-VL-tqJ" id="G1j-KY-bSn"/>
+                                    <outlet property="mapView" destination="UMl-dD-yw8" id="yyc-NQ-rsW"/>
+                                    <outlet property="titleLabel" destination="3hf-u1-vdr" id="O4W-Ve-EjK"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageCell" rowHeight="196" id="Vfg-8Q-8aS" userLabel="Location Cell" customClass="ImageFragmentCell" customModule="CardScanner" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="500" width="320" height="196"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vfg-8Q-8aS" id="NPu-pC-KJy">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="195"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OB2-0g-Peh">
+                                            <rect key="frame" x="8" y="8" width="26.5" height="12"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="whg-O2-cjO">
+                                            <rect key="frame" x="80" y="28" width="160" height="160"/>
+                                            <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="160" id="hoJ-UT-5dL"/>
+                                                <constraint firstAttribute="height" constant="160" id="t9G-mH-B4Z"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="80"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="whg-O2-cjO" firstAttribute="centerX" secondItem="NPu-pC-KJy" secondAttribute="centerX" id="CCd-vQ-7t7"/>
+                                        <constraint firstAttribute="bottom" secondItem="whg-O2-cjO" secondAttribute="bottom" constant="8" id="MEF-ed-zCm"/>
+                                        <constraint firstItem="whg-O2-cjO" firstAttribute="top" secondItem="OB2-0g-Peh" secondAttribute="bottom" constant="8" id="c8u-3S-0Bt"/>
+                                        <constraint firstItem="OB2-0g-Peh" firstAttribute="top" secondItem="NPu-pC-KJy" secondAttribute="top" constant="8" id="gDc-OB-X1B"/>
+                                        <constraint firstItem="OB2-0g-Peh" firstAttribute="leading" secondItem="NPu-pC-KJy" secondAttribute="leading" constant="8" id="vtd-si-b2X"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="contentImageView" destination="whg-O2-cjO" id="XrT-rs-7tN"/>
+                                    <outlet property="titleLabel" destination="OB2-0g-Peh" id="Q3s-vR-GBQ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -297,9 +362,19 @@
                             <outlet property="delegate" destination="cWp-oD-HdF" id="26y-kr-Voy"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="RGT-MG-jqS">
+                        <barButtonItem key="rightBarButtonItem" title="Scan" id="n56-cI-lO4">
+                            <connections>
+                                <action selector="onScanAction:" destination="cWp-oD-HdF" id="hts-cH-iw8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="700"/>
+                    <size key="freeformSize" width="320" height="800"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="JM3-Wu-Zi0" id="vxm-wX-wda"/>
                         <outlet property="headerImageView" destination="hRW-FC-ZUF" id="gCx-uD-h1A"/>
                     </connections>
                 </tableViewController>

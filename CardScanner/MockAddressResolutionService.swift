@@ -11,10 +11,10 @@ import CoreLocation
 
 struct MockAddressResolutionService: AddressResolutionService {
     
-    let response: CLPlacemark?
+    let response: [CLPlacemark]?
     let error: Error?
     
-    func resolve(entity: Entity, completion: @escaping AddressResolutionCompletion) -> Cancellable {
+    func resolve(entity: String, completion: @escaping AddressResolutionCompletion) -> Cancellable {
         let cancellable = MockCancellable()
         DispatchQueue.global().async {
             if !cancellable.cancelled {

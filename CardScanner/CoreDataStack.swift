@@ -92,9 +92,14 @@ extension CoreDataStack {
     //
     //  Execute a block on the change context. Any changes
     //
-    func performBackgroundChanges(block: @escaping (NSManagedObjectContext) -> Void) {
+    func performBackgroundChanges(block: @escaping (NSManagedObjectContext) throws -> Void) {
         changeContext.perform() {
-            block(self.changeContext)
+            do {
+                try block(self.changeContext)
+            }
+            catch {
+                print("Error executing background context: \(error)")
+            }
         }
     }
 }

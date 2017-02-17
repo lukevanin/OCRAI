@@ -5,7 +5,7 @@
         <attribute name="identifier" attributeType="String" syncable="YES"/>
         <attribute name="imageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
         <relationship name="imageFragments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ImageFragment" inverseName="document" inverseEntity="ImageFragment" syncable="YES"/>
-        <relationship name="locations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Location" inverseName="document" inverseEntity="Location" syncable="YES"/>
+        <relationship name="locations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LocationFragment" inverseName="document" inverseEntity="LocationFragment" syncable="YES"/>
         <relationship name="textFragments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TextFragment" inverseName="document" inverseEntity="TextFragment" syncable="YES"/>
     </entity>
     <entity name="ImageFragment" representedClassName="ImageFragment" syncable="YES" codeGenerationType="class">
@@ -13,7 +13,7 @@
         <attribute name="rawType" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="document" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="imageFragments" inverseEntity="Document" syncable="YES"/>
     </entity>
-    <entity name="Location" representedClassName="Location" syncable="YES" codeGenerationType="class">
+    <entity name="LocationFragment" representedClassName="LocationFragment" syncable="YES" codeGenerationType="class">
         <attribute name="administrativeArea" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="country" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="countryCode" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
@@ -36,7 +36,7 @@
     <elements>
         <element name="Document" positionX="-63" positionY="-18" width="128" height="135"/>
         <element name="ImageFragment" positionX="-18" positionY="27" width="128" height="30"/>
-        <element name="Location" positionX="-36" positionY="9" width="128" height="30"/>
-        <element name="TextFragment" positionX="-54" positionY="-9" width="128" height="30"/>
+        <element name="LocationFragment" positionX="-36" positionY="9" width="128" height="225"/>
+        <element name="TextFragment" positionX="-54" positionY="-9" width="128" height="105"/>
     </elements>
 </model>

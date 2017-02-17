@@ -9,79 +9,47 @@
 import UIKit
 import CoreLocation
 
-struct DerivedAnnotations {
-    var imageAnnotations: ImageAnnotationResponse?
-    var textAnnotations: TextAnnotationResponse?
-    var locations: [CLPlacemark]?
+struct ScannerService {
     
-    init(imageAnnotations: ImageAnnotationResponse? = nil, textAnnotations: TextAnnotationResponse? = nil, locations: [CLPlacemark]? = nil) {
-        self.imageAnnotations = imageAnnotations
-        self.textAnnotations = textAnnotations
-        self.locations = locations
+    enum State {
+        case pending
+        case active
+        case completed
     }
-}
-
-private class ScanOperation: AsyncOperation {
     
-    private typealias FetchAnnotationsCompletion = (DerivedAnnotations?, Error?) -> Void
+    typealias ProgressHandler = (State) -> Void
     
-    private let image: UIImage
-    private let service: ScannerService
-    private let coreData: CoreDataStack
-    private let completion: ScannerService.Completion
+    let factory: ServiceFactory
+    let coreData: CoreDataStack
+    let queue: OperationQueue
     
-    private var imageAnnotationTask: Cancellable?
-    private var textAnnotationTask: Cancellable?
-    private var addressResolutionTask: Cancellable?
-    
-    init(image: UIImage, service: ScannerService, coreData: CoreDataStack, completion: @escaping ScannerService.Completion) {
-        self.image = image
-        self.service = service
+    init(factory: ServiceFactory, coreData: CoreDataStack, queue: OperationQueue? = nil) {
+        self.factory = factory
         self.coreData = coreData
-        self.completion = completion
+        self.queue = queue ?? OperationQueue()
     }
     
-    fileprivate override func cancel() {
-        imageAnnotationTask?.cancel()
-        textAnnotationTask?.cancel()
-        addressResolutionTask?.cancel()
-        super.cancel()
+    func cancel() {
+        queue.cancelAllOperations()
     }
     
-    fileprivate override func execute(completion: @escaping () -> Void) {
-        annotate() { contact, error in
-            if !self.isCancelled {
-                self.completion(contact, error)
-            }
-            completion()
+    func scan(document identifier: String, progressHandler: @escaping ProgressHandler) -> Cancellable {
+        let operation = ScanOperation(
+            document: identifier,
+            service: self,
+            coreData: coreData,
+            progress: progressHandler
+        )
+        queue.addOperation(operation)
+        return operation
+    }
+    
+    func annotateImage(image: Data, completion: @escaping (ImageAnnotationResponse?) -> Void) {
+        guard let service = factory.imageAnnotationService() else {
+            completion(nil)
+            return
         }
-    }
-    
-    private func annotate(completion: @escaping ScannerService.Completion) {
-        fetchAnnotations() { annotations, error in
-            DispatchQueue.main.async {
-                guard let annotations = annotations else {
-                    completion(nil, error)
-                    return
-                }
-                
-                self.coreData.performBackgroundChanges { (context) in
-                    let builder = DocumentBuilder(
-                        image: self.image,
-                        annotations: annotations,
-                        context: context
-                    )
-                    
-                    let document = builder.build()
-                    completion(document.identifier, nil)
-                }
-            }
-        }
-    }
-    
-    private func fetchAnnotations(completion: @escaping FetchAnnotationsCompletion) {
-    
-        let imageRequest = ImageAnnotationRequest(
+        let request = ImageAnnotationRequest(
             image: image,
             features: [
                 Feature(
@@ -89,94 +57,31 @@ private class ScanOperation: AsyncOperation {
                 )
             ]
         )
-        
-        var output = DerivedAnnotations()
-        
-        imageAnnotationTask = service.annotateImage(request: imageRequest) { (imageResponse, error) in
-            
-            guard let imageResponse = imageResponse else {
-                completion(nil, error)
-                return
-            }
-            
-            // Accumulate detected image annotations.
-            output.imageAnnotations = imageResponse;
-            
-            // Annotate text components (ie identify names, addresses, phone numbers)
-            guard let textAnnotation = imageResponse.textAnnotations.first else {
-                // No text annotations to process.
-                completion(output, nil)
-                return
-            }
-            
-            let textRequest = TextAnnotationRequest(
-                content: textAnnotation.content
-            )
-            self.textAnnotationTask = self.service.annotateText(request: textRequest) { (textResponse, error) in
-                
-                guard let textResponse = textResponse else {
-                    completion(output, error)
-                    return
-                }
-                
-                // Accumulate detected text annotations.
-                output.textAnnotations = textResponse
-                
-                // Parse address components if present.
-                guard let addressEntity = textResponse.addressEntites.first else {
-                    // No address entities to process.
-                    completion(output, error)
-                    return
-                }
-                
-                self.addressResolutionTask = self.service.resolveAddress(entity: addressEntity) { (location, error) in
-                    
-                    if let location = location {
-                        output.locations = [location]
-                    }
-                    
-                    completion(output, error)
-                }
-                
-            }
+        service.annotate(request: request) { response, error in
+            completion(response)
         }
     }
-}
-
-struct ScannerService {
     
-    typealias Completion = (String?, Error?) -> Void
-    
-    let imageAnnotationService: ImageAnnotationService
-    let textAnnotationService: TextAnnotationService
-    let addressResolutionService: AddressResolutionService
-    let coreData: CoreDataStack
-    let queue: OperationQueue
-    
-    func cancelAllScans() {
-        queue.cancelAllOperations()
-    }
-    
-    func scan(image: UIImage, completion: @escaping Completion) -> Cancellable {
-        let operation = ScanOperation(
-            image: image,
-            service: self,
-            coreData: coreData,
-            completion: completion
+    func annotateText(text: String, completion: @escaping (TextAnnotationResponse?) -> Void) {
+        guard let service = factory.textAnnotationService() else {
+            completion(nil)
+            return
+        }
+        let request = TextAnnotationRequest(
+            content: text
         )
-        queue.addOperation(operation)
-        return operation
+        service.annotate(request: request) { (response, error) in
+            completion(response)
+        }
     }
     
-    fileprivate func annotateImage(request: ImageAnnotationRequest, completion: @escaping ImageAnnotationCompletion) -> Cancellable {
-        return imageAnnotationService.annotate(request: request, completion: completion)
-    }
-    
-    fileprivate func annotateText(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) -> Cancellable {
-        return textAnnotationService.annotate(request: request, completion: completion)
-    }
-    
-    fileprivate func resolveAddress(entity: Entity, completion: @escaping AddressResolutionCompletion) -> Cancellable {
-        return addressResolutionService.resolve(entity: entity, completion: completion)
+    func resolveAddress(address: String, completion: @escaping ([CLPlacemark]?) -> Void) {
+        guard let service = factory.addressResolutionService() else {
+            completion(nil)
+            return
+        }
+        service.resolve(entity: address) { (places, error) in
+            completion(places)
+        }
     }
 }

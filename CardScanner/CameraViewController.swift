@@ -64,6 +64,16 @@ class CameraViewController: UIViewController {
         updateViewState()
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        configureOrientation()
+    }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        configureOrientation()
+//    }
+    
     // MARK: Camera
     
     private func initializeImageContext() {
@@ -106,26 +116,75 @@ class CameraViewController: UIViewController {
         }
         
         cameraView.previewLayer?.session = captureSession
+        
+        configureOrientation()
+    }
+    
+    private func configureOrientation() {
+        configureOrientation(UIApplication.shared.statusBarOrientation)
+    }
+    
+    private func configureOrientation(_ interfaceOrientation: UIInterfaceOrientation) {
+        let videoOrientation = videoOrientationForInterfaceOrientation(interfaceOrientation)
+        configurePhotoOutputOrientation(videoOrientation)
+        configurePreviewLayerOrientation(videoOrientation)
+    }
+    
+    private func configurePhotoOutputOrientation(_ orientation: AVCaptureVideoOrientation) {
+        if let videoConnection = photoOutput.connection(withMediaType: AVMediaTypeVideo) {
+            videoConnection.videoOrientation = orientation
+        }
+    }
+    
+    private func configurePreviewLayerOrientation(_ orientation: AVCaptureVideoOrientation) {
+        if let layer = cameraView.layer as? AVCaptureVideoPreviewLayer {
+            layer.connection.videoOrientation = orientation
+        }
+    }
+    
+    private func videoOrientationForInterfaceOrientation(_ interfaceOrientation: UIInterfaceOrientation) -> AVCaptureVideoOrientation {
+        let videoOrientation: AVCaptureVideoOrientation
+        
+        switch interfaceOrientation {
+            
+        case .portrait:
+            videoOrientation = .portrait
+            
+        case .portraitUpsideDown:
+            videoOrientation = .portraitUpsideDown
+            
+        case .landscapeLeft:
+            videoOrientation = .landscapeLeft
+            
+        case .landscapeRight:
+            videoOrientation = .landscapeRight
+            
+        default:
+            fatalError("Unknown orientation")
+        }
+
+        return videoOrientation
     }
     
     private func updateViewState() {
         if let imageData = selectedImageData {
             // Selected image
             captureSession.stopRunning()
-            previewImageView.isHidden = false
-            previewControlsView.isHidden = false
-            cameraView.isHidden = true
-            cameraButton.isHidden = true
+            configureUI(showPreview: true, showCamera: false)
             previewImageView.image = UIImage(data: imageData)
         }
         else {
             // Capture mode.
             captureSession.startRunning()
-            previewImageView.isHidden = true
-            previewControlsView.isHidden = true
-            cameraView.isHidden = false
-            cameraButton.isHidden = false
+            configureUI(showPreview: false, showCamera: true)
         }
+    }
+    
+    private func configureUI(showPreview: Bool, showCamera: Bool) {
+        previewImageView.isHidden = !showPreview
+        previewControlsView.isHidden = !showPreview
+        cameraView.isHidden = !showCamera
+        cameraButton.isHidden = !showCamera
     }
 }
 

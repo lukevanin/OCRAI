@@ -19,6 +19,33 @@ enum TextFragmentType: Int32 {
     case note = 6
 }
 
+extension TextFragmentType: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .unknown:
+            return "Unknown value"
+            
+        case .person:
+            return "Person"
+            
+        case .organization:
+            return "Organization"
+            
+        case .phoneNumber:
+            return "Phone number"
+            
+        case .email:
+            return "Email"
+            
+        case .url:
+            return "URL"
+            
+        case .note:
+            return "Note"
+        }
+    }
+}
+
 private let entityName = "TextFragment"
 
 extension TextFragment {

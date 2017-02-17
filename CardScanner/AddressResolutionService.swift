@@ -9,8 +9,8 @@
 import Foundation
 import CoreLocation
 
-typealias AddressResolutionCompletion = (CLPlacemark?, Error?) -> Void
+typealias AddressResolutionCompletion = ([CLPlacemark]?, Error?) -> Void
 
 protocol AddressResolutionService {
-    func resolve(entity: Entity, completion: @escaping AddressResolutionCompletion) -> Cancellable
+    func resolve(entity: String, completion: @escaping AddressResolutionCompletion) -> Cancellable
 }

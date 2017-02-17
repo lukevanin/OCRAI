@@ -26,7 +26,7 @@ struct Feature {
  }
 
 struct ImageAnnotationRequest {
-    let image: UIImage
+    let image: Data
     let features: [Feature]
 }
 

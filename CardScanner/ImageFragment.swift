@@ -11,7 +11,7 @@ import CoreData
 
 enum ImageFragmentType: Int32 {
     case unknown = 0
-    case person = 1
+    case face = 1
     case logo = 2
 }
 

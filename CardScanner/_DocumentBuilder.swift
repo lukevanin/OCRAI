@@ -6,6 +6,7 @@
 //  Copyright © 2017 Luke Van In. All rights reserved.
 //
 
+/*
 import UIKit
 import CoreData
 
@@ -128,7 +129,7 @@ class DocumentBuilder {
             return
         }
         for entity in entities {
-            let location = Location(
+            let location = LocationFragment(
                 placemark: entity,
                 context: context
             )
@@ -187,3 +188,4 @@ class DocumentBuilder {
         }
     }
 }
+ */
