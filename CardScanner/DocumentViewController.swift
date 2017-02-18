@@ -20,11 +20,11 @@ class DocumentViewController: UITableViewController {
     var coreData: CoreDataStack!
     
     private lazy var scanner: ScannerService = {
-        return ScannerService.test(coreData: self.coreData)
-//        return ScannerService(
-//            identifier: documentIdentifier,
-//            coreData: coreData
-//        )
+        let factory = DefaultServiceFactory()
+        return ScannerService(
+            factory: factory,
+            coreData: self.coreData
+        )
     }()
     
     private var fragments = [Any]()
@@ -33,7 +33,11 @@ class DocumentViewController: UITableViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     @IBAction func onScanAction(_ sender: Any) {
-        scanDocument()
+        clearDocument() {
+            DispatchQueue.main.async {
+                self.scanDocument()
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -57,9 +61,43 @@ class DocumentViewController: UITableViewController {
     
     // MARK: Document
     
-    private func loadDocument() {
+    private func clearDocument(completion: @escaping () -> Void) {
         fragments.removeAll()
         
+        coreData.performBackgroundChanges { [documentIdentifier] (context) in
+            
+            let document = try context.documents(withIdentifier: documentIdentifier!).first
+            
+            if let fragments = document?.imageFragments?.allObjects as? [ImageFragment] {
+                for fragment in fragments {
+                    context.delete(fragment)
+                }
+            }
+            
+            if let fragments = document?.textFragments?.allObjects as? [TextFragment] {
+                for fragment in fragments {
+                    context.delete(fragment)
+                }
+            }
+            
+            if let locations = document?.locations?.allObjects as? [LocationFragment] {
+                for location in locations {
+                    context.delete(location)
+                }
+            }
+            
+            do {
+                try context.save()
+            }
+            catch {
+                print("Cannot remove fragments from document: \(error)")
+            }
+            
+            completion()
+        }
+    }
+    
+    private func loadDocument() {
         do {
             let document = try coreData.mainContext.documents(withIdentifier: documentIdentifier).first
             

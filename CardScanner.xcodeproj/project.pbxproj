@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC05917E1E588DB800B0DDB4 /* CoreLocationAddressResolutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC05917D1E588DB800B0DDB4 /* CoreLocationAddressResolutionService.swift */; };
+		FC0591811E58908800B0DDB4 /* DefaultServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0591801E58908800B0DDB4 /* DefaultServiceFactory.swift */; };
 		FC0BF6CC1E54A99200A0ED29 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6CB1E54A99200A0ED29 /* CameraViewController.swift */; };
 		FC0BF6CE1E54A9E200A0ED29 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */; };
 		FC0BF6D01E54AA1F00A0ED29 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */; };
@@ -54,6 +56,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FC05917D1E588DB800B0DDB4 /* CoreLocationAddressResolutionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationAddressResolutionService.swift; sourceTree = "<group>"; };
+		FC0591801E58908800B0DDB4 /* DefaultServiceFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultServiceFactory.swift; sourceTree = "<group>"; };
 		FC0BF6CB1E54A99200A0ED29 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
 		FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +119,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FC05917F1E58906F00B0DDB4 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				FCC8ADA41E56B99500F32CC4 /* ServiceFactory.swift */,
+				FCC8ADA61E56B9E400F32CC4 /* TestServiceFactory.swift */,
+				FC0591801E58908800B0DDB4 /* DefaultServiceFactory.swift */,
+			);
+			name = Factory;
+			sourceTree = "<group>";
+		};
 		FC0BF6D11E54AA3700A0ED29 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +186,7 @@
 				FC91B7621E4C370400AF11C6 /* View Controller */,
 				FC0BF6D11E54AA3700A0ED29 /* View */,
 				FC7966FF1E52C36600D54859 /* Model */,
+				FC05917F1E58906F00B0DDB4 /* Factory */,
 				FC91B75F1E4C36DF00AF11C6 /* Service */,
 				FC91B7601E4C36E500AF11C6 /* Utility */,
 				FC91B7641E4C372D00AF11C6 /* Resources */,
@@ -182,7 +197,6 @@
 		FC91B75D1E4C36D400AF11C6 /* Abstract */ = {
 			isa = PBXGroup;
 			children = (
-				FCC8ADA41E56B99500F32CC4 /* ServiceFactory.swift */,
 				FCED884E1E4D8E9F00623684 /* AddressResolutionService.swift */,
 				FC91B7591E4C32D800AF11C6 /* ImageAnnotationService.swift */,
 				FC91B75B1E4C36AB00AF11C6 /* TextAnnotationService.swift */,
@@ -281,6 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				FC91B76B1E4C3C5C00AF11C6 /* AppleTextAnnotationService.swift */,
+				FC05917D1E588DB800B0DDB4 /* CoreLocationAddressResolutionService.swift */,
 			);
 			name = Apple;
 			sourceTree = "<group>";
@@ -289,7 +304,6 @@
 			isa = PBXGroup;
 			children = (
 				FC7966FD1E52118200D54859 /* TestScannerService.swift */,
-				FCC8ADA61E56B9E400F32CC4 /* TestServiceFactory.swift */,
 			);
 			name = Test;
 			sourceTree = "<group>";
@@ -386,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCED88491E4CC7B300623684 /* Cancellable.swift in Sources */,
+				FC05917E1E588DB800B0DDB4 /* CoreLocationAddressResolutionService.swift in Sources */,
 				FCED88471E4CC72D00623684 /* ScannerService.swift in Sources */,
 				FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */,
 				FCED884D1E4D795C00623684 /* _DocumentBuilder.swift in Sources */,
@@ -408,6 +423,7 @@
 				FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */,
 				FCC8ADA71E56B9E400F32CC4 /* TestServiceFactory.swift in Sources */,
 				FC0BF6CE1E54A9E200A0ED29 /* DocumentsViewController.swift in Sources */,
+				FC0591811E58908800B0DDB4 /* DefaultServiceFactory.swift in Sources */,
 				FC329DA21E5420780047F692 /* TextFragment.swift in Sources */,
 				FC7966FE1E52118200D54859 /* TestScannerService.swift in Sources */,
 				FC8E71781E4AD5B300D37719 /* GoogleVisionAPI.swift in Sources */,
