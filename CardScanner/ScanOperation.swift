@@ -8,8 +8,12 @@
 
 import Foundation
 import CoreLocation
+import Contacts
+import CoreData
 
 class ScanOperation: AsyncOperation {
+    
+    typealias ProcessEntity<T> = (Entity<T>, NSManagedObjectContext) throws -> Void
     
     private let identifier: String
     private let service: ScannerService
@@ -108,78 +112,64 @@ class ScanOperation: AsyncOperation {
     }
     
     private func handleTextAnnotationsResponse(_ response: TextAnnotationResponse) {
-        processEntities(response.personEntities, process: entityProcessor(.person))
-        processEntities(response.organizationEntities, process: entityProcessor(.organization))
-        processEntities(response.phoneEntities, process: entityProcessor(.phoneNumber))
-        processEntities(response.urlEntities, process: entityProcessor(.url))
-        processEntities(response.emailEntities, process: entityProcessor(.email))
-        processEntities(response.addressEntities, process: processAddressEntity)
+        processEntities(response.personEntities, process: stringEntityProcessor(.person))
+        processEntities(response.organizationEntities, process: stringEntityProcessor(.organization))
+        processEntities(response.phoneEntities, process: stringEntityProcessor(.phoneNumber))
+        processEntities(response.urlEntities, process: urlEntityProcessor(.url))
+        processEntities(response.emailEntities, process: urlEntityProcessor(.email))
+        processEntities(response.addressEntities, process: addressEntityProcessor())
     }
     
     // MARK: Generic entities
     
-    private func entityProcessor(_ type: TextFragmentType) -> (Entity) -> Void {
-        return { [identifier, group, coreData] entity in
-            group.enter()
-            coreData.performBackgroundChanges() { context in
-                let fragment = TextFragment(
-                    type: type,
-                    value: entity.content,
-                    context: context
-                )
-                fragment.document = try context.documents(withIdentifier: identifier).first
-                do {
-                    try context.save()
-                }
-                catch {
-                    print("Cannot import entity \(type): \(error)")
-                }
-                group.leave()
-            }
-        }
-    }
-    
-    // MARK: Address
-    
-    private func processAddressEntity(_ entity: Entity) {
-        group.enter()
-        resolveAddress(address: entity.content) { (placemark) in
-            if let placemark = placemark {
-                self.addAddress(placemark)
-            }
-            self.group.leave()
-        }
-    }
-    
-    private func resolveAddress(address: String, completion: @escaping (CLPlacemark?) -> Void) {
-        service.resolveAddress(address: address) { addresses in
-            completion(addresses?.first)
-        }
-    }
-    
-    private func addAddress(_ placemark: CLPlacemark) {
-        group.enter()
-        coreData.performBackgroundChanges { [identifier] (context) in
-            let fragment = LocationFragment(
-                placemark: placemark,
+    private func stringEntityProcessor(_ type: TextFragmentType) -> ProcessEntity<String> {
+        return { [identifier] entity, context in
+            let fragment = TextFragment(
+                type: type,
+                value: entity.content,
                 context: context
             )
             fragment.document = try context.documents(withIdentifier: identifier).first
-            do {
-                try context.save()
-            }
-            catch {
-                print("Cannot add address: \(error)")
-            }
-            self.group.leave()
         }
     }
     
+    private func urlEntityProcessor(_ type: TextFragmentType) -> ProcessEntity<URL> {
+        return { [identifier] entity, context in
+            let fragment = TextFragment(
+                type: type,
+                value: entity.content.description,
+                context: context
+            )
+            fragment.document = try context.documents(withIdentifier: identifier).first
+        }
+    }
+    
+    private func addressEntityProcessor() -> ProcessEntity<CLPlacemark> {
+        return { [identifier] entity, context in
+            let fragment = LocationFragment(
+                placemark: entity.content,
+                context: context
+            )
+            fragment.document = try context.documents(withIdentifier: identifier).first
+        }
+    }
+
+    
     // MARK: Common
     
-    private func processEntities(_ entities: [Entity], process: (Entity) -> Void) {
+    private func processEntities<T>(_ entities: [Entity<T>], process: @escaping ProcessEntity<T>) {
         for entity in entities {
-            process(entity)
+            group.enter()
+            coreData.performBackgroundChanges() { [group] context in
+                do {
+                    try process(entity, context)
+                    try context.save()
+                }
+                catch {
+                    print("Cannot import entity \(error)")
+                }
+                group.leave()
+            }
         }
     }
 }

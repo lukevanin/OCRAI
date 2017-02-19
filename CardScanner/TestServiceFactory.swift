@@ -8,8 +8,8 @@
 
 import Foundation
 import CoreLocation
-import Contacts
 import MapKit
+import Contacts
 
 struct TestServiceFactory: ServiceFactory {
     
@@ -38,48 +38,35 @@ struct TestServiceFactory: ServiceFactory {
             response: TextAnnotationResponse(
                 personEntities: [
                     Entity(
-                        offset: 0,
                         content: "Steve Jobs"
                     )
                 ],
                 organizationEntities: [
                     Entity(
-                        offset: 0,
                         content: "Apple Inc."
                     )
                 ],
                 addressEntities: [
                     Entity(
-                        offset: 0,
-                        content: "1 Infinite Loop, Cupertino, CA 95014"
+                        content: placemark()
                     )
                 ],
                 phoneEntities: [
                     Entity(
-                        offset: 0,
                         content: "786-555-1212"
                     ),
                     Entity(
-                        offset: 0,
                         content: "786-555-3434"
                     )
                 ],
                 urlEntities: [
                     Entity(
-                        offset: 0,
-                        content: "apple.com"
+                        content: URL(string: "http://apple.com")!
                     )
                 ],
                 emailEntities: [
                     Entity(
-                        offset: 0,
-                        content: "steve.jobs@apple.com"
-                    )
-                ],
-                atEntities: [
-                    Entity(
-                        offset: 0,
-                        content: "@stevejobs"
+                        content: URL(string: "mailto:steve.jobs@apple.com")!
                     )
                 ]
             ),
@@ -88,7 +75,13 @@ struct TestServiceFactory: ServiceFactory {
     }
     
     func addressResolutionService() -> AddressResolutionService? {
-        
+        return MockAddressResolutionService(
+            response: [placemark()],
+            error: nil
+        )
+    }
+    
+    func placemark() -> CLPlacemark {
         let coordinate = CLLocationCoordinate2D(
             latitude: 37.33053,
             longitude: -122.02887
@@ -102,14 +95,9 @@ struct TestServiceFactory: ServiceFactory {
         address.country = "United States"
         address.isoCountryCode = " US"
         
-        let placemark = MKPlacemark(
+        return MKPlacemark(
             coordinate: coordinate,
             postalAddress: address
-        )
-        
-        return MockAddressResolutionService(
-            response: [placemark],
-            error: nil
         )
     }
 }

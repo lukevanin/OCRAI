@@ -7,20 +7,24 @@
 //
 
 import Foundation
+import CoreLocation
 
-struct Entity {
-    let offset: Int
-    let content: String
+struct Entity<ContentType> {
+    var offset: Int?
+    var content: ContentType
+    init(offset: Int? = nil, content: ContentType) {
+        self.offset = offset
+        self.content = content
+    }
 }
 
 struct TextAnnotationResponse {
-    let personEntities: [Entity]
-    let organizationEntities: [Entity]
-    let addressEntities: [Entity]
-    let phoneEntities: [Entity]
-    let urlEntities: [Entity]
-    let emailEntities: [Entity]
-    let atEntities: [Entity]
+    var personEntities: [Entity<String>]
+    var organizationEntities: [Entity<String>]
+    var addressEntities: [Entity<CLPlacemark>]
+    var phoneEntities: [Entity<String>]
+    var urlEntities: [Entity<URL>]
+    var emailEntities: [Entity<URL>]
 }
 
 struct TextAnnotationRequest {
