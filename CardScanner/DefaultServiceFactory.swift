@@ -18,9 +18,39 @@ struct DefaultServiceFactory: ServiceFactory {
     }
     
     func textAnnotationService() -> TextAnnotationService? {
-//        let service = GoogleNaturalLanguageAPI(key: googleKey)
-//        return GoogleNaturalLanguageServiceAdapter(service: service)
-        return DataDetectorTextAnnotationService()
+        let googleNaturalLanguageService = GoogleNaturalLanguageAPI(key: googleKey)
+        let googleNaturalLanguageServiceAdapter = GoogleNaturalLanguageServiceAdapter(service: googleNaturalLanguageService)
+        let dataDetectorService = DataDetectorTextAnnotationService()
+        return AggregateTextAnnotationService(
+            services: [
+                
+                .descriptor(
+                    service: googleNaturalLanguageServiceAdapter,
+                    combine: { original, response in
+                        return TextAnnotationResponse(
+                            personEntities: response.personEntities,
+                            organizationEntities: response.organizationEntities,
+                            addressEntities: original.addressEntities,
+                            phoneEntities: original.phoneEntities,
+                            urlEntities: original.urlEntities,
+                            emailEntities: original.emailEntities
+                        )
+                }),
+                
+                .descriptor(
+                    service: dataDetectorService,
+                    combine: { original, response in
+                        TextAnnotationResponse(
+                            personEntities: original.personEntities,
+                            organizationEntities: original.organizationEntities,
+                            addressEntities: response.addressEntities,
+                            phoneEntities: response.phoneEntities,
+                            urlEntities: response.urlEntities,
+                            emailEntities: response.emailEntities
+                        )
+                })
+            ]
+        )
     }
     
     func addressResolutionService() -> AddressResolutionService? {

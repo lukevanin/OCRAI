@@ -62,6 +62,7 @@
 		FCEDE6D21E58BF69001B4776 /* GoogleVisionAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCEDE6CA1E58BF69001B4776 /* GoogleVisionAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FCEDE6D81E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDE6D71E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift */; };
 		FCF64BD31E59A6A300E036D0 /* CNPostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */; };
+		FCF64BD51E59D1D500E036D0 /* AggregateTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD41E59D1D500E036D0 /* AggregateTextAnnotationService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +156,7 @@
 		FCEDE6CD1E58BF69001B4776 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCEDE6D71E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleNaturalLanguageServiceAdapter.swift; sourceTree = "<group>"; };
 		FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CNPostalAddress.swift; sourceTree = "<group>"; };
+		FCF64BD41E59D1D500E036D0 /* AggregateTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregateTextAnnotationService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -396,6 +398,7 @@
 				FCED88461E4CC72D00623684 /* ScannerService.swift */,
 				FC7683801E5755CA007B73AE /* ScanOperation.swift */,
 				FCED884C1E4D795C00623684 /* _DocumentBuilder.swift */,
+				FCF64BD41E59D1D500E036D0 /* AggregateTextAnnotationService.swift */,
 			);
 			name = Scanner;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				FCED884B1E4CC90F00623684 /* AsyncOperation.swift in Sources */,
 				FC8E71611E4AD56C00D37719 /* AppDelegate.swift in Sources */,
 				FC7966F81E5201F300D54859 /* MockAddressResolutionService.swift in Sources */,
+				FCF64BD51E59D1D500E036D0 /* AggregateTextAnnotationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
