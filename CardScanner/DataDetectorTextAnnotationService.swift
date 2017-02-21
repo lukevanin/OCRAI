@@ -22,7 +22,7 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
     
     private var phoneNumbers = [Entity<String>]()
     private var urls = [Entity<URL>]()
-    private var addresses = [Entity<CLPlacemark>]()
+    private var addresses = [Entity<CNPostalAddress>]()
     
     init(text: String, completion: @escaping TextAnnotationCompletion) {
         self.text = text
@@ -80,17 +80,27 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
         }
     }
     
-    private func makeAddress(_ address: [String: String]) {
-        operationGroup.enter()
-        addressQueue.async() { [geoCoder, operationGroup] in
-            geoCoder.geocodeAddressDictionary(address) { (placemarks, error) in
-                if let placemark = placemarks?.first {
-                    let entity = Entity(content: placemark)
-                    self.addresses.append(entity)
-                }
-                operationGroup.leave()
-            }
+    private func makeAddress(_ entities: [String: String]) {
+        let address = CNMutablePostalAddress()
+        
+        if let street = entities[NSTextCheckingStreetKey] {
+            address.street = street
         }
+        
+        if let city = entities[NSTextCheckingCityKey] {
+            address.city = city
+        }
+        
+        if let postalCode = entities[NSTextCheckingZIPKey] {
+            address.postalCode = postalCode
+        }
+        
+        if let country = entities[NSTextCheckingCountryKey] {
+            address.country = country
+        }
+    
+        let entity = Entity<CNPostalAddress>(content: address)
+        self.addresses.append(entity)
     }
 
     private func filter<T>(_ matches: [NSTextCheckingResult], value: (NSTextCheckingResult) -> T?) -> [T] {

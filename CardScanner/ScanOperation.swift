@@ -144,10 +144,10 @@ class ScanOperation: AsyncOperation {
         }
     }
     
-    private func addressEntityProcessor() -> ProcessEntity<CLPlacemark> {
+    private func addressEntityProcessor() -> ProcessEntity<CNPostalAddress> {
         return { [identifier] entity, context in
-            let fragment = LocationFragment(
-                placemark: entity.content,
+            let fragment = AddressFragment(
+                address: entity.content,
                 context: context
             )
             fragment.document = try context.documents(withIdentifier: identifier).first

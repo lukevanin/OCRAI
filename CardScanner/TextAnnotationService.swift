@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CoreLocation
+import Contacts
 
 struct Entity<ContentType> {
     var offset: Int?
@@ -21,7 +21,7 @@ struct Entity<ContentType> {
 struct TextAnnotationResponse {
     var personEntities: [Entity<String>]
     var organizationEntities: [Entity<String>]
-    var addressEntities: [Entity<CLPlacemark>]
+    var addressEntities: [Entity<CNPostalAddress>]
     var phoneEntities: [Entity<String>]
     var urlEntities: [Entity<URL>]
     var emailEntities: [Entity<URL>]

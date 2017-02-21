@@ -10,9 +10,9 @@ import Foundation
 import CoreData
 import CoreLocation
 
-private let entityName = "LocationFragment"
+private let entityName = "Location"
 
-extension LocationFragment {
+extension Location {
     
     var coordinate: CLLocationCoordinate2D {
         get {
@@ -23,7 +23,7 @@ extension LocationFragment {
             self.longitude = newValue.longitude
         }
     }
-    
+
     convenience init(placemark: CLPlacemark, context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             fatalError("Cannot initialize entity \(entityName)")
@@ -45,8 +45,8 @@ extension LocationFragment {
     }
 }
 
-extension LocationFragment {
-    var address: String {
+extension Location {
+    var addressDescription: String {
         var components = [String]()
         
         if let throughfare = throughfare {

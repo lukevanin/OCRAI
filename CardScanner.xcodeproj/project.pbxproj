@@ -24,7 +24,7 @@
 		FC0BF6DC1E54B40900A0ED29 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */; };
 		FC329D9B1E5419640047F692 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9A1E5419640047F692 /* CoreDataStack.swift */; };
 		FC329D9E1E5419820047F692 /* OCRAI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9C1E5419820047F692 /* OCRAI.xcdatamodeld */; };
-		FC329DA01E541F930047F692 /* LocationFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9F1E541F930047F692 /* LocationFragment.swift */; };
+		FC329DA01E541F930047F692 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9F1E541F930047F692 /* Location.swift */; };
 		FC329DA21E5420780047F692 /* TextFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329DA11E5420780047F692 /* TextFragment.swift */; };
 		FC329DA61E5427060047F692 /* ImageFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329DA51E5427060047F692 /* ImageFragment.swift */; };
 		FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7683801E5755CA007B73AE /* ScanOperation.swift */; };
@@ -40,12 +40,12 @@
 		FC8E716B1E4AD56C00D37719 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC8E71691E4AD56C00D37719 /* LaunchScreen.storyboard */; };
 		FC8E71761E4AD5B300D37719 /* UIViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8E71721E4AD5B300D37719 /* UIViewController+ImagePicker.swift */; };
 		FC8E71771E4AD5B300D37719 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8E71731E4AD5B300D37719 /* UIImage+Resize.swift */; };
-		FC8E71781E4AD5B300D37719 /* GoogleVisionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8E71741E4AD5B300D37719 /* GoogleVisionAPI.swift */; };
 		FC8E71791E4AD5B300D37719 /* ContentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8E71751E4AD5B300D37719 /* ContentError.swift */; };
 		FC91B75A1E4C32D800AF11C6 /* ImageAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B7591E4C32D800AF11C6 /* ImageAnnotationService.swift */; };
 		FC91B75C1E4C36AB00AF11C6 /* TextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B75B1E4C36AB00AF11C6 /* TextAnnotationService.swift */; };
 		FC91B7671E4C3B8700AF11C6 /* MockImageAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B7661E4C3B8700AF11C6 /* MockImageAnnotationService.swift */; };
-		FC91B76C1E4C3C5C00AF11C6 /* DataDetectotTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B76B1E4C3C5C00AF11C6 /* DataDetectotTextAnnotationService.swift */; };
+		FC91B76C1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B76B1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift */; };
+		FCB33AC61E5C0662006CAF6E /* AddressFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */; };
 		FCC8ADA51E56B99500F32CC4 /* ServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC8ADA41E56B99500F32CC4 /* ServiceFactory.swift */; };
 		FCC8ADA71E56B9E400F32CC4 /* TestServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC8ADA61E56B9E400F32CC4 /* TestServiceFactory.swift */; };
 		FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */; };
@@ -63,6 +63,9 @@
 		FCEDE6D81E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDE6D71E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift */; };
 		FCF64BD31E59A6A300E036D0 /* CNPostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */; };
 		FCF64BD51E59D1D500E036D0 /* AggregateTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD41E59D1D500E036D0 /* AggregateTextAnnotationService.swift */; };
+		FCF64BD71E59DE3500E036D0 /* GoogleVisionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD61E59DE3500E036D0 /* GoogleVisionAPI.swift */; };
+		FCF64BD91E59DE5B00E036D0 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD81E59DE5B00E036D0 /* JSON.swift */; };
+		FCF64BDB1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BDA1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,7 +118,7 @@
 		FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		FC329D9A1E5419640047F692 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FC329D9D1E5419820047F692 /* OCRAI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OCRAI.xcdatamodel; sourceTree = "<group>"; };
-		FC329D9F1E541F930047F692 /* LocationFragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFragment.swift; sourceTree = "<group>"; };
+		FC329D9F1E541F930047F692 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		FC329DA11E5420780047F692 /* TextFragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFragment.swift; sourceTree = "<group>"; };
 		FC329DA51E5427060047F692 /* ImageFragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFragment.swift; sourceTree = "<group>"; };
 		FC7683801E5755CA007B73AE /* ScanOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanOperation.swift; sourceTree = "<group>"; };
@@ -133,12 +136,12 @@
 		FC8E716C1E4AD56C00D37719 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC8E71721E4AD5B300D37719 /* UIViewController+ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+ImagePicker.swift"; sourceTree = "<group>"; };
 		FC8E71731E4AD5B300D37719 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
-		FC8E71741E4AD5B300D37719 /* GoogleVisionAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleVisionAPI.swift; sourceTree = "<group>"; };
 		FC8E71751E4AD5B300D37719 /* ContentError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentError.swift; sourceTree = "<group>"; };
 		FC91B7591E4C32D800AF11C6 /* ImageAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAnnotationService.swift; sourceTree = "<group>"; };
 		FC91B75B1E4C36AB00AF11C6 /* TextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnnotationService.swift; sourceTree = "<group>"; };
 		FC91B7661E4C3B8700AF11C6 /* MockImageAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockImageAnnotationService.swift; sourceTree = "<group>"; };
-		FC91B76B1E4C3C5C00AF11C6 /* DataDetectotTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataDetectotTextAnnotationService.swift; sourceTree = "<group>"; };
+		FC91B76B1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataDetectorTextAnnotationService.swift; sourceTree = "<group>"; };
+		FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressFragment.swift; sourceTree = "<group>"; };
 		FCC8ADA41E56B99500F32CC4 /* ServiceFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceFactory.swift; sourceTree = "<group>"; };
 		FCC8ADA61E56B9E400F32CC4 /* TestServiceFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestServiceFactory.swift; sourceTree = "<group>"; };
 		FCD3DE4A1E52DE2E000ED5F7 /* CardScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CardScanner.entitlements; sourceTree = "<group>"; };
@@ -157,6 +160,9 @@
 		FCEDE6D71E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleNaturalLanguageServiceAdapter.swift; sourceTree = "<group>"; };
 		FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CNPostalAddress.swift; sourceTree = "<group>"; };
 		FCF64BD41E59D1D500E036D0 /* AggregateTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregateTextAnnotationService.swift; sourceTree = "<group>"; };
+		FCF64BD61E59DE3500E036D0 /* GoogleVisionAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleVisionAPI.swift; sourceTree = "<group>"; };
+		FCF64BD81E59DE5B00E036D0 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
+		FCF64BDA1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleVisionServiceAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,9 +238,10 @@
 			isa = PBXGroup;
 			children = (
 				FC7967001E52C37500D54859 /* Document.swift */,
-				FC329D9F1E541F930047F692 /* LocationFragment.swift */,
+				FC329D9F1E541F930047F692 /* Location.swift */,
 				FC329DA11E5420780047F692 /* TextFragment.swift */,
 				FC329DA51E5427060047F692 /* ImageFragment.swift */,
+				FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -295,7 +302,6 @@
 			children = (
 				FC7966F91E52041B00D54859 /* GoogleTextAnnotationService.swift */,
 				FC7966FB1E52046100D54859 /* GoogleImageAnnotationService.swift */,
-				FC8E71741E4AD5B300D37719 /* GoogleVisionAPI.swift */,
 			);
 			name = Google;
 			sourceTree = "<group>";
@@ -378,7 +384,7 @@
 		FC91B76A1E4C3C4B00AF11C6 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				FC91B76B1E4C3C5C00AF11C6 /* DataDetectotTextAnnotationService.swift */,
+				FC91B76B1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift */,
 				FC05917D1E588DB800B0DDB4 /* CoreLocationAddressResolutionService.swift */,
 			);
 			name = iOS;
@@ -408,6 +414,8 @@
 			children = (
 				FCEDE6CC1E58BF69001B4776 /* GoogleVisionAPI.h */,
 				FCEDE6CD1E58BF69001B4776 /* Info.plist */,
+				FCF64BD61E59DE3500E036D0 /* GoogleVisionAPI.swift */,
+				FCF64BD81E59DE5B00E036D0 /* JSON.swift */,
 			);
 			path = GoogleVisionAPI;
 			sourceTree = "<group>";
@@ -416,6 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				FCEDE6D71E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift */,
+				FCF64BDA1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift */,
 			);
 			name = Adapter;
 			sourceTree = "<group>";
@@ -530,6 +539,7 @@
 					FCEDE6C91E58BF69001B4776 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = DBK476475Y;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -605,29 +615,30 @@
 				FC7967011E52C37500D54859 /* Document.swift in Sources */,
 				FCED884F1E4D8E9F00623684 /* AddressResolutionService.swift in Sources */,
 				FCF64BD31E59A6A300E036D0 /* CNPostalAddress.swift in Sources */,
-				FC329DA01E541F930047F692 /* LocationFragment.swift in Sources */,
+				FC329DA01E541F930047F692 /* Location.swift in Sources */,
 				FC0BF6DC1E54B40900A0ED29 /* CameraView.swift in Sources */,
 				FC0BF6D31E54AA4E00A0ED29 /* BasicFragmentCell.swift in Sources */,
 				FC0BF6D51E54AA5C00A0ED29 /* LocationFragmentCell.swift in Sources */,
 				FC8E71761E4AD5B300D37719 /* UIViewController+ImagePicker.swift in Sources */,
 				FCEDE6D81E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift in Sources */,
 				FC8E71771E4AD5B300D37719 /* UIImage+Resize.swift in Sources */,
-				FC91B76C1E4C3C5C00AF11C6 /* DataDetectotTextAnnotationService.swift in Sources */,
+				FC91B76C1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift in Sources */,
 				FC91B75C1E4C36AB00AF11C6 /* TextAnnotationService.swift in Sources */,
 				FCED88531E4F037400623684 /* MockTextAnnotationService.swift in Sources */,
 				FC8E71791E4AD5B300D37719 /* ContentError.swift in Sources */,
 				FC0BF6CC1E54A99200A0ED29 /* CameraViewController.swift in Sources */,
+				FCB33AC61E5C0662006CAF6E /* AddressFragment.swift in Sources */,
 				FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */,
 				FCC8ADA71E56B9E400F32CC4 /* TestServiceFactory.swift in Sources */,
 				FC0BF6CE1E54A9E200A0ED29 /* DocumentsViewController.swift in Sources */,
 				FC0591811E58908800B0DDB4 /* DefaultServiceFactory.swift in Sources */,
 				FC329DA21E5420780047F692 /* TextFragment.swift in Sources */,
 				FC7966FE1E52118200D54859 /* TestScannerService.swift in Sources */,
-				FC8E71781E4AD5B300D37719 /* GoogleVisionAPI.swift in Sources */,
 				FC329DA61E5427060047F692 /* ImageFragment.swift in Sources */,
 				FC329D9B1E5419640047F692 /* CoreDataStack.swift in Sources */,
 				FC8E71631E4AD56C00D37719 /* ScanViewController.swift in Sources */,
 				FC7966FA1E52041B00D54859 /* GoogleTextAnnotationService.swift in Sources */,
+				FCF64BDB1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift in Sources */,
 				FC329D9E1E5419820047F692 /* OCRAI.xcdatamodeld in Sources */,
 				FCED88511E4F014200623684 /* MockCancellable.swift in Sources */,
 				FCE8A4FA1E563D7500512D56 /* ImageFragmentCell.swift in Sources */,
@@ -646,6 +657,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCF64BD71E59DE3500E036D0 /* GoogleVisionAPI.swift in Sources */,
+				FCF64BD91E59DE5B00E036D0 /* JSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -857,6 +870,7 @@
 		FCEDE6D41E58BF69001B4776 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -870,6 +884,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lukevanin.GoogleVisionAPI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -879,6 +894,7 @@
 		FCEDE6D51E58BF69001B4776 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

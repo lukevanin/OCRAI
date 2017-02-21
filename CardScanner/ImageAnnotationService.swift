@@ -8,26 +8,17 @@
 
 import UIKit
 
-enum FeatureType {
-    case text
-    case logo
-    case face
-    case code
+struct FeatureType: OptionSet {
+    let rawValue: Int
+    static let text = FeatureType(rawValue: 1 << 0)
+    static let logo = FeatureType(rawValue: 1 << 1)
+    static let face = FeatureType(rawValue: 1 << 2)
+    static let code = FeatureType(rawValue: 1 << 3)
 }
-
-struct Feature {
-    let type: FeatureType
-    let limit: Int?
-    
-    init(type: FeatureType, limit: Int? = nil) {
-        self.type = type
-        self.limit = limit
-    }
- }
 
 struct ImageAnnotationRequest {
     let image: Data
-    let features: [Feature]
+    let feature: FeatureType
 }
 
 struct Vertex {
@@ -41,7 +32,6 @@ struct Polygon {
 
 struct Annotation {
     let content: String
-    let uri: String?
     let bounds: Polygon
 }
 

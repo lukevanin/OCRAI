@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreData
+import Contacts
 
 private let basicCellIdentifier = "BasicCell"
 private let locationCellIdentifier = "LocationCell"
@@ -63,6 +64,7 @@ class DocumentViewController: UITableViewController {
     
     private func clearDocument(completion: @escaping () -> Void) {
         fragments.removeAll()
+        tableView.reloadData()
         
         coreData.performBackgroundChanges { [documentIdentifier] (context) in
             
@@ -80,9 +82,9 @@ class DocumentViewController: UITableViewController {
                 }
             }
             
-            if let locations = document?.locations?.allObjects as? [LocationFragment] {
-                for location in locations {
-                    context.delete(location)
+            if let addresses = document?.addresses?.allObjects as? [AddressFragment] {
+                for address in addresses {
+                    context.delete(address)
                 }
             }
             
@@ -99,6 +101,7 @@ class DocumentViewController: UITableViewController {
     
     private func loadDocument() {
         do {
+            var fragments = [Any]()
             let document = try coreData.mainContext.documents(withIdentifier: documentIdentifier).first
             
             if let imageData = document?.imageData {
@@ -113,10 +116,11 @@ class DocumentViewController: UITableViewController {
                 fragments.append(contentsOf: textFragments)
             }
             
-            if let locations = document?.locations?.allObjects {
-                fragments.append(contentsOf: locations)
+            if let addresses = document?.addresses?.allObjects {
+                fragments.append(contentsOf: addresses)
             }
             
+            self.fragments = fragments
             tableView.reloadData()
         }
         catch {
@@ -165,8 +169,8 @@ class DocumentViewController: UITableViewController {
         case let fragment as ImageFragment:
             return self.tableView(tableView, cellForImageFragment:fragment, at: indexPath)
             
-        case let fragment as LocationFragment:
-            return self.tableView(tableView, cellForLocationFragment:fragment, at: indexPath)
+        case let fragment as AddressFragment:
+            return self.tableView(tableView, cellForAddressFragment:fragment, at: indexPath)
             
         default:
             fatalError("Unknown fragment type: \(item)")
@@ -185,27 +189,29 @@ class DocumentViewController: UITableViewController {
         return cell
     }
     
-    private func tableView(_ tableView: UITableView, cellForLocationFragment fragment: LocationFragment, at indexPath: IndexPath) -> UITableViewCell {
+    private func tableView(_ tableView: UITableView, cellForAddressFragment fragment: AddressFragment, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: locationCellIdentifier, for: indexPath) as! LocationFragmentCell
         cell.titleLabel.text = "Address"
-        cell.contentLabel.text = fragment.address
+
+        let address = CNPostalAddressFormatter.string(from: fragment.address, style: .mailingAddress)
+        cell.contentLabel.text = address
         
-        let coordinate = fragment.coordinate
-        let span = MKCoordinateSpan(
-            latitudeDelta: 0.1,
-            longitudeDelta: 0.1
-        )
+//        let coordinate = fragment.coordinate
+//        let span = MKCoordinateSpan(
+//            latitudeDelta: 0.1,
+//            longitudeDelta: 0.1
+//        )
+//        
+//        let annotation = MKPointAnnotation()
+//        annotation.coordinate = coordinate
+//        
+//        let region = MKCoordinateRegion(
+//            center: coordinate,
+//            span: span
+//        )
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        
-        let region = MKCoordinateRegion(
-            center: coordinate,
-            span: span
-        )
-        
-        cell.mapView.addAnnotation(annotation)
-        cell.mapView.setRegion(region, animated: false)
+//        cell.mapView.addAnnotation(annotation)
+//        cell.mapView.setRegion(region, animated: false)
         
         return cell
     }

@@ -7,18 +7,21 @@
 //
 
 import Foundation
+import GoogleVisionAPI
 import GoogleNaturalLanguageAPI
 
 struct DefaultServiceFactory: ServiceFactory {
     
-    private let googleKey = "AIzaSyDTdcgltBmKzyR1n-eG2Vjc7L4vBBbpQ90"
+    private let googleServiceKey = "AIzaSyDTdcgltBmKzyR1n-eG2Vjc7L4vBBbpQ90"
 
     func imageAnnotationService() -> ImageAnnotationService? {
-        return TestServiceFactory().imageAnnotationService()
+        let service = GoogleVisionAPI(key: googleServiceKey)
+        return GoogleVisionServiceAdapter(service: service)
+//        return TestServiceFactory().imageAnnotationService()
     }
     
     func textAnnotationService() -> TextAnnotationService? {
-        let googleNaturalLanguageService = GoogleNaturalLanguageAPI(key: googleKey)
+        let googleNaturalLanguageService = GoogleNaturalLanguageAPI(key: googleServiceKey)
         let googleNaturalLanguageServiceAdapter = GoogleNaturalLanguageServiceAdapter(service: googleNaturalLanguageService)
         let dataDetectorService = DataDetectorTextAnnotationService()
         return AggregateTextAnnotationService(

@@ -51,11 +51,7 @@ struct ScannerService {
         }
         let request = ImageAnnotationRequest(
             image: image,
-            features: [
-                Feature(
-                    type: .text
-                )
-            ]
+            feature: [.text]
         )
         service.annotate(request: request) { response, error in
             completion(response)
