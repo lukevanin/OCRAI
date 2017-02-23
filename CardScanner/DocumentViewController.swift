@@ -15,7 +15,7 @@ private let basicCellIdentifier = "BasicCell"
 private let addressCellIdentifier = "AddressCell"
 private let imageCellIdentifier = "ImageCell"
 
-class DocumentViewController: UITableViewController {
+class DocumentViewController: UITableViewController, TextCellDelegate {
     
     class Section {
         let title: String
@@ -28,7 +28,7 @@ class DocumentViewController: UITableViewController {
             self.values = values
         }
         
-        func remove(at: Int) -> Fragment {
+        @discardableResult func remove(at: Int) -> Fragment {
             let output = values.remove(at: at)
             updateOrdering(from: at)
             return output
@@ -261,7 +261,7 @@ class DocumentViewController: UITableViewController {
         let section = sections[indexPath.section]
         
         if isEditing && (indexPath.row == section.values.count) {
-            return self.tableView(tableView, cellForBlankTextFragmentAt: indexPath)
+            return self.tableView(tableView, cellForBlankTextFragmentOfType: section.type, at: indexPath)
         }
         
         let fragment = section.values[indexPath.row]
@@ -276,14 +276,49 @@ class DocumentViewController: UITableViewController {
         }
     }
     
-    private func tableView(_ tableView: UITableView, cellForBlankTextFragmentAt indexPath: IndexPath) -> UITableViewCell {
+    private func tableView(_ tableView: UITableView, cellForBlankTextFragmentOfType type: FragmentType, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
-//        cell.contentTextField.text = "Add"
+        
+        let title: String
+        switch type {
+        case .address:
+            title = "Address"
+            
+        case .email:
+            title = "Email"
+            
+        case .face:
+            title = "Name"
+            
+        case .logo:
+            title = "Brand"
+            
+        case .note:
+            title = "Note"
+            
+        case .organization:
+            title = "Organization"
+            
+        case .person:
+            title = "Name"
+            
+        case .phoneNumber:
+            title = "Phone Number"
+            
+        case .url:
+            title = "URL"
+            
+        case .unknown:
+            title = "Text"
+        }
+        cell.contentTextField.placeholder = title
+        
         return cell
     }
     
     private func tableView(_ tableView: UITableView, cellForTextFragment fragment: Fragment, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
+        cell.delegate = self
         cell.contentTextField.text = fragment.value
         cell.showsReorderControl = true
         return cell
@@ -349,5 +384,62 @@ class DocumentViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        let section = sections[indexPath.section]
+        
+        switch editingStyle {
+            
+        case .none:
+            break
+            
+        case .delete:
+            let context = coreData.mainContext
+            let fragment = section.values[indexPath.row]
+            context.delete(fragment)
+            coreData.saveNow() { success in
+                if success {
+                    section.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            }
+            
+        case .insert:
+            if let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell, let text = cell.contentTextField.text, !text.isEmpty {
+                let context = coreData.mainContext
+                do {
+                    let fragment = Fragment(type: section.type, value: text, context: context)
+                    fragment.document = try context.documents(withIdentifier: documentIdentifier).first
+                    try context.save()
+                    coreData.saveNow() { success in
+                        if success {
+                            cell.contentTextField.text = nil
+                            section.append(fragment)
+                            tableView.insertRows(at: [indexPath], with: .automatic)
+                        }
+                    }
+                }
+                catch {
+                    print("Cannot insert item: \(error)")
+                }
+            }
+        }
+    }
+    
+    func textCell(cell: BasicFragmentCell, textDidChange text: String?) {
+
+        let sectionCount = tableView.numberOfSections
+        for sectionIndex in 0 ..< sectionCount {
+            let section = sections[sectionIndex]
+            let rowCount = section.values.count
+            for rowIndex in 0 ..< rowCount {
+                let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+                if let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell {
+                    let fragment = section.values[rowIndex]
+                    fragment.value = cell.contentTextField.text
+                }
+            }
+        }
+        
+        coreData.saveNow()
     }
 }

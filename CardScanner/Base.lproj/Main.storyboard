@@ -272,6 +272,9 @@
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="W7W-1c-Oxo" id="pac-Zm-pnv"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                     <constraints>

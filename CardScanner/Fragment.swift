@@ -76,6 +76,7 @@ extension Fragment {
             fatalError("Cannot initialize entity \(entityName)")
         }
         self.init(entity: entity, insertInto: context)
+        self.identifier = UUID().uuidString
         self.type = type
         self.value = value
     }

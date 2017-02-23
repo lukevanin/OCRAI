@@ -47,7 +47,7 @@ class ScanOperation: AsyncOperation {
         annotate()
         group.notify(queue: queue) { [coreData] in
             DispatchQueue.main.async {
-                coreData.saveNow() {
+                coreData.saveNow() { _ in
                     //  FIXME: Update entity ordinality
                     self.state = .completed
                 }

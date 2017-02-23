@@ -64,8 +64,10 @@ class DocumentsViewController: UITableViewController {
                 try context.save()
 
                 DispatchQueue.main.async {
-                    self.coreData.saveNow() {
-                        self.performSegue(withIdentifier: documentSegue, sender: document.identifier!)
+                    self.coreData.saveNow() { success in
+                        if success {
+                            self.performSegue(withIdentifier: documentSegue, sender: document.identifier!)
+                        }
                     }
                 }
             }
