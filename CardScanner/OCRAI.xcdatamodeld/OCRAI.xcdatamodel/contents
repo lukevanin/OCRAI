@@ -7,21 +7,22 @@
         <attribute name="postalCode" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="street" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="addresses" inverseEntity="Document" syncable="YES"/>
+        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" syncable="YES"/>
         <relationship name="location" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Location" inverseName="address" inverseEntity="Location" syncable="YES"/>
     </entity>
     <entity name="Document" representedClassName="Document" syncable="YES" codeGenerationType="class">
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="identifier" attributeType="String" syncable="YES"/>
         <attribute name="imageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
-        <relationship name="addresses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AddressFragment" inverseName="document" inverseEntity="AddressFragment" syncable="YES"/>
-        <relationship name="imageFragments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ImageFragment" inverseName="document" inverseEntity="ImageFragment" syncable="YES"/>
-        <relationship name="textFragments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TextFragment" inverseName="document" inverseEntity="TextFragment" syncable="YES"/>
+        <relationship name="fragments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Fragment" inverseName="document" inverseEntity="Fragment" syncable="YES"/>
     </entity>
-    <entity name="ImageFragment" representedClassName="ImageFragment" syncable="YES" codeGenerationType="class">
-        <attribute name="imageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
-        <attribute name="rawType" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="imageFragments" inverseEntity="Document" syncable="YES"/>
+    <entity name="Fragment" representedClassName="Fragment" syncable="YES" codeGenerationType="class">
+        <attribute name="imageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ordinality" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rawType" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
+        <attribute name="value" attributeType="String" indexed="YES" syncable="YES"/>
+        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="fragments" inverseEntity="Document" syncable="YES"/>
     </entity>
     <entity name="Location" representedClassName="Location" syncable="YES" codeGenerationType="class">
         <attribute name="administrativeArea" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
@@ -37,18 +38,10 @@
         <attribute name="throughfare" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="address" maxCount="1" deletionRule="Nullify" destinationEntity="AddressFragment" inverseName="location" inverseEntity="AddressFragment" syncable="YES"/>
     </entity>
-    <entity name="TextFragment" representedClassName="TextFragment" syncable="YES" codeGenerationType="class">
-        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="ordinality" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="rawType" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <attribute name="value" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="textFragments" inverseEntity="Document" syncable="YES"/>
-    </entity>
     <elements>
-        <element name="Document" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="ImageFragment" positionX="-18" positionY="27" width="128" height="90"/>
+        <element name="Document" positionX="-63" positionY="-18" width="128" height="30"/>
         <element name="Location" positionX="-36" positionY="9" width="128" height="225"/>
-        <element name="TextFragment" positionX="-54" positionY="-9" width="128" height="120"/>
-        <element name="AddressFragment" positionX="-27" positionY="99" width="128" height="165"/>
+        <element name="Fragment" positionX="-54" positionY="-9" width="128" height="135"/>
+        <element name="AddressFragment" positionX="-27" positionY="99" width="128" height="30"/>
     </elements>
 </model>

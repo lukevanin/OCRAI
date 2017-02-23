@@ -24,8 +24,7 @@
 		FC329D9B1E5419640047F692 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9A1E5419640047F692 /* CoreDataStack.swift */; };
 		FC329D9E1E5419820047F692 /* OCRAI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9C1E5419820047F692 /* OCRAI.xcdatamodeld */; };
 		FC329DA01E541F930047F692 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329D9F1E541F930047F692 /* Location.swift */; };
-		FC329DA21E5420780047F692 /* TextFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329DA11E5420780047F692 /* TextFragment.swift */; };
-		FC329DA61E5427060047F692 /* ImageFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329DA51E5427060047F692 /* ImageFragment.swift */; };
+		FC329DA21E5420780047F692 /* Fragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329DA11E5420780047F692 /* Fragment.swift */; };
 		FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7683801E5755CA007B73AE /* ScanOperation.swift */; };
 		FC7966F81E5201F300D54859 /* MockAddressResolutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7966F71E5201F300D54859 /* MockAddressResolutionService.swift */; };
 		FC7966FA1E52041B00D54859 /* GoogleTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7966F91E52041B00D54859 /* GoogleTextAnnotationService.swift */; };
@@ -118,8 +117,7 @@
 		FC329D9A1E5419640047F692 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FC329D9D1E5419820047F692 /* OCRAI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OCRAI.xcdatamodel; sourceTree = "<group>"; };
 		FC329D9F1E541F930047F692 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		FC329DA11E5420780047F692 /* TextFragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFragment.swift; sourceTree = "<group>"; };
-		FC329DA51E5427060047F692 /* ImageFragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFragment.swift; sourceTree = "<group>"; };
+		FC329DA11E5420780047F692 /* Fragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fragment.swift; sourceTree = "<group>"; };
 		FC7683801E5755CA007B73AE /* ScanOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanOperation.swift; sourceTree = "<group>"; };
 		FC7966F71E5201F300D54859 /* MockAddressResolutionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAddressResolutionService.swift; sourceTree = "<group>"; };
 		FC7966F91E52041B00D54859 /* GoogleTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleTextAnnotationService.swift; sourceTree = "<group>"; };
@@ -239,8 +237,7 @@
 			children = (
 				FC7967001E52C37500D54859 /* Document.swift */,
 				FC329D9F1E541F930047F692 /* Location.swift */,
-				FC329DA11E5420780047F692 /* TextFragment.swift */,
-				FC329DA51E5427060047F692 /* ImageFragment.swift */,
+				FC329DA11E5420780047F692 /* Fragment.swift */,
 				FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */,
 			);
 			name = Model;
@@ -632,9 +629,8 @@
 				FCC8ADA71E56B9E400F32CC4 /* TestServiceFactory.swift in Sources */,
 				FC0BF6CE1E54A9E200A0ED29 /* DocumentsViewController.swift in Sources */,
 				FC0591811E58908800B0DDB4 /* DefaultServiceFactory.swift in Sources */,
-				FC329DA21E5420780047F692 /* TextFragment.swift in Sources */,
+				FC329DA21E5420780047F692 /* Fragment.swift in Sources */,
 				FC7966FE1E52118200D54859 /* TestScannerService.swift in Sources */,
-				FC329DA61E5427060047F692 /* ImageFragment.swift in Sources */,
 				FC329D9B1E5419640047F692 /* CoreDataStack.swift in Sources */,
 				FC8E71631E4AD56C00D37719 /* ScanViewController.swift in Sources */,
 				FC7966FA1E52041B00D54859 /* GoogleTextAnnotationService.swift in Sources */,

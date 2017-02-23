@@ -17,35 +17,41 @@ private let imageCellIdentifier = "ImageCell"
 
 class DocumentViewController: UITableViewController {
     
-    enum SectionType {
-        case text(TextFragmentType)
-        case image
-    }
-    
     class Section {
         let title: String
-        let type: SectionType
-        var values: [Any]
+        let type: FragmentType
+        var values: [Fragment]
         
-        init(title: String, type: SectionType, values: [Any]) {
+        init(title: String, type: FragmentType, values: [Fragment]) {
             self.title = title
             self.type = type
             self.values = values
         }
         
+        func remove(at: Int) -> Fragment {
+            let output = values.remove(at: at)
+            updateOrdering(from: at)
+            return output
+        }
+        
+        func append(_ fragment: Fragment) {
+            insert(fragment, at: values.count)
+        }
+        
+        func insert(_ fragment: Fragment, at: Int) {
+            fragment.type = type
+            fragment.ordinality = Int32(at)
+            values.insert(fragment, at: at)
+            updateOrdering(from: at)
+        }
+        
         func updateOrdering() {
-            for i in 0 ..< values.count {
-                let value = values[i]
-                
-                switch value {
-                    
-                case let textFragment as TextFragment:
-                    // FIXME: Ensure fragment type matches section type.
-                    textFragment.ordinality = Int32(i)
-                    
-                default:
-                    fatalError("Unknown fragment type")
-                }
+            updateOrdering(from: 0)
+        }
+        
+        func updateOrdering(from: Int) {
+            for i in from ..< values.count {
+                values[i].ordinality = Int32(i)
             }
         }
     }
@@ -138,21 +144,9 @@ class DocumentViewController: UITableViewController {
             
             let document = try context.documents(withIdentifier: documentIdentifier!).first
             
-            if let fragments = document?.imageFragments?.allObjects as? [ImageFragment] {
+            if let fragments = document?.fragments?.allObjects as? [Fragment] {
                 for fragment in fragments {
                     context.delete(fragment)
-                }
-            }
-            
-            if let fragments = document?.textFragments?.allObjects as? [TextFragment] {
-                for fragment in fragments {
-                    context.delete(fragment)
-                }
-            }
-            
-            if let addresses = document?.addresses?.allObjects as? [AddressFragment] {
-                for address in addresses {
-                    context.delete(address)
                 }
             }
             
@@ -176,54 +170,29 @@ class DocumentViewController: UITableViewController {
                 headerImageView.image = UIImage(data: imageData as Data)
             }
 
-            // FIXME: Filter image fragments
-//            if let imageFragments = document?.imageFragments?.allObjects {
-//                sections.append(contentsOf: imageFragments)
-//            }
-            
-            if let fragments = document?.textFragments?.allObjects as? [TextFragment] {
+            if let fragments = document?.fragments?.allObjects as? [Fragment] {
                 
-                func filterFragments(_ type: TextFragmentType) -> [TextFragment] {
+                func filterFragments(_ type: FragmentType) -> [Fragment] {
                     return fragments
                         .filter() { $0.type == type }
                         .sorted() { $0.ordinality < $1.ordinality }
                 }
                 
-                sections.append(Section(
-                    title: "Person",
-                    type: .text(.person),
-                    values: filterFragments(.person)
-                ))
-
-                sections.append(Section(
-                    title: "Organization",
-                    type: .text(.organization),
-                    values: filterFragments(.organization)
-                ))
+                func makeSection(title: String, type: FragmentType) -> Section {
+                    return Section(
+                        title: title,
+                        type: type,
+                        values: filterFragments(type)
+                    )
+                }
                 
-                sections.append(Section(
-                    title: "Phone number",
-                    type: .text(.phoneNumber),
-                    values: filterFragments(.phoneNumber)
-                ))
-
-                sections.append(Section(
-                    title: "Email",
-                    type: .text(.email),
-                    values: filterFragments(.email)
-                ))
-                
-                sections.append(Section(
-                    title: "URL",
-                    type: .text(.url),
-                    values: filterFragments(.url)
-                ))
-                
-                sections.append(Section(
-                    title: "Address",
-                    type: .text(.address),
-                    values: filterFragments(.address)
-                ))
+                sections.append(makeSection(title: "Person", type: .person))
+                sections.append(makeSection(title: "Organization", type: .organization))
+                sections.append(makeSection(title: "Phone Number", type: .phoneNumber))
+                sections.append(makeSection(title: "Email", type: .email))
+                sections.append(makeSection(title: "URL", type: .url))
+                sections.append(makeSection(title: "Address", type: .address))
+                // FIXME: Add images
             }
             
             self.sections = sections
@@ -297,19 +266,13 @@ class DocumentViewController: UITableViewController {
         
         let fragment = section.values[indexPath.row]
         
-        switch fragment {
+        switch fragment.type {
             
-        case let fragment as TextFragment:
-            return self.tableView(tableView, cellForTextFragment:fragment, at: indexPath)
-            
-        case let fragment as ImageFragment:
+        case .face, .logo:
             return self.tableView(tableView, cellForImageFragment:fragment, at: indexPath)
             
-        case let fragment as AddressFragment:
-            return self.tableView(tableView, cellForAddressFragment:fragment, at: indexPath)
-            
         default:
-            fatalError("Unknown fragment type: \(fragment)")
+            return self.tableView(tableView, cellForTextFragment:fragment, at: indexPath)
         }
     }
     
@@ -319,21 +282,15 @@ class DocumentViewController: UITableViewController {
         return cell
     }
     
-    private func tableView(_ tableView: UITableView, cellForTextFragment fragment: TextFragment, at indexPath: IndexPath) -> UITableViewCell {
+    private func tableView(_ tableView: UITableView, cellForTextFragment fragment: Fragment, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
         cell.contentTextField.text = fragment.value
         cell.showsReorderControl = true
         return cell
     }
     
-    private func tableView(_ tableView: UITableView, cellForImageFragment fragment: ImageFragment, at indexPath: IndexPath) -> UITableViewCell {
+    private func tableView(_ tableView: UITableView, cellForImageFragment fragment: Fragment, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: imageCellIdentifier, for: indexPath) as! ImageFragmentCell
-        return cell
-    }
-    
-    private func tableView(_ tableView: UITableView, cellForAddressFragment fragment: AddressFragment, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: addressCellIdentifier, for: indexPath) as! AddressFragmentCell
-        cell.configure(fragment: fragment)
         return cell
     }
     
@@ -364,10 +321,6 @@ class DocumentViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         let sourceSection = sections[sourceIndexPath.section]
         let destinationSection = sections[proposedDestinationIndexPath.section]
-
-        if !canMove(from: sourceSection.type, to: destinationSection.type) {
-            return sourceIndexPath
-        }
         
         let limit: Int
         
@@ -388,15 +341,7 @@ class DocumentViewController: UITableViewController {
         let sourceSection = sections[sourceIndexPath.section]
         let destinationSection = sections[destinationIndexPath.section]
         let fragment = sourceSection.values.remove(at: sourceIndexPath.row)
-        
-        switch (fragment, destinationSection.type) {
-        case (let textFragment as TextFragment, .text(let type)):
-            textFragment.type = type
-
-        default:
-            fatalError("Unexpected fragment type change")
-        }
-        
+        fragment.type = destinationSection.type
         destinationSection.values.insert(fragment, at: destinationIndexPath.row)
         sourceSection.updateOrdering()
         destinationSection.updateOrdering()
@@ -404,17 +349,5 @@ class DocumentViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-    }
-    
-    private func canMove(from: SectionType, to: SectionType) -> Bool {
-        switch (from, to) {
-        case (.image, .image):
-            return true
-        case (.text(_), .text(_)):
-            return true
-        default:
-            return false
-        }
     }
 }

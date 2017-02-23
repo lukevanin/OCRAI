@@ -88,7 +88,7 @@ class ScanOperation: AsyncOperation {
         }
     }
     
-    private func imageAnnotationProcessor(_ type: ImageFragmentType) -> (Annotation) -> Void {
+    private func imageAnnotationProcessor(_ type: FragmentType) -> (Annotation) -> Void {
         return { annotation in
             // FIXME: Clip logo from source image according to bounding polygon. Import clipped image as image fragment.
         }
@@ -113,64 +113,38 @@ class ScanOperation: AsyncOperation {
     }
     
     private func handleTextAnnotationsResponse(_ response: TextAnnotationResponse) {
-        processEntities(response.personEntities, process: entityProcessor(.person))
-        processEntities(response.organizationEntities, process: entityProcessor(.organization))
-        processEntities(response.phoneEntities, process: entityProcessor(.phoneNumber))
-        processEntities(response.urlEntities, process: entityProcessor(.url))
-        processEntities(response.emailEntities, process: entityProcessor(.email))
-        processEntities(response.addressEntities, process: entityProcessor(.address))
+        processEntities(response.personEntities, type: .person)
+        processEntities(response.organizationEntities, type: .organization)
+        processEntities(response.phoneEntities, type: .phoneNumber)
+        processEntities(response.urlEntities, type: .url)
+        processEntities(response.emailEntities, type: .email)
+        processEntities(response.addressEntities, type: .address)
     }
-    
-    // MARK: Generic entities
-    
-    private func entityProcessor(_ type: TextFragmentType) -> ProcessEntity {
-        return { [identifier] entity, context in
-            let fragment = TextFragment(
-                type: type,
-                value: entity.content,
-                context: context
-            )
-            fragment.document = try context.documents(withIdentifier: identifier).first
-        }
-    }
-    
-//    private func urlEntityProcessor(_ type: TextFragmentType) -> ProcessEntity<URL> {
-//        return { [identifier] entity, context in
-//            let fragment = TextFragment(
-//                type: type,
-//                value: entity.content.description,
-//                context: context
-//            )
-//            fragment.document = try context.documents(withIdentifier: identifier).first
-//        }
-//    }
-    
-//    private func addressEntityProcessor() -> ProcessEntity<CNPostalAddress> {
-//        return { [identifier] entity, context in
-//            let fragment = AddressFragment(
-//                address: entity.content,
-//                context: context
-//            )
-//            fragment.document = try context.documents(withIdentifier: identifier).first
-//        }
-//    }
-
     
     // MARK: Common
     
-    private func processEntities(_ entities: [Entity], process: @escaping ProcessEntity) {
+    private func processEntities(_ entities: [Entity], type: FragmentType) {
         for entity in entities {
-            group.enter()
-            coreData.performBackgroundChanges() { [group] context in
-                do {
-                    try process(entity, context)
-                    try context.save()
-                }
-                catch {
-                    print("Cannot import entity \(error)")
-                }
-                group.leave()
+            processEntity(entity, type: type)
+        }
+    }
+    
+    private func processEntity(_ entity: Entity, type: FragmentType) {
+        group.enter()
+        coreData.performBackgroundChanges() { [identifier, group] context in
+            do {
+                let fragment = Fragment(
+                    type: type,
+                    value: entity.content,
+                    context: context
+                )
+                fragment.document = try context.documents(withIdentifier: identifier).first
+                try context.save()
             }
+            catch {
+                print("Cannot import entity \(error)")
+            }
+            group.leave()
         }
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-enum TextFragmentType: Int32 {
+enum FragmentType: Int32 {
     case unknown = 0
     case person = 1
     case organization = 2
@@ -18,9 +18,11 @@ enum TextFragmentType: Int32 {
     case url = 5
     case note = 6
     case address = 7
+    case face = 8
+    case logo = 9
 }
 
-extension TextFragmentType: CustomStringConvertible {
+extension FragmentType: CustomStringConvertible {
     var description: String {
         switch self {
         case .unknown:
@@ -46,24 +48,30 @@ extension TextFragmentType: CustomStringConvertible {
             
         case .address:
             return "Address"
+            
+        case .face:
+            return "Face"
+            
+        case .logo:
+            return "Logo"
         }
     }
 }
 
-private let entityName = "TextFragment"
+private let entityName = "Fragment"
 
-extension TextFragment {
+extension Fragment {
     
-    var type: TextFragmentType {
+    var type: FragmentType {
         get {
-            return TextFragmentType(rawValue: self.rawType) ?? .unknown
+            return FragmentType(rawValue: self.rawType) ?? .unknown
         }
         set {
             self.rawType = newValue.rawValue
         }
     }
     
-    convenience init(type: TextFragmentType, value: String, context: NSManagedObjectContext) {
+    convenience init(type: FragmentType, value: String, context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             fatalError("Cannot initialize entity \(entityName)")
         }
