@@ -13,7 +13,7 @@ import CoreData
 
 class ScanOperation: AsyncOperation {
     
-    typealias ProcessEntity<T> = (Entity<T>, NSManagedObjectContext) throws -> Void
+    typealias ProcessEntity = (Entity, NSManagedObjectContext) throws -> Void
     
     private let identifier: String
     private let service: ScannerService
@@ -48,6 +48,7 @@ class ScanOperation: AsyncOperation {
         group.notify(queue: queue) { [coreData] in
             DispatchQueue.main.async {
                 coreData.saveNow() {
+                    //  FIXME: Update entity ordinality
                     self.state = .completed
                 }
             }
@@ -112,17 +113,17 @@ class ScanOperation: AsyncOperation {
     }
     
     private func handleTextAnnotationsResponse(_ response: TextAnnotationResponse) {
-        processEntities(response.personEntities, process: stringEntityProcessor(.person))
-        processEntities(response.organizationEntities, process: stringEntityProcessor(.organization))
-        processEntities(response.phoneEntities, process: stringEntityProcessor(.phoneNumber))
-        processEntities(response.urlEntities, process: urlEntityProcessor(.url))
-        processEntities(response.emailEntities, process: urlEntityProcessor(.email))
-        processEntities(response.addressEntities, process: addressEntityProcessor())
+        processEntities(response.personEntities, process: entityProcessor(.person))
+        processEntities(response.organizationEntities, process: entityProcessor(.organization))
+        processEntities(response.phoneEntities, process: entityProcessor(.phoneNumber))
+        processEntities(response.urlEntities, process: entityProcessor(.url))
+        processEntities(response.emailEntities, process: entityProcessor(.email))
+        processEntities(response.addressEntities, process: entityProcessor(.address))
     }
     
     // MARK: Generic entities
     
-    private func stringEntityProcessor(_ type: TextFragmentType) -> ProcessEntity<String> {
+    private func entityProcessor(_ type: TextFragmentType) -> ProcessEntity {
         return { [identifier] entity, context in
             let fragment = TextFragment(
                 type: type,
@@ -133,31 +134,31 @@ class ScanOperation: AsyncOperation {
         }
     }
     
-    private func urlEntityProcessor(_ type: TextFragmentType) -> ProcessEntity<URL> {
-        return { [identifier] entity, context in
-            let fragment = TextFragment(
-                type: type,
-                value: entity.content.description,
-                context: context
-            )
-            fragment.document = try context.documents(withIdentifier: identifier).first
-        }
-    }
+//    private func urlEntityProcessor(_ type: TextFragmentType) -> ProcessEntity<URL> {
+//        return { [identifier] entity, context in
+//            let fragment = TextFragment(
+//                type: type,
+//                value: entity.content.description,
+//                context: context
+//            )
+//            fragment.document = try context.documents(withIdentifier: identifier).first
+//        }
+//    }
     
-    private func addressEntityProcessor() -> ProcessEntity<CNPostalAddress> {
-        return { [identifier] entity, context in
-            let fragment = AddressFragment(
-                address: entity.content,
-                context: context
-            )
-            fragment.document = try context.documents(withIdentifier: identifier).first
-        }
-    }
+//    private func addressEntityProcessor() -> ProcessEntity<CNPostalAddress> {
+//        return { [identifier] entity, context in
+//            let fragment = AddressFragment(
+//                address: entity.content,
+//                context: context
+//            )
+//            fragment.document = try context.documents(withIdentifier: identifier).first
+//        }
+//    }
 
     
     // MARK: Common
     
-    private func processEntities<T>(_ entities: [Entity<T>], process: @escaping ProcessEntity<T>) {
+    private func processEntities(_ entities: [Entity], process: @escaping ProcessEntity) {
         for entity in entities {
             group.enter()
             coreData.performBackgroundChanges() { [group] context in

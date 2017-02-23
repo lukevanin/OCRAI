@@ -17,13 +17,14 @@ enum TextFragmentType: Int32 {
     case email = 4
     case url = 5
     case note = 6
+    case address = 7
 }
 
 extension TextFragmentType: CustomStringConvertible {
     var description: String {
         switch self {
         case .unknown:
-            return "Unknown value"
+            return "Unknown"
             
         case .person:
             return "Person"
@@ -42,6 +43,9 @@ extension TextFragmentType: CustomStringConvertible {
             
         case .note:
             return "Note"
+            
+        case .address:
+            return "Address"
         }
     }
 }

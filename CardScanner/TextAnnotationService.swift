@@ -9,22 +9,22 @@
 import Foundation
 import Contacts
 
-struct Entity<ContentType> {
+struct Entity {
     var offset: Int?
-    var content: ContentType
-    init(offset: Int? = nil, content: ContentType) {
+    var content: String
+    init(offset: Int? = nil, content: String) {
         self.offset = offset
         self.content = content
     }
 }
 
 struct TextAnnotationResponse {
-    var personEntities: [Entity<String>]
-    var organizationEntities: [Entity<String>]
-    var addressEntities: [Entity<CNPostalAddress>]
-    var phoneEntities: [Entity<String>]
-    var urlEntities: [Entity<URL>]
-    var emailEntities: [Entity<URL>]
+    var personEntities: [Entity]
+    var organizationEntities: [Entity]
+    var addressEntities: [Entity]
+    var phoneEntities: [Entity]
+    var urlEntities: [Entity]
+    var emailEntities: [Entity]
 }
 
 struct TextAnnotationRequest {

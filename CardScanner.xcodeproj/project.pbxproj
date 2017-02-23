@@ -18,7 +18,6 @@
 		FC0BF6CE1E54A9E200A0ED29 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */; };
 		FC0BF6D01E54AA1F00A0ED29 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */; };
 		FC0BF6D31E54AA4E00A0ED29 /* BasicFragmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6D21E54AA4E00A0ED29 /* BasicFragmentCell.swift */; };
-		FC0BF6D51E54AA5C00A0ED29 /* LocationFragmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6D41E54AA5C00A0ED29 /* LocationFragmentCell.swift */; };
 		FC0BF6D71E54AA8600A0ED29 /* DocumentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6D61E54AA8600A0ED29 /* DocumentCell.swift */; };
 		FC0BF6DA1E54AB8300A0ED29 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0BF6D91E54AB8300A0ED29 /* MapKit.framework */; };
 		FC0BF6DC1E54B40900A0ED29 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */; };
@@ -46,6 +45,7 @@
 		FC91B7671E4C3B8700AF11C6 /* MockImageAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B7661E4C3B8700AF11C6 /* MockImageAnnotationService.swift */; };
 		FC91B76C1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91B76B1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift */; };
 		FCB33AC61E5C0662006CAF6E /* AddressFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */; };
+		FCB33ACC1E5E9C4A006CAF6E /* AddressFragmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB33ACB1E5E9C4A006CAF6E /* AddressFragmentCell.swift */; };
 		FCC8ADA51E56B99500F32CC4 /* ServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC8ADA41E56B99500F32CC4 /* ServiceFactory.swift */; };
 		FCC8ADA71E56B9E400F32CC4 /* TestServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC8ADA61E56B9E400F32CC4 /* TestServiceFactory.swift */; };
 		FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */; };
@@ -112,7 +112,6 @@
 		FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
 		FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
 		FC0BF6D21E54AA4E00A0ED29 /* BasicFragmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicFragmentCell.swift; sourceTree = "<group>"; };
-		FC0BF6D41E54AA5C00A0ED29 /* LocationFragmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFragmentCell.swift; sourceTree = "<group>"; };
 		FC0BF6D61E54AA8600A0ED29 /* DocumentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentCell.swift; sourceTree = "<group>"; };
 		FC0BF6D91E54AB8300A0ED29 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -142,6 +141,7 @@
 		FC91B7661E4C3B8700AF11C6 /* MockImageAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockImageAnnotationService.swift; sourceTree = "<group>"; };
 		FC91B76B1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataDetectorTextAnnotationService.swift; sourceTree = "<group>"; };
 		FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressFragment.swift; sourceTree = "<group>"; };
+		FCB33ACB1E5E9C4A006CAF6E /* AddressFragmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressFragmentCell.swift; sourceTree = "<group>"; };
 		FCC8ADA41E56B99500F32CC4 /* ServiceFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceFactory.swift; sourceTree = "<group>"; };
 		FCC8ADA61E56B9E400F32CC4 /* TestServiceFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestServiceFactory.swift; sourceTree = "<group>"; };
 		FCD3DE4A1E52DE2E000ED5F7 /* CardScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CardScanner.entitlements; sourceTree = "<group>"; };
@@ -219,7 +219,7 @@
 			children = (
 				FC0BF6D61E54AA8600A0ED29 /* DocumentCell.swift */,
 				FC0BF6D21E54AA4E00A0ED29 /* BasicFragmentCell.swift */,
-				FC0BF6D41E54AA5C00A0ED29 /* LocationFragmentCell.swift */,
+				FCB33ACB1E5E9C4A006CAF6E /* AddressFragmentCell.swift */,
 				FCE8A4F91E563D7500512D56 /* ImageFragmentCell.swift */,
 				FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */,
 			);
@@ -618,7 +618,6 @@
 				FC329DA01E541F930047F692 /* Location.swift in Sources */,
 				FC0BF6DC1E54B40900A0ED29 /* CameraView.swift in Sources */,
 				FC0BF6D31E54AA4E00A0ED29 /* BasicFragmentCell.swift in Sources */,
-				FC0BF6D51E54AA5C00A0ED29 /* LocationFragmentCell.swift in Sources */,
 				FC8E71761E4AD5B300D37719 /* UIViewController+ImagePicker.swift in Sources */,
 				FCEDE6D81E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift in Sources */,
 				FC8E71771E4AD5B300D37719 /* UIImage+Resize.swift in Sources */,
@@ -626,6 +625,7 @@
 				FC91B75C1E4C36AB00AF11C6 /* TextAnnotationService.swift in Sources */,
 				FCED88531E4F037400623684 /* MockTextAnnotationService.swift in Sources */,
 				FC8E71791E4AD5B300D37719 /* ContentError.swift in Sources */,
+				FCB33ACC1E5E9C4A006CAF6E /* AddressFragmentCell.swift in Sources */,
 				FC0BF6CC1E54A99200A0ED29 /* CameraViewController.swift in Sources */,
 				FCB33AC61E5C0662006CAF6E /* AddressFragment.swift in Sources */,
 				FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */,

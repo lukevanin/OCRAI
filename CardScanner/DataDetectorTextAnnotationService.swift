@@ -20,9 +20,9 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
     private let addressQueue: DispatchQueue
     private let geoCoder: CLGeocoder
     
-    private var phoneNumbers = [Entity<String>]()
-    private var urls = [Entity<URL>]()
-    private var addresses = [Entity<CNPostalAddress>]()
+    private var phoneNumbers = [Entity]()
+    private var urls = [Entity]()
+    private var addresses = [Entity]()
     
     init(text: String, completion: @escaping TextAnnotationCompletion) {
         self.text = text
@@ -69,7 +69,7 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
     
     private func makeUrls(_ matches: [NSTextCheckingResult]) {
         let values = filter(matches) { $0.url }
-        let entities = values.map() { Entity(content: $0) }
+        let entities = values.map() { Entity(content: $0.absoluteString) }
         urls.append(contentsOf: entities) // FIXME: Disambiguate email vs web URLs
     }
     
@@ -99,7 +99,8 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
             address.country = country
         }
     
-        let entity = Entity<CNPostalAddress>(content: address)
+        let content = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
+        let entity = Entity(content: content)
         self.addresses.append(entity)
     }
 

@@ -47,7 +47,7 @@ struct TestServiceFactory: ServiceFactory {
                 ],
                 addressEntities: [
                     Entity(
-                        content: makeAddress()
+                        content: CNPostalAddressFormatter.string(from: makeAddress(), style: .mailingAddress)
                     )
                 ],
                 phoneEntities: [
@@ -60,12 +60,12 @@ struct TestServiceFactory: ServiceFactory {
                 ],
                 urlEntities: [
                     Entity(
-                        content: URL(string: "http://apple.com")!
+                        content: "www.apple.com"
                     )
                 ],
                 emailEntities: [
                     Entity(
-                        content: URL(string: "mailto:steve.jobs@apple.com")!
+                        content: "steve.jobs@apple.com"
                     )
                 ]
             ),

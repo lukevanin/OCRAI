@@ -38,9 +38,9 @@ extension GoogleNaturalLanguageAPI.AnalyzeEntitiesResponse {
         )
     }
     
-    private func textEntities(type: GoogleNaturalLanguageAPI.EntityType) -> [Entity<String>] {
+    private func textEntities(type: GoogleNaturalLanguageAPI.EntityType) -> [Entity] {
         return self.entities.filter({ $0.type == type }).map {
-            Entity<String>(
+            Entity(
                 content: $0.name
             )
         }
