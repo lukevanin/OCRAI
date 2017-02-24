@@ -147,6 +147,7 @@ public struct GoogleVisionAPI {
         request.httpMethod = "POST"
         request.httpBody = makeBody(requests: requests)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(Bundle.main.bundleIdentifier ?? "", forHTTPHeaderField: "X-Ios-Bundle-Identifier")
         return request
     }
     

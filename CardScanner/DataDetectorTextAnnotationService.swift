@@ -22,6 +22,7 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
     
     private var phoneNumbers = [Entity]()
     private var urls = [Entity]()
+    private var emails = [Entity]()
     private var addresses = [Entity]()
     
     init(text: String, completion: @escaping TextAnnotationCompletion) {
@@ -53,7 +54,7 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
                     addressEntities: self.addresses,
                     phoneEntities: self.phoneNumbers,
                     urlEntities: self.urls,
-                    emailEntities: []
+                    emailEntities: self.emails
                 )
                 self.completion(response, nil)
             }
@@ -69,8 +70,16 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
     
     private func makeUrls(_ matches: [NSTextCheckingResult]) {
         let values = filter(matches) { $0.url }
-        let entities = values.map() { Entity(content: $0.absoluteString) }
-        urls.append(contentsOf: entities) // FIXME: Disambiguate email vs web URLs
+        
+        for value in values {
+            let entity = Entity(content: value.relativeString)
+            if value.scheme == "mailto" {
+                emails.append(entity)
+            }
+            else {
+                urls.append(entity)
+            }
+        }
     }
     
     private func makeAddresses(_ matches: [NSTextCheckingResult]) {

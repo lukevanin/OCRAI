@@ -12,12 +12,11 @@ import GoogleNaturalLanguageAPI
 
 struct DefaultServiceFactory: ServiceFactory {
     
-    private let googleServiceKey = "AIzaSyDTdcgltBmKzyR1n-eG2Vjc7L4vBBbpQ90"
+    private let googleServiceKey = "AIzaSyAFIcrhkLwI7PNnB3QSVhHxQv8VHITuIIw"
 
     func imageAnnotationService() -> ImageAnnotationService? {
         let service = GoogleVisionAPI(key: googleServiceKey)
         return GoogleVisionServiceAdapter(service: service)
-//        return TestServiceFactory().imageAnnotationService()
     }
     
     func textAnnotationService() -> TextAnnotationService? {

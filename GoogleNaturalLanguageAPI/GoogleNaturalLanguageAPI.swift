@@ -104,6 +104,7 @@ public struct GoogleNaturalLanguageAPI {
         var urlRequest = URLRequest(url: url!)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue(Bundle.main.bundleIdentifier ?? "", forHTTPHeaderField: "X-Ios-Bundle-Identifier")
         urlRequest.httpBody = try! JSONSerialization.data(withJSONObject: request.json, options: [])
         
         let task = session.dataTask(with: urlRequest) { (data, response, error) in

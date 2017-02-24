@@ -68,6 +68,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     }()
     
     private var sections = [Section]()
+    private var activeSections = [Int]()
     
     @IBOutlet weak var headerImageView: UIImageView!
     @IBOutlet weak var scanButton: UIButton!
@@ -108,27 +109,53 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
+        // Rows
         tableView.beginUpdates()
+        
+        activeSections.removeAll()
         
         if editing {
             // Edit mode.
             // Insert one additional row for each section.
             var indexPaths = [IndexPath]()
+            var sectionIndices = IndexSet()
             for i in 0 ..< sections.count {
-                let indexPath = IndexPath(row: sections[i].values.count, section: i)
+                let section = sections[i]
+                activeSections.append(i)
+                
+                let count = section.values.count
+                
+                if count == 0 {
+                    sectionIndices.insert(i)
+                }
+                
+                let indexPath = IndexPath(row: count, section: i)
                 indexPaths.append(indexPath)
             }
+            tableView.insertSections(sectionIndices, with: .fade)
             tableView.insertRows(at: indexPaths, with: .fade)
         }
         else {
             // Non-edit mode.
             // Remove additional row for each section.
             var indexPaths = [IndexPath]()
+            var sectionIndices = IndexSet()
             for i in 0 ..< sections.count {
-                let indexPath = IndexPath(row: sections[i].values.count, section: i)
+                let section = sections[i]
+                let count = section.values.count
+                
+                if count == 0 {
+                    sectionIndices.insert(i)
+                }
+                else {
+                    activeSections.append(i)
+                }
+                
+                let indexPath = IndexPath(row: count, section: i)
                 indexPaths.append(indexPath)
             }
             tableView.deleteRows(at: indexPaths, with: .fade)
+            tableView.deleteSections(sectionIndices, with: .fade)
         }
         
         tableView.endUpdates()
@@ -138,6 +165,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     
     private func clearDocument(completion: @escaping () -> Void) {
         sections.removeAll()
+        activeSections.removeAll()
         tableView.reloadData()
         
         coreData.performBackgroundChanges { [documentIdentifier] (context) in
@@ -196,6 +224,13 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
             }
             
             self.sections = sections
+            
+            for i in 0 ..< sections.count {
+                if sections[i].values.count > 0 {
+                    self.activeSections.append(i)
+                }
+            }
+            
             tableView.reloadData()
         }
         catch {
@@ -238,11 +273,11 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     // MARK: Table view
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return activeSections.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let numberOfItems = sections[section].values.count
+        let numberOfItems = self.section(at: section).values.count
         
         if isEditing {
             return numberOfItems + 1
@@ -253,12 +288,11 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].title
+        return self.section(at: section).title
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let section = sections[indexPath.section]
+        let section = self.section(at: indexPath.section)
         
         if isEditing && (indexPath.row == section.values.count) {
             return self.tableView(tableView, cellForBlankTextFragmentOfType: section.type, at: indexPath)
@@ -334,7 +368,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        let section = sections[indexPath.section]
+        let section = self.section(at: indexPath)
         if indexPath.row == section.values.count {
             return false
         }
@@ -344,7 +378,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        let section = sections[indexPath.section]
+        let section = self.section(at: indexPath.section)
         if indexPath.row == section.values.count {
             return .insert
         }
@@ -354,8 +388,8 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        let sourceSection = sections[sourceIndexPath.section]
-        let destinationSection = sections[proposedDestinationIndexPath.section]
+        let sourceSection = self.section(at: sourceIndexPath.section)
+        let destinationSection = self.section(at: proposedDestinationIndexPath.section)
         
         let limit: Int
         
@@ -373,8 +407,8 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let sourceSection = sections[sourceIndexPath.section]
-        let destinationSection = sections[destinationIndexPath.section]
+        let sourceSection = self.section(at: sourceIndexPath.section)
+        let destinationSection = self.section(at: destinationIndexPath.section)
         let fragment = sourceSection.values.remove(at: sourceIndexPath.row)
         fragment.type = destinationSection.type
         destinationSection.values.insert(fragment, at: destinationIndexPath.row)
@@ -384,8 +418,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-        let section = sections[indexPath.section]
+        let section = self.section(at: indexPath.section)
         
         switch editingStyle {
             
@@ -429,7 +462,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
 
         let sectionCount = tableView.numberOfSections
         for sectionIndex in 0 ..< sectionCount {
-            let section = sections[sectionIndex]
+            let section = self.section(at: sectionIndex)
             let rowCount = section.values.count
             for rowIndex in 0 ..< rowCount {
                 let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
@@ -441,5 +474,13 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
         }
         
         coreData.saveNow()
+    }
+    
+    func section(at indexPath: IndexPath) -> Section {
+        return section(at: indexPath.section)
+    }
+    
+    func section(at index: Int) -> Section {
+        return sections[activeSections[index]]
     }
 }
