@@ -14,32 +14,45 @@ protocol TextCellDelegate: class {
 
 class BasicFragmentCell: UITableViewCell, UITextFieldDelegate {
     
+    var editingEnabled = false {
+        didSet {
+            setEditable(editingEnabled)
+        }
+    }
+    
     weak var delegate: TextCellDelegate?
     
+    @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var contentTextField: UITextField!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        editingEnabled = false
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         contentTextField.text = nil
+        editingEnabled = false
     }
     
-    override func willTransition(to state: UITableViewCellStateMask) {
-        super.willTransition(to: state)
-        
-        if state.contains(.showingEditControlMask) {
-            contentTextField.isUserInteractionEnabled = true
-            contentTextField.layer.cornerRadius = 0 // FIXME: Show radius. Apply margins.
-            contentTextField.backgroundColor = UIColor.init(white: 0.95, alpha: 1.0)
-        }
-        else {
-            contentTextField.isUserInteractionEnabled = false
-            contentTextField.layer.cornerRadius = 0
-            contentTextField.backgroundColor = UIColor.white
-            
-            if contentTextField.isFirstResponder {
-                contentTextField.resignFirstResponder()
-            }
-        }
+//    override func willTransition(to state: UITableViewCellStateMask) {
+//        super.willTransition(to: state)
+//        
+//        if state.contains(.showingEditControlMask) {
+//            editingEnabled = true
+//        }
+//        else {
+//            editingEnabled = false
+//        }
+//    }
+    
+    func setEditable(_ enable: Bool) {
+//        contentTextField.isUserInteractionEnabled = enable
+//        
+//        if !enable && contentTextField.isFirstResponder {
+//            contentTextField.resignFirstResponder()
+//        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

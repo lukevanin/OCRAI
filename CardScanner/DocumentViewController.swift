@@ -10,10 +10,41 @@ import UIKit
 import MapKit
 import CoreData
 import Contacts
+import MessageUI
 
 private let basicCellIdentifier = "BasicCell"
 private let addressCellIdentifier = "AddressCell"
 private let imageCellIdentifier = "ImageCell"
+
+extension FragmentType {
+    var color: UIColor {
+        switch self {
+        case .address:
+            return Material.Color.blueGrey
+            
+        case .person:
+            return Material.Color.pink
+            
+        case .organization:
+            return Material.Color.lightBlue
+            
+        case .email:
+            return Material.Color.green
+            
+        case .url:
+            return Material.Color.teal
+            
+        case .phoneNumber:
+            return Material.Color.cyan
+            
+        case .note:
+            return Material.Color.lime
+            
+        default:
+            return Material.Color.grey
+        }
+    }
+}
 
 class DocumentViewController: UITableViewController, TextCellDelegate {
     
@@ -70,9 +101,12 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     private var sections = [Section]()
     private var activeSections = [Int]()
     
+    @IBOutlet weak var headerImageContainerView: UIView!
     @IBOutlet weak var headerImageView: UIImageView!
     @IBOutlet weak var scanButton: UIButton!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var headerImageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var headerImageHeightConstraint: NSLayoutConstraint!
     
     @IBAction func onScanAction(_ sender: Any) {
         if isEditing {
@@ -106,13 +140,22 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
         super.viewWillDisappear(animated)
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateImageSize()
+    }
+    
+    private func updateImageSize() {
+        
+    }
+    
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
         // Rows
-        tableView.beginUpdates()
-        
         activeSections.removeAll()
+        
+        tableView.beginUpdates()
         
         if editing {
             // Edit mode.
@@ -128,12 +171,15 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
                 if count == 0 {
                     sectionIndices.insert(i)
                 }
+                else {
+                    
+                }
                 
                 let indexPath = IndexPath(row: count, section: i)
                 indexPaths.append(indexPath)
             }
-            tableView.insertSections(sectionIndices, with: .fade)
-            tableView.insertRows(at: indexPaths, with: .fade)
+            tableView.insertSections(sectionIndices, with: .automatic)
+            tableView.insertRows(at: indexPaths, with: .automatic)
         }
         else {
             // Non-edit mode.
@@ -154,11 +200,17 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
                 let indexPath = IndexPath(row: count, section: i)
                 indexPaths.append(indexPath)
             }
-            tableView.deleteRows(at: indexPaths, with: .fade)
-            tableView.deleteSections(sectionIndices, with: .fade)
+            tableView.deleteRows(at: indexPaths, with: .automatic)
+            tableView.deleteSections(sectionIndices, with: .automatic)
         }
         
         tableView.endUpdates()
+        
+        for cell in tableView.visibleCells {
+            if let cell = cell as? BasicFragmentCell {
+                cell.editingEnabled = editing
+            }
+        }
     }
     
     // MARK: Document
@@ -196,6 +248,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
             
             if let imageData = document?.imageData {
                 headerImageView.image = UIImage(data: imageData as Data)
+                updateImageSize()
             }
 
             if let fragments = document?.fragments?.allObjects as? [Fragment] {
@@ -346,6 +399,10 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
             title = "Text"
         }
         cell.contentTextField.placeholder = title
+        cell.editingEnabled = true
+        configureCell(cell, withType: type)
+        cell.editingAccessoryType = .none
+        cell.delegate = self
         
         return cell
     }
@@ -354,8 +411,49 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
         cell.delegate = self
         cell.contentTextField.text = fragment.value
+        cell.editingEnabled = isEditing
+        configureCell(cell, withType: fragment.type)
         cell.showsReorderControl = true
+        
+        switch fragment.type {
+        case .phoneNumber, .email:
+            cell.accessoryType = .detailButton
+            
+        default:
+            cell.accessoryType = .none
+        }
+        cell.editingAccessoryType = .none
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let section = self.section(at: indexPath)
+        let fragment = section.values[indexPath.row]
+        
+        switch fragment.type {
+        case .phoneNumber:
+            if let value = fragment.value {
+                
+                // FIXME: Clean URL
+//                NSString *cleanedString = [[phoneNumber componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+()"] invertedSet]] componentsJoinedByString:@""];
+//                NSURL *telURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", cleanedString]];
+                if let url = URL(string: "tel:\(value)") {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+            
+        case .email:
+            if let email = fragment.value, MFMailComposeViewController.canSendMail() {
+                let controller = MFMailComposeViewController()
+                controller.setToRecipients([email])
+                controller.mailComposeDelegate = self
+                present(controller, animated: true, completion: nil)
+            }
+            
+        default:
+            break
+        }
     }
     
     private func tableView(_ tableView: UITableView, cellForImageFragment fragment: Fragment, at indexPath: IndexPath) -> UITableViewCell {
@@ -377,15 +475,55 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
         }
     }
     
+    private func configureCell(_ cell: BasicFragmentCell, withType type: FragmentType) {
+        cell.colorView.backgroundColor = type.color
+    }
+    
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        let section = self.section(at: indexPath.section)
-        if indexPath.row == section.values.count {
-            return .insert
+        if isEditing {
+            let section = self.section(at: indexPath.section)
+            if indexPath.row == section.values.count {
+                return .insert
+            }
+            else {
+                return .delete
+            }
         }
         else {
-            return .delete
+            return .none
         }
     }
+    
+//    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//        var output = [UITableViewRowAction]()
+//        
+//        let section = self.section(at: indexPath.section)
+//        let fragment = section.values[indexPath.row]
+//        
+//        switch fragment.type {
+//            
+//        case .phoneNumber:
+//            output.append(
+//                UITableViewRowAction(
+//                    style: .default,
+//                    title: "Call",
+//                    handler: { (action, indexPath) in
+//                        if let value = fragment.value, let url = URL(string: value) {
+//                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//                        }
+//                })
+//            )
+//            
+//        default:
+//            break
+//        }
+//        
+//        if output.count == 0 {
+//            return nil
+//        }
+//        
+//        return output
+//    }
     
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         let sourceSection = self.section(at: sourceIndexPath.section)
@@ -415,6 +553,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
         sourceSection.updateOrdering()
         destinationSection.updateOrdering()
         saveDocument()
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -426,54 +565,100 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
             break
             
         case .delete:
-            let context = coreData.mainContext
-            let fragment = section.values[indexPath.row]
-            context.delete(fragment)
-            coreData.saveNow() { success in
-                if success {
-                    section.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
-            }
+            delete(at: indexPath)
             
         case .insert:
             if let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell, let text = cell.contentTextField.text, !text.isEmpty {
-                let context = coreData.mainContext
-                do {
-                    let fragment = Fragment(type: section.type, value: text, context: context)
-                    fragment.document = try context.documents(withIdentifier: documentIdentifier).first
-                    try context.save()
-                    coreData.saveNow() { success in
-                        if success {
-                            cell.contentTextField.text = nil
-                            section.append(fragment)
-                            tableView.insertRows(at: [indexPath], with: .automatic)
-                        }
-                    }
-                }
-                catch {
-                    print("Cannot insert item: \(error)")
-                }
+                cell.contentTextField.text = nil
+                insert(value: text, at: indexPath)
             }
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let headerView = view as? UITableViewHeaderFooterView else {
+            return
+        }
+        
+        headerView.backgroundView?.backgroundColor = UIColor(white: 0.10, alpha: 1.0)
+        headerView.textLabel?.textColor = UIColor.white
+    }
+    
     func textCell(cell: BasicFragmentCell, textDidChange text: String?) {
 
-        let sectionCount = tableView.numberOfSections
-        for sectionIndex in 0 ..< sectionCount {
-            let section = self.section(at: sectionIndex)
-            let rowCount = section.values.count
-            for rowIndex in 0 ..< rowCount {
-                let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
-                if let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell {
-                    let fragment = section.values[rowIndex]
-                    fragment.value = cell.contentTextField.text
-                }
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        let section = self.section(at: indexPath.section)
+        
+        if indexPath.row == section.values.count {
+            insert(value: text, at: indexPath)
+            cell.contentTextField.text = nil
+        }
+        else {
+            if text?.isEmpty ?? true {
+                delete(at: indexPath)
+            }
+            else {
+                update(value: text, at: indexPath)
             }
         }
         
         coreData.saveNow()
+    }
+    
+    func delete(at indexPath: IndexPath) {
+        let section = self.section(at: indexPath.section)
+        let context = coreData.mainContext
+        let fragment = section.values[indexPath.row]
+        context.delete(fragment)
+        coreData.saveNow() { success in
+            if success {
+                section.remove(at: indexPath.row)
+                self.tableView.beginUpdates()
+                if section.values.count == 0 {
+                    self.activeSections.remove(at: indexPath.section)
+                    self.tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+                }
+                else {
+                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+                self.tableView.endUpdates()
+            }
+        }
+    }
+    
+    func update(value: String?, at indexPath: IndexPath) {
+        let section = self.section(at: indexPath.section)
+        let fragment = section.values[indexPath.row]
+        fragment.value = value
+        coreData.saveNow()
+    }
+    
+    func insert(value: String?, at indexPath: IndexPath) {
+        let section = self.section(at: indexPath.section)
+        let context = coreData.mainContext
+        do {
+            let fragment = Fragment(type: section.type, value: value, context: context)
+            fragment.document = try context.documents(withIdentifier: documentIdentifier).first
+            try context.save()
+            coreData.saveNow() { success in
+                if success {
+                    section.append(fragment)
+                    self.tableView.beginUpdates()
+                    self.tableView.insertRows(at: [indexPath], with: .automatic)
+                    self.tableView.endUpdates()
+                }
+            }
+        }
+        catch {
+            print("Cannot insert item: \(error)")
+        }
     }
     
     func section(at indexPath: IndexPath) -> Section {
@@ -482,5 +667,11 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     
     func section(at index: Int) -> Section {
         return sections[activeSections[index]]
+    }
+}
+
+extension DocumentViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
     }
 }

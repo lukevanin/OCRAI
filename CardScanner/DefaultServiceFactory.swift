@@ -9,25 +9,46 @@
 import Foundation
 import GoogleVisionAPI
 import GoogleNaturalLanguageAPI
+import MonkeyLearnEntitiesAPI
+
+private let googleServiceKey = "AIzaSyDsS29DsE0nInrMwJqMEC29A2-_uoHAHAg"
+
+private let monkeyLearnAccount = "ex_isnnZRbS"
+private let monkeyLearnAuthorizationToken = "6f420a106bb97bd6973ed5f20cd637a59c46c1d0"
 
 struct DefaultServiceFactory: ServiceFactory {
     
-    private let googleServiceKey = "AIzaSyAFIcrhkLwI7PNnB3QSVhHxQv8VHITuIIw"
-
     func imageAnnotationService() -> ImageAnnotationService? {
         let service = GoogleVisionAPI(key: googleServiceKey)
         return GoogleVisionServiceAdapter(service: service)
     }
     
     func textAnnotationService() -> TextAnnotationService? {
-        let googleNaturalLanguageService = GoogleNaturalLanguageAPI(key: googleServiceKey)
-        let googleNaturalLanguageServiceAdapter = GoogleNaturalLanguageServiceAdapter(service: googleNaturalLanguageService)
+//        let googleNaturalLanguageService = GoogleNaturalLanguageAPI(key: googleServiceKey)
+//        let googleNaturalLanguageServiceAdapter = GoogleNaturalLanguageServiceAdapter(service: googleNaturalLanguageService)
+        
+        let monkeyLearnService = MonkeyLearnEntitiesAPI(account: monkeyLearnAccount, authorizationToken: monkeyLearnAuthorizationToken)
+        let monkeyLearnAdapter = MonkeyLearnEntitiesTextAnnotationServiceAdapter(service: monkeyLearnService)
+        
         let dataDetectorService = DataDetectorTextAnnotationService()
         return AggregateTextAnnotationService(
             services: [
                 
+//                .descriptor(
+//                    service: googleNaturalLanguageServiceAdapter,
+//                    combine: { original, response in
+//                        return TextAnnotationResponse(
+//                            personEntities: response.personEntities,
+//                            organizationEntities: response.organizationEntities,
+//                            addressEntities: original.addressEntities,
+//                            phoneEntities: original.phoneEntities,
+//                            urlEntities: original.urlEntities,
+//                            emailEntities: original.emailEntities
+//                        )
+//                }),
+                
                 .descriptor(
-                    service: googleNaturalLanguageServiceAdapter,
+                    service: monkeyLearnAdapter,
                     combine: { original, response in
                         return TextAnnotationResponse(
                             personEntities: response.personEntities,

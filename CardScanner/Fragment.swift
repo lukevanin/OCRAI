@@ -71,7 +71,7 @@ extension Fragment {
         }
     }
     
-    convenience init(type: FragmentType, value: String, context: NSManagedObjectContext) {
+    convenience init(type: FragmentType, value: String?, context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             fatalError("Cannot initialize entity \(entityName)")
         }

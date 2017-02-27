@@ -27,7 +27,7 @@ class DocumentsViewController: UITableViewController {
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "creationDate", ascending: false)
         ]
-        return try! ManagedListController(
+        return ManagedListController(
             fetchRequest: fetchRequest,
             context: self.coreData.mainContext,
             delegate: self
@@ -91,7 +91,8 @@ class DocumentsViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        listController.refresh()
+        tableView.reloadData()
     }
     
     // MARK: Table view
@@ -104,6 +105,18 @@ class DocumentsViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DocumentCell
         
         if let item = listController.object(at: indexPath), let imageData = item.imageData {
+            
+            var title: String?
+            
+            if let fragments = item.fragments?.allObjects as? [Fragment] {
+                let personFragment = fragments.first { $0.type == .person }
+                let organizationFragment = fragments.first { $0.type == .organization }
+                title = personFragment?.value ?? organizationFragment?.value
+            }
+            
+            cell.titleLabel.text = title
+            cell.titleLabel.isHidden = title?.isEmpty ?? true
+            
             if let image = UIImage(data: imageData as Data) {
                 cell.pictureImageView.image = image
                 cell.pictureImageView.isHidden = false

@@ -91,7 +91,7 @@ public struct GoogleNaturalLanguageAPI {
     
     public let key: String
     
-    private let analyzeEntitiesEndpoint = "https://language.googleapis.com/v1/documents:analyzeEntities"
+    private let analyzeEntitiesEndpoint = "https://language.googleapis.com/v1beta1/documents:analyzeEntities"
     private let session = URLSession.shared
     
     public init(key: String) {

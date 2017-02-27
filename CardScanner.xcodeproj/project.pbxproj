@@ -60,6 +60,12 @@
 		FCEDE6D11E58BF69001B4776 /* GoogleVisionAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEDE6CA1E58BF69001B4776 /* GoogleVisionAPI.framework */; };
 		FCEDE6D21E58BF69001B4776 /* GoogleVisionAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCEDE6CA1E58BF69001B4776 /* GoogleVisionAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FCEDE6D81E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDE6D71E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift */; };
+		FCEF9BF81E608D3F00B7D509 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEF9BF71E608D3F00B7D509 /* Material.swift */; };
+		FCF54E641E63319000DAEA38 /* MonkeyLearnEntitiesAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = FCF54E621E63319000DAEA38 /* MonkeyLearnEntitiesAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCF54E671E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF54E601E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework */; };
+		FCF54E681E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCF54E601E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FCF54E6D1E6331A400DAEA38 /* MonkeyLearnEntitiesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF54E6C1E6331A400DAEA38 /* MonkeyLearnEntitiesAPI.swift */; };
+		FCF54E6F1E63E5B600DAEA38 /* MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF54E6E1E63E5B600DAEA38 /* MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift */; };
 		FCF64BD31E59A6A300E036D0 /* CNPostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */; };
 		FCF64BD51E59D1D500E036D0 /* AggregateTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD41E59D1D500E036D0 /* AggregateTextAnnotationService.swift */; };
 		FCF64BD71E59DE3500E036D0 /* GoogleVisionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD61E59DE3500E036D0 /* GoogleVisionAPI.swift */; };
@@ -82,6 +88,13 @@
 			remoteGlobalIDString = FCEDE6C91E58BF69001B4776;
 			remoteInfo = GoogleVisionAPI;
 		};
+		FCF54E651E63319000DAEA38 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FC8E71551E4AD56C00D37719 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FCF54E5F1E63319000DAEA38;
+			remoteInfo = MonkeyLearnEntitiesAPI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -93,6 +106,7 @@
 			files = (
 				FCEDE6D21E58BF69001B4776 /* GoogleVisionAPI.framework in Embed Frameworks */,
 				FC05918F1E58996200B0DDB4 /* GoogleNaturalLanguageAPI.framework in Embed Frameworks */,
+				FCF54E681E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,6 +170,12 @@
 		FCEDE6CC1E58BF69001B4776 /* GoogleVisionAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleVisionAPI.h; sourceTree = "<group>"; };
 		FCEDE6CD1E58BF69001B4776 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCEDE6D71E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleNaturalLanguageServiceAdapter.swift; sourceTree = "<group>"; };
+		FCEF9BF71E608D3F00B7D509 /* Material.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
+		FCF54E601E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyLearnEntitiesAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCF54E621E63319000DAEA38 /* MonkeyLearnEntitiesAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonkeyLearnEntitiesAPI.h; sourceTree = "<group>"; };
+		FCF54E631E63319000DAEA38 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCF54E6C1E6331A400DAEA38 /* MonkeyLearnEntitiesAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonkeyLearnEntitiesAPI.swift; sourceTree = "<group>"; };
+		FCF54E6E1E63E5B600DAEA38 /* MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift; sourceTree = "<group>"; };
 		FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CNPostalAddress.swift; sourceTree = "<group>"; };
 		FCF64BD41E59D1D500E036D0 /* AggregateTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregateTextAnnotationService.swift; sourceTree = "<group>"; };
 		FCF64BD61E59DE3500E036D0 /* GoogleVisionAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleVisionAPI.swift; sourceTree = "<group>"; };
@@ -175,6 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCF54E671E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework in Frameworks */,
 				FCEDE6D11E58BF69001B4776 /* GoogleVisionAPI.framework in Frameworks */,
 				FC05918E1E58996200B0DDB4 /* GoogleNaturalLanguageAPI.framework in Frameworks */,
 				FC0BF6DA1E54AB8300A0ED29 /* MapKit.framework in Frameworks */,
@@ -182,6 +203,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		FCEDE6C61E58BF69001B4776 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCF54E5C1E63319000DAEA38 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -239,6 +267,7 @@
 				FC329D9F1E541F930047F692 /* Location.swift */,
 				FC329DA11E5420780047F692 /* Fragment.swift */,
 				FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */,
+				FCEF9BF71E608D3F00B7D509 /* Material.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -249,6 +278,7 @@
 				FC8E715F1E4AD56C00D37719 /* CardScanner */,
 				FC0591881E58996200B0DDB4 /* GoogleNaturalLanguageAPI */,
 				FCEDE6CB1E58BF69001B4776 /* GoogleVisionAPI */,
+				FCF54E611E63319000DAEA38 /* MonkeyLearnEntitiesAPI */,
 				FC8E715E1E4AD56C00D37719 /* Products */,
 				FC0BF6D81E54AB8300A0ED29 /* Frameworks */,
 			);
@@ -260,6 +290,7 @@
 				FC8E715D1E4AD56C00D37719 /* CardScanner.app */,
 				FC0591871E58996200B0DDB4 /* GoogleNaturalLanguageAPI.framework */,
 				FCEDE6CA1E58BF69001B4776 /* GoogleVisionAPI.framework */,
+				FCF54E601E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -422,8 +453,19 @@
 			children = (
 				FCEDE6D71E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift */,
 				FCF64BDA1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift */,
+				FCF54E6E1E63E5B600DAEA38 /* MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift */,
 			);
 			name = Adapter;
+			sourceTree = "<group>";
+		};
+		FCF54E611E63319000DAEA38 /* MonkeyLearnEntitiesAPI */ = {
+			isa = PBXGroup;
+			children = (
+				FCF54E621E63319000DAEA38 /* MonkeyLearnEntitiesAPI.h */,
+				FCF54E631E63319000DAEA38 /* Info.plist */,
+				FCF54E6C1E6331A400DAEA38 /* MonkeyLearnEntitiesAPI.swift */,
+			);
+			path = MonkeyLearnEntitiesAPI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -442,6 +484,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCEDE6CE1E58BF69001B4776 /* GoogleVisionAPI.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCF54E5D1E63319000DAEA38 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCF54E641E63319000DAEA38 /* MonkeyLearnEntitiesAPI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +530,7 @@
 			dependencies = (
 				FC05918D1E58996200B0DDB4 /* PBXTargetDependency */,
 				FCEDE6D01E58BF69001B4776 /* PBXTargetDependency */,
+				FCF54E661E63319000DAEA38 /* PBXTargetDependency */,
 			);
 			name = CardScanner;
 			productName = CardScanner;
@@ -502,6 +553,24 @@
 			name = GoogleVisionAPI;
 			productName = GoogleVisionAPI;
 			productReference = FCEDE6CA1E58BF69001B4776 /* GoogleVisionAPI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FCF54E5F1E63319000DAEA38 /* MonkeyLearnEntitiesAPI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCF54E6B1E63319000DAEA38 /* Build configuration list for PBXNativeTarget "MonkeyLearnEntitiesAPI" */;
+			buildPhases = (
+				FCF54E5B1E63319000DAEA38 /* Sources */,
+				FCF54E5C1E63319000DAEA38 /* Frameworks */,
+				FCF54E5D1E63319000DAEA38 /* Headers */,
+				FCF54E5E1E63319000DAEA38 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MonkeyLearnEntitiesAPI;
+			productName = MonkeyLearnEntitiesAPI;
+			productReference = FCF54E601E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -539,6 +608,12 @@
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
+					FCF54E5F1E63319000DAEA38 = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = DBK476475Y;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = FC8E71581E4AD56C00D37719 /* Build configuration list for PBXProject "CardScanner" */;
@@ -557,6 +632,7 @@
 				FC8E715C1E4AD56C00D37719 /* CardScanner */,
 				FC0591861E58996200B0DDB4 /* GoogleNaturalLanguageAPI */,
 				FCEDE6C91E58BF69001B4776 /* GoogleVisionAPI */,
+				FCF54E5F1E63319000DAEA38 /* MonkeyLearnEntitiesAPI */,
 			);
 		};
 /* End PBXProject section */
@@ -580,6 +656,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		FCEDE6C81E58BF69001B4776 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCF54E5E1E63319000DAEA38 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -612,11 +695,13 @@
 				FC7967011E52C37500D54859 /* Document.swift in Sources */,
 				FCED884F1E4D8E9F00623684 /* AddressResolutionService.swift in Sources */,
 				FCF64BD31E59A6A300E036D0 /* CNPostalAddress.swift in Sources */,
+				FCEF9BF81E608D3F00B7D509 /* Material.swift in Sources */,
 				FC329DA01E541F930047F692 /* Location.swift in Sources */,
 				FC0BF6DC1E54B40900A0ED29 /* CameraView.swift in Sources */,
 				FC0BF6D31E54AA4E00A0ED29 /* BasicFragmentCell.swift in Sources */,
 				FC8E71761E4AD5B300D37719 /* UIViewController+ImagePicker.swift in Sources */,
 				FCEDE6D81E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift in Sources */,
+				FCF54E6F1E63E5B600DAEA38 /* MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift in Sources */,
 				FC8E71771E4AD5B300D37719 /* UIImage+Resize.swift in Sources */,
 				FC91B76C1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift in Sources */,
 				FC91B75C1E4C36AB00AF11C6 /* TextAnnotationService.swift in Sources */,
@@ -658,6 +743,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCF54E5B1E63319000DAEA38 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCF54E6D1E6331A400DAEA38 /* MonkeyLearnEntitiesAPI.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -670,6 +763,11 @@
 			isa = PBXTargetDependency;
 			target = FCEDE6C91E58BF69001B4776 /* GoogleVisionAPI */;
 			targetProxy = FCEDE6CF1E58BF69001B4776 /* PBXContainerItemProxy */;
+		};
+		FCF54E661E63319000DAEA38 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FCF54E5F1E63319000DAEA38 /* MonkeyLearnEntitiesAPI */;
+			targetProxy = FCF54E651E63319000DAEA38 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -910,6 +1008,53 @@
 			};
 			name = Release;
 		};
+		FCF54E691E63319000DAEA38 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DBK476475Y;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = MonkeyLearnEntitiesAPI/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukevanin.MonkeyLearnEntitiesAPI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FCF54E6A1E63319000DAEA38 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DBK476475Y;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = MonkeyLearnEntitiesAPI/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukevanin.MonkeyLearnEntitiesAPI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -948,6 +1093,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		FCF54E6B1E63319000DAEA38 /* Build configuration list for PBXNativeTarget "MonkeyLearnEntitiesAPI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCF54E691E63319000DAEA38 /* Debug */,
+				FCF54E6A1E63319000DAEA38 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 

@@ -34,13 +34,13 @@ class ManagedListController<ResultType : NSManagedObject> : NSObject, NSFetchedR
     private let context: NSManagedObjectContext
     private let changeHandler: ChangeHandler
     
-    convenience init(fetchRequest: NSFetchRequest<ResultType>, context: NSManagedObjectContext, delegate: ManagedListViewController) throws {
-        try self.init(fetchRequest: fetchRequest, context: context) { changes in
+    convenience init(fetchRequest: NSFetchRequest<ResultType>, context: NSManagedObjectContext, delegate: ManagedListViewController) {
+        self.init(fetchRequest: fetchRequest, context: context) { changes in
             delegate.applyChanges(changes)
         }
     }
     
-    required init(fetchRequest: NSFetchRequest<ResultType>, context: NSManagedObjectContext, changeHandler: @escaping ChangeHandler) throws {
+    required init(fetchRequest: NSFetchRequest<ResultType>, context: NSManagedObjectContext, changeHandler: @escaping ChangeHandler) {
         self.fetchRequest = fetchRequest
         self.context = context
         self.changeHandler = changeHandler
@@ -54,7 +54,14 @@ class ManagedListController<ResultType : NSManagedObject> : NSObject, NSFetchedR
         super.init()
         
         fetchedResultsController.delegate = self
-        try fetchedResultsController.performFetch()
+        refresh()
+    }
+    
+    //
+    //
+    //
+    func refresh() {
+        try! fetchedResultsController.performFetch()
     }
     
     //
