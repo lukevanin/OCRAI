@@ -10,33 +10,58 @@ import Foundation
 import MonkeyLearnEntitiesAPI
 
 extension Entity {
-    init(monkeyLearnEntity entity: MonkeyLearnEntitiesAPI.Entity) {
-        self.offset = nil
+    init(monkeyLearnEntity entity: MonkeyLearnEntitiesAPI.Entity, annotation: Annotation) {
         self.content = entity.value
+        self.annotations = [annotation]
     }
 }
 
 struct MonkeyLearnEntitiesTextAnnotationServiceAdapter: TextAnnotationService {
     let service: MonkeyLearnEntitiesAPI
-    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) -> Cancellable {
-        return service.fetchEntities(text: request.content) { (response, error) in
-            guard let response = response else {
-                completion(nil, error)
-                return
+    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) {
+        
+        let text = request.text.content
+        
+        service.fetchEntities(text: text) { (response, error) in
+            
+            var output = TextAnnotationResponse(
+                personEntities: [],
+                organizationEntities: [],
+                addressEntities: [],
+                phoneEntities: [],
+                urlEntities: [],
+                emailEntities: []
+            )
+
+            if let response = response {
+                let personEntities = self.parseEntities(response.entities.filter { $0.tag == .person }, text: request.text)
+                let organizationEntities = self.parseEntities(response.entities.filter { $0.tag == .organization }, text: request.text)
+                output.personEntities.append(contentsOf: personEntities)
+                output.organizationEntities.append(contentsOf: organizationEntities)
             }
-            let output = self.parseResponse(response)
+            
             completion(output, nil)
         }
     }
     
-    private func parseResponse(_ response: MonkeyLearnEntitiesAPI.Response) -> TextAnnotationResponse {
-        return TextAnnotationResponse(
-            personEntities: response.entities.filter({ $0.tag == .person }).map({ Entity(monkeyLearnEntity: $0) }),
-            organizationEntities: response.entities.filter({ $0.tag == .organization }).map({ Entity(monkeyLearnEntity: $0) }),
-            addressEntities: [],
-            phoneEntities: [],
-            urlEntities: [],
-            emailEntities: []
-        )
+    private func parseEntities(_ entities: [MonkeyLearnEntitiesAPI.Entity], text: AnnotatedText) -> [Entity] {
+//        let response.entities.filter({ $0.tag == .person }).map({ Entity(monkeyLearnEntity: $0, annotation: annotation) })
+        
+        var output = [Entity]()
+        
+        for entity in entities {
+            if let range = text.content.range(of: entity.value) {
+                let annotations = text.getAnnotations(forRange: range)
+                output.append(
+                    Entity(
+                        content: entity.value,
+                        annotations: annotations
+                    )
+                )
+            }
+        }
+        
+        return output
     }
+    
 }

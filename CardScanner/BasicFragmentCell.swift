@@ -36,23 +36,23 @@ class BasicFragmentCell: UITableViewCell, UITextFieldDelegate {
         editingEnabled = false
     }
     
-//    override func willTransition(to state: UITableViewCellStateMask) {
-//        super.willTransition(to: state)
-//        
-//        if state.contains(.showingEditControlMask) {
-//            editingEnabled = true
-//        }
-//        else {
-//            editingEnabled = false
-//        }
-//    }
+    override func willTransition(to state: UITableViewCellStateMask) {
+        super.willTransition(to: state)
+        
+        if state.contains(.showingEditControlMask) {
+            editingEnabled = true
+        }
+        else {
+            editingEnabled = false
+        }
+    }
     
     func setEditable(_ enable: Bool) {
-//        contentTextField.isUserInteractionEnabled = enable
-//        
-//        if !enable && contentTextField.isFirstResponder {
-//            contentTextField.resignFirstResponder()
-//        }
+        contentTextField.isUserInteractionEnabled = enable
+        
+        if !enable && contentTextField.isFirstResponder {
+            contentTextField.resignFirstResponder()
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

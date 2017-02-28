@@ -20,7 +20,7 @@ extension FragmentType {
     var color: UIColor {
         switch self {
         case .address:
-            return Material.Color.blueGrey
+            return Material.Color.orange
             
         case .person:
             return Material.Color.pink
@@ -100,13 +100,10 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     
     private var sections = [Section]()
     private var activeSections = [Int]()
-    
-    @IBOutlet weak var headerImageContainerView: UIView!
-    @IBOutlet weak var headerImageView: UIImageView!
+
+    @IBOutlet weak var documentView: DocumentView!
     @IBOutlet weak var scanButton: UIButton!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    @IBOutlet weak var headerImageWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var headerImageHeightConstraint: NSLayoutConstraint!
     
     @IBAction func onScanAction(_ sender: Any) {
         if isEditing {
@@ -142,12 +139,9 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        updateImageSize()
     }
     
-    private func updateImageSize() {
-        
-    }
+
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
@@ -158,6 +152,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
         tableView.beginUpdates()
         
         if editing {
+            
             // Edit mode.
             // Insert one additional row for each section.
             var indexPaths = [IndexPath]()
@@ -247,11 +242,12 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
             let document = try coreData.mainContext.documents(withIdentifier: documentIdentifier).first
             
             if let imageData = document?.imageData {
-                headerImageView.image = UIImage(data: imageData as Data)
-                updateImageSize()
+                documentView.image = UIImage(data: imageData as Data)
             }
 
             if let fragments = document?.fragments?.allObjects as? [Fragment] {
+                
+                documentView.fragments = fragments
                 
                 func filterFragments(_ type: FragmentType) -> [Fragment] {
                     return fragments
@@ -274,6 +270,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
                 sections.append(makeSection(title: "URL", type: .url))
                 sections.append(makeSection(title: "Address", type: .address))
                 // FIXME: Add images
+                // FIXME: Add dates
             }
             
             self.sections = sections
@@ -401,6 +398,7 @@ class DocumentViewController: UITableViewController, TextCellDelegate {
         cell.contentTextField.placeholder = title
         cell.editingEnabled = true
         configureCell(cell, withType: type)
+        cell.accessoryType = .none
         cell.editingAccessoryType = .none
         cell.delegate = self
         

@@ -70,24 +70,47 @@ extension GoogleVisionAPI.AnnotateImageResponse {
         )
     }
     
-    private func parseTextAnnotations(_ entities: [GoogleVisionAPI.EntityAnnotation]?) -> [Annotation] {
-        var annotations = [Annotation]()
+    private func parseTextAnnotations(_ allEntities: [GoogleVisionAPI.EntityAnnotation]?) -> AnnotatedText {
         
-        if let entities = entities {
-            for entity in entities {
-                if let description = entity.description {
-                    let components = description.components(separatedBy: "\n").joined(separator: ", ")
-                    let polygon = entity.boundingPoly?.imageAnnotationPolygon() ?? Polygon(vertices: [])
-                    let annotation = Annotation(
-                        content: components,
-                        bounds: polygon
-                    )
-                    annotations.append(annotation)
+        guard let allEntities = allEntities, let composite = allEntities.first?.description else {
+            return AnnotatedText(text: "")
+        }
+        
+        var output = AnnotatedText(text: composite)
+        
+        // First text entity contains the aggregate of all remaining entities.
+        let components = allEntities.dropFirst()
+        
+        // Try to map the polygons of the individual entity components to the corresponding words in the composite string.
+        
+        var cursor = composite.startIndex..<composite.endIndex
+        
+        for component in components {
+            if let componentText = component.description {
+                
+                guard let range = composite.range(of: componentText, options: [], range: cursor) else {
+                    fatalError("Invalid data")
                 }
+                
+                cursor = range.upperBound ..< composite.endIndex
+                
+                if let polygon = component.boundingPoly?.imageAnnotationPolygon() {
+                    let annotation = Annotation(content: componentText, bounds: polygon)
+                    output.addAnnotation(annotation, forRange: range)
+                }
+                
+                
+//                    let components = description.components(separatedBy: "\n").joined(separator: ", ")
+//                    let polygon = entity.boundingPoly?.imageAnnotationPolygon() ?? Polygon(vertices: [])
+//                    let annotation = Annotation(
+//                        content: description,
+//                        bounds: polygon
+//                    )
+//                    annotations.append(annotation)
             }
         }
         
-        return annotations
+        return output
     }
 }
 

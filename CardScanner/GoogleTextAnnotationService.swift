@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct GoogleTextAnnotationService: TextAnnotationService {
-    
-    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) -> Cancellable {
-        fatalError("not implemented")
+//struct GoogleTextAnnotationService: TextAnnotationService {
+//    
+//    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) -> Cancellable {
+//        fatalError("not implemented")
 //        let components = text.components(separatedBy: .newlines)
 //        let digest = components.joined(separator: ", ")
 //        
@@ -27,5 +27,5 @@ struct GoogleTextAnnotationService: TextAnnotationService {
 //        api.analyzeEntities(request: request) { (response, error) in
 //            
 //        }
-    }
-}
+//    }
+//}

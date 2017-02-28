@@ -13,13 +13,12 @@ struct MockTextAnnotationService: TextAnnotationService {
     let response: TextAnnotationResponse?
     let error: Error?
     
-    func annotate(request: TextAnnotationRequest, completion: @escaping (TextAnnotationResponse?, Error?) -> Void) -> Cancellable {
+    func annotate(request: TextAnnotationRequest, completion: @escaping (TextAnnotationResponse?, Error?) -> Void) {
         let cancellable = MockCancellable()
         DispatchQueue.global().async {
             if !cancellable.cancelled {
                 completion(self.response, self.error)
             }
         }
-        return cancellable
     }
 }

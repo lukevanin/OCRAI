@@ -16,14 +16,9 @@ struct TestServiceFactory: ServiceFactory {
     func imageAnnotationService() -> ImageAnnotationService? {
         return MockImageAnnotationService(
             response: ImageAnnotationResponse(
-                textAnnotations: [
-                    Annotation(
-                        content: "Apple Inc., apple.com, Steve Jobs, 1 Infinite Loop, Cupertino, CA 95014, Tel: 786-555-1212, Fax: 786-555-3434, steve.jobs@apple.com, @stevejobs",
-                        bounds: Polygon(
-                            vertices: []
-                        )
-                    )
-                ],
+                textAnnotations: AnnotatedText(
+                    text: "Apple Inc., apple.com, Steve Jobs, 1 Infinite Loop, Cupertino, CA 95014, Tel: 786-555-1212, Fax: 786-555-3434, steve.jobs@apple.com, @stevejobs"
+                ),
                 logoAnnotations: [],
                 faceAnnotations: [],
                 codeAnnotations: []

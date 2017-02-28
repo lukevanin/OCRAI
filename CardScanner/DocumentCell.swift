@@ -10,6 +10,6 @@ import UIKit
 
 class DocumentCell: UITableViewCell {
     @IBOutlet weak var placeholderImageView: UIImageView!
-    @IBOutlet weak var pictureImageView: UIImageView!
+    @IBOutlet weak var documentView: DocumentView!
     @IBOutlet weak var titleLabel: UILabel!
 }

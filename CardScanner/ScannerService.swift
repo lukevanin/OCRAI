@@ -58,26 +58,16 @@ struct ScannerService {
         }
     }
     
-    func annotateText(text: String, completion: @escaping (TextAnnotationResponse?) -> Void) {
+    func annotateText(text: AnnotatedText, completion: @escaping (TextAnnotationResponse?) -> Void) {
         guard let service = factory.textAnnotationService() else {
             completion(nil)
             return
         }
         let request = TextAnnotationRequest(
-            content: text
+            text: text
         )
         service.annotate(request: request) { (response, error) in
             completion(response)
-        }
-    }
-    
-    func resolveAddress(address: String, completion: @escaping ([CLPlacemark]?) -> Void) {
-        guard let service = factory.addressResolutionService() else {
-            completion(nil)
-            return
-        }
-        service.resolve(entity: address) { (places, error) in
-            completion(places)
         }
     }
 }

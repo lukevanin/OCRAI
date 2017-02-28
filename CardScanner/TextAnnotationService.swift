@@ -10,11 +10,11 @@ import Foundation
 import Contacts
 
 struct Entity {
-    var offset: Int?
     var content: String
-    init(offset: Int? = nil, content: String) {
-        self.offset = offset
+    var annotations: [Annotation]
+    init(content: String, annotations: [Annotation]? = nil) {
         self.content = content
+        self.annotations = annotations ?? []
     }
 }
 
@@ -28,11 +28,11 @@ struct TextAnnotationResponse {
 }
 
 struct TextAnnotationRequest {
-    let content: String
+    let text: AnnotatedText
 }
 
 typealias TextAnnotationCompletion = (TextAnnotationResponse?, Error?) -> Void
 
 protocol TextAnnotationService {
-    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) -> Cancellable
+    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion)
 }

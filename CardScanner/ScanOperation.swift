@@ -76,33 +76,29 @@ class ScanOperation: AsyncOperation {
     }
     
     private func handleImageAnnotationsResponse(_ response: ImageAnnotationResponse) {
-        processAnnotations(response.faceAnnotations, process: imageAnnotationProcessor(.face))
-        processAnnotations(response.logoAnnotations, process: imageAnnotationProcessor(.logo))
-        processAnnotations(response.codeAnnotations, process: processCodeAnnotation)
+//        processAnnotations(response.faceAnnotations, process: imageAnnotationProcessor(.face))
+//        processAnnotations(response.logoAnnotations, process: imageAnnotationProcessor(.logo))
+//        processAnnotations(response.codeAnnotations, process: processCodeAnnotation)
         processTextAnnotations(response.textAnnotations)
     }
     
-    private func processAnnotations(_ annotations: [Annotation], process: (Annotation) -> Void) {
-        for annotation in annotations {
-            process(annotation)
-        }
-    }
+//    private func processAnnotations(_ annotations: Annotations, process: (Annotation) -> Void) {
+//        for annotation in annotations {
+//            process(annotation)
+//        }
+//    }
     
-    private func imageAnnotationProcessor(_ type: FragmentType) -> (Annotation) -> Void {
-        return { annotation in
-            // FIXME: Clip logo from source image according to bounding polygon. Import clipped image as image fragment.
-        }
-    }
+//    private func imageAnnotationProcessor(_ type: FragmentType) -> (Annotation) -> Void {
+//        return { annotation in
+//            // FIXME: Clip logo from source image according to bounding polygon. Import clipped image as image fragment.
+//        }
+//    }
     
-    private func processCodeAnnotation(_ annotation: Annotation) {
-        // FIXME: Import URLs, vCard and text from machine codes.
-    }
+//    private func processCodeAnnotation(_ annotation: Annotation) {
+//        // FIXME: Import URLs, vCard and text from machine codes.
+//    }
     
-    private func processTextAnnotations(_ annotations: [Annotation]) {
-        guard let annotation = annotations.first else {
-            return
-        }
-        let text = annotation.content
+    private func processTextAnnotations(_ text: AnnotatedText) {
         group.enter()
         service.annotateText(text: text) { response in
             if let response = response {
@@ -139,6 +135,23 @@ class ScanOperation: AsyncOperation {
                     context: context
                 )
                 fragment.document = try context.documents(withIdentifier: identifier).first
+                
+                for annotation in entity.annotations {
+                    let fragmentAnnotation = FragmentAnnotation(
+                        context: context
+                    )
+                    fragmentAnnotation.fragment = fragment
+                    
+                    for vertex in annotation.bounds.vertices {
+                        let fragmentVertex = FragmentAnnotationVertex(
+                            x: vertex.x,
+                            y: vertex.y,
+                            context: context
+                        )
+                        fragmentAnnotation.addToVertices(fragmentVertex)
+                    }
+                }
+                
                 try context.save()
             }
             catch {

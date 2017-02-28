@@ -82,13 +82,12 @@ struct AggregateTextAnnotationService: TextAnnotationService {
         self.operationQueue = operationQueue ?? OperationQueue()
     }
     
-    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) -> Cancellable {
+    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) {
         let operation = AggregateTextAnnotationOperation(
             request: request,
             services: services,
             completion: completion
         )
         operationQueue.addOperation(operation)
-        return operation
     }
 }

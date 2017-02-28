@@ -11,7 +11,7 @@ import GoogleVisionAPI
 import GoogleNaturalLanguageAPI
 import MonkeyLearnEntitiesAPI
 
-private let googleServiceKey = "AIzaSyDsS29DsE0nInrMwJqMEC29A2-_uoHAHAg"
+private let googleServiceKey = "AIzaSyCJlcbm0qAGU6MZUc3m_wdqESq3xKqDSw8"
 
 private let monkeyLearnAccount = "ex_isnnZRbS"
 private let monkeyLearnAuthorizationToken = "6f420a106bb97bd6973ed5f20cd637a59c46c1d0"

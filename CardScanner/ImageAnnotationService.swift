@@ -21,22 +21,13 @@ struct ImageAnnotationRequest {
     let feature: FeatureType
 }
 
-struct Vertex {
-    let x: Double
-    let y: Double
-}
-
-struct Polygon {
-    let vertices: [Vertex]
-}
-
 struct Annotation {
     let content: String
     let bounds: Polygon
 }
 
 struct ImageAnnotationResponse {
-    let textAnnotations: [Annotation]
+    let textAnnotations: AnnotatedText
     let logoAnnotations: [Annotation]
     let faceAnnotations: [Annotation]
     let codeAnnotations: [Annotation]

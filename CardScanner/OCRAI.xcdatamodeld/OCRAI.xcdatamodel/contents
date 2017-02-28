@@ -23,7 +23,17 @@
         <attribute name="ordinality" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="rawType" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
         <attribute name="value" attributeType="String" indexed="YES" syncable="YES"/>
+        <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FragmentAnnotation" inverseName="fragment" inverseEntity="FragmentAnnotation" syncable="YES"/>
         <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="fragments" inverseEntity="Document" syncable="YES"/>
+    </entity>
+    <entity name="FragmentAnnotation" representedClassName="FragmentAnnotation" syncable="YES" codeGenerationType="class">
+        <relationship name="fragment" maxCount="1" deletionRule="Nullify" destinationEntity="Fragment" inverseName="annotations" inverseEntity="Fragment" syncable="YES"/>
+        <relationship name="vertices" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="FragmentAnnotationVertex" inverseName="annotation" inverseEntity="FragmentAnnotationVertex" syncable="YES"/>
+    </entity>
+    <entity name="FragmentAnnotationVertex" representedClassName="FragmentAnnotationVertex" syncable="YES" codeGenerationType="class">
+        <attribute name="x" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="y" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="annotation" maxCount="1" deletionRule="Nullify" destinationEntity="FragmentAnnotation" inverseName="vertices" inverseEntity="FragmentAnnotation" syncable="YES"/>
     </entity>
     <entity name="Location" representedClassName="Location" syncable="YES" codeGenerationType="class">
         <attribute name="administrativeArea" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
@@ -42,7 +52,9 @@
     <elements>
         <element name="AddressFragment" positionX="-27" positionY="99" width="128" height="30"/>
         <element name="Document" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Fragment" positionX="-54" positionY="-9" width="128" height="150"/>
+        <element name="Fragment" positionX="-54" positionY="-9" width="128" height="165"/>
         <element name="Location" positionX="-36" positionY="9" width="128" height="225"/>
+        <element name="FragmentAnnotation" positionX="-54" positionY="108" width="128" height="75"/>
+        <element name="FragmentAnnotationVertex" positionX="-45" positionY="117" width="128" height="90"/>
     </elements>
 </model>

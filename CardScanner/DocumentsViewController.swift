@@ -112,18 +112,23 @@ class DocumentsViewController: UITableViewController {
                 let personFragment = fragments.first { $0.type == .person }
                 let organizationFragment = fragments.first { $0.type == .organization }
                 title = personFragment?.value ?? organizationFragment?.value
+                cell.documentView.fragments = fragments
+            }
+            else {
+                cell.documentView.fragments = nil
             }
             
             cell.titleLabel.text = title
             cell.titleLabel.isHidden = title?.isEmpty ?? true
             
             if let image = UIImage(data: imageData as Data) {
-                cell.pictureImageView.image = image
-                cell.pictureImageView.isHidden = false
+                cell.documentView.image = image
+                cell.documentView.isHidden = false
                 cell.placeholderImageView.isHidden = true
             }
             else {
-                cell.pictureImageView.isHidden = true
+                cell.documentView.image = nil
+                cell.documentView.isHidden = true
                 cell.placeholderImageView.isHidden = false
             }
         }

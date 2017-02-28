@@ -12,14 +12,15 @@ import GoogleNaturalLanguageAPI
 struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
     let service: GoogleNaturalLanguageAPI
     
-    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) -> Cancellable {
+    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) {
+        let text = request.text.content
         let serviceRequest = GoogleNaturalLanguageAPI.AnalyzeEntitiesRequest(
             encodingType: .utf8,
             document: GoogleNaturalLanguageAPI.Document(
                 type: .plaintext,
-                content: request.content
+                content: text
             ))
-        return service.analyzeEntities(request: serviceRequest) { (response, error) in
+        service.analyzeEntities(request: serviceRequest) { (response, error) in
             let output = response?.textAnnotationResponse()
             completion(output, error)
         }
