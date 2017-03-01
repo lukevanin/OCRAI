@@ -12,38 +12,63 @@ import GoogleNaturalLanguageAPI
 struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
     let service: GoogleNaturalLanguageAPI
     
+    struct ResponseParser {
+        let text: AnnotatedText
+        
+        func parse(response: GoogleNaturalLanguageAPI.AnalyzeEntitiesResponse) -> TextAnnotationResponse {
+            return TextAnnotationResponse(
+                personEntities: textEntities(type: .person, forResponse: response),
+                organizationEntities: textEntities(type: .organization, forResponse: response),
+                addressEntities: [], // FIXME: Parse address to address components
+                phoneEntities: [],
+                urlEntities: [],
+                emailEntities: []
+            )
+        }
+        
+        private func textEntities(type: GoogleNaturalLanguageAPI.EntityType, forResponse response: GoogleNaturalLanguageAPI.AnalyzeEntitiesResponse) -> [Entity] {
+            var output = [Entity]()
+            let entities = response.entities.filter() { $0.type == type }
+            
+            let content = self.text.content
+            let contentUTF = content.utf16
+            
+            for entity in entities {
+                for mention in entity.mentions {
+                    let text = mention.text
+                    let offset = text.beginOffset
+                    let length = text.content.characters.count
+                    let range = self.text.convertRange(NSRange(location: offset, length: length))
+                    let annotations = self.text.getAnnotations(forRange: range)
+                    output.append(
+                        Entity(
+                            content: text.content,
+                            annotations: annotations
+                        )
+                    )
+                }
+            }
+            
+            return output
+        }
+    }
+    
     func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) {
-        let text = request.text.lines.joined(separator: ", ")
+        let text = request.text.content
         let serviceRequest = GoogleNaturalLanguageAPI.AnalyzeEntitiesRequest(
-            encodingType: .utf8,
+            encodingType: .utf16,
             document: GoogleNaturalLanguageAPI.Document(
                 type: .plaintext,
                 content: text
             ))
         service.analyzeEntities(request: serviceRequest) { (response, error) in
-            let output = response?.textAnnotationResponse()
-            completion(output, error)
-        }
-    }
-}
-
-extension GoogleNaturalLanguageAPI.AnalyzeEntitiesResponse {
-    func textAnnotationResponse() -> TextAnnotationResponse {
-        return TextAnnotationResponse(
-            personEntities: textEntities(type: .person),
-            organizationEntities: textEntities(type: .organization),
-            addressEntities: [], // FIXME: Parse address to address components
-            phoneEntities: [],
-            urlEntities: [],
-            emailEntities: []
-        )
-    }
-    
-    private func textEntities(type: GoogleNaturalLanguageAPI.EntityType) -> [Entity] {
-        return self.entities.filter({ $0.type == type }).map {
-            Entity(
-                content: $0.name
-            )
+            guard let response = response else {
+                completion(nil, error)
+                return
+            }
+            let parser = ResponseParser(text: request.text)
+            let output = parser.parse(response: response)
+            completion(nil, error)
         }
     }
 }

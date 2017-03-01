@@ -14,11 +14,23 @@ struct AnnotationsRenderer {
     let size: CGSize
     let scale: CGFloat
     let fragments: [Fragment]
-    
-    func render() -> UIImage? {
+    let format: UIGraphicsImageRendererFormat
+    let renderer: UIGraphicsImageRenderer
+
+    init(size: CGSize, scale: CGFloat, fragments: [Fragment]) {
+        self.size = size
+        self.scale = scale
+        self.fragments = fragments
         
         let format = UIGraphicsImageRendererFormat()
         let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        
+        self.format = format
+        self.renderer = renderer
+    }
+
+    func render() -> UIImage? {
+        
         let output = renderer.image { (context) in
             
             // Add layers
@@ -38,13 +50,11 @@ struct AnnotationsRenderer {
                 }
                 
                 // Draw bounding box
-                let color = fragment.type.color
-                
-                context.cgContext.setLineWidth(1.0 / format.scale)
-                context.cgContext.setFillColor(color.withAlphaComponent(0.2).cgColor)
-                context.cgContext.setStrokeColor(color.withAlphaComponent(0.5).cgColor)
-                
                 if let point = points.first {
+
+                    let color = fragment.type.color
+                    
+                    self.draw(point: point, color: color, context: context.cgContext)
                     
                     var minX = point.x
                     var minY = point.y
@@ -56,6 +66,7 @@ struct AnnotationsRenderer {
                         minY = min(minY, point.y)
                         maxX = max(maxX, point.x)
                         maxY = max(maxY, point.y)
+                        self.draw(point: point, color: color, context: context.cgContext)
                     }
                     
                     let aabb = CGRect(
@@ -66,12 +77,31 @@ struct AnnotationsRenderer {
                     )
                     
                     let rect = aabb.insetBy(dx: -2, dy: -2)
-                    context.cgContext.fill(rect)
-                    context.cgContext.stroke(rect)
+
+                    self.draw(rect: rect, color: color, context: context.cgContext)
                 }
             }
         }
 
         return output
+    }
+    
+    private func draw(point: CGPoint, color: UIColor, context: CGContext) {
+//        let rect = CGRect(origin: point, size: .zero).insetBy(dx: -2, dy: -2)
+//        context.setLineWidth(1.0 / format.scale)
+//        context.setStrokeColor(color.withAlphaComponent(0.7).cgColor)
+//        context.strokeEllipse(in: rect)
+        let rect = CGRect(origin: point, size: .zero).insetBy(dx: -1, dy: -1)
+        context.setLineWidth(1.0 / format.scale)
+        context.setFillColor(color.withAlphaComponent(0.4).cgColor)
+        context.fillEllipse(in: rect)
+    }
+    
+    private func draw(rect: CGRect, color: UIColor, context: CGContext) {
+        context.setLineWidth(1.0 / format.scale)
+        context.setFillColor(color.withAlphaComponent(0.2).cgColor)
+        context.setStrokeColor(color.withAlphaComponent(0.5).cgColor)
+        context.fill(rect)
+        context.stroke(rect)
     }
 }

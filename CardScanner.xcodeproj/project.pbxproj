@@ -31,8 +31,6 @@
 		FC329DA21E5420780047F692 /* Fragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC329DA11E5420780047F692 /* Fragment.swift */; };
 		FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7683801E5755CA007B73AE /* ScanOperation.swift */; };
 		FC7966F81E5201F300D54859 /* MockAddressResolutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7966F71E5201F300D54859 /* MockAddressResolutionService.swift */; };
-		FC7966FA1E52041B00D54859 /* GoogleTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7966F91E52041B00D54859 /* GoogleTextAnnotationService.swift */; };
-		FC7966FC1E52046100D54859 /* GoogleImageAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7966FB1E52046100D54859 /* GoogleImageAnnotationService.swift */; };
 		FC7966FE1E52118200D54859 /* TestScannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7966FD1E52118200D54859 /* TestScannerService.swift */; };
 		FC7967011E52C37500D54859 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7967001E52C37500D54859 /* Document.swift */; };
 		FC8E71611E4AD56C00D37719 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8E71601E4AD56C00D37719 /* AppDelegate.swift */; };
@@ -149,8 +147,6 @@
 		FC329DA11E5420780047F692 /* Fragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fragment.swift; sourceTree = "<group>"; };
 		FC7683801E5755CA007B73AE /* ScanOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanOperation.swift; sourceTree = "<group>"; };
 		FC7966F71E5201F300D54859 /* MockAddressResolutionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAddressResolutionService.swift; sourceTree = "<group>"; };
-		FC7966F91E52041B00D54859 /* GoogleTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleTextAnnotationService.swift; sourceTree = "<group>"; };
-		FC7966FB1E52046100D54859 /* GoogleImageAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleImageAnnotationService.swift; sourceTree = "<group>"; };
 		FC7966FD1E52118200D54859 /* TestScannerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestScannerService.swift; sourceTree = "<group>"; };
 		FC7967001E52C37500D54859 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		FC8E715D1E4AD56C00D37719 /* CardScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -272,6 +268,7 @@
 				FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */,
 				FCD683311E65D15700022474 /* AnnotationsRenderer.swift */,
 				FCD683331E66065A00022474 /* DocumentView.swift */,
+				FCEF9BF71E608D3F00B7D509 /* Material.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -290,10 +287,9 @@
 				FC7967001E52C37500D54859 /* Document.swift */,
 				FC329D9F1E541F930047F692 /* Location.swift */,
 				FC329DA11E5420780047F692 /* Fragment.swift */,
-				FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */,
 				FC00364D1E65796700B722AC /* FragmentAnnotationVertex.swift */,
+				FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */,
 				FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */,
-				FCEF9BF71E608D3F00B7D509 /* Material.swift */,
 				FC0036491E6484B700B722AC /* TextAnnotations.swift */,
 			);
 			name = Model;
@@ -353,15 +349,6 @@
 			name = Abstract;
 			sourceTree = "<group>";
 		};
-		FC91B75E1E4C36DA00AF11C6 /* Google */ = {
-			isa = PBXGroup;
-			children = (
-				FC7966F91E52041B00D54859 /* GoogleTextAnnotationService.swift */,
-				FC7966FB1E52046100D54859 /* GoogleImageAnnotationService.swift */,
-			);
-			name = Google;
-			sourceTree = "<group>";
-		};
 		FC91B75F1E4C36DF00AF11C6 /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,7 +357,6 @@
 				FCC8ADA11E56B94E00F32CC4 /* Test */,
 				FC91B7651E4C3B6B00AF11C6 /* Mock */,
 				FC91B76A1E4C3C4B00AF11C6 /* iOS */,
-				FC91B75E1E4C36DA00AF11C6 /* Google */,
 			);
 			name = Service;
 			sourceTree = "<group>";
@@ -761,7 +747,6 @@
 				FC7966FE1E52118200D54859 /* TestScannerService.swift in Sources */,
 				FC329D9B1E5419640047F692 /* CoreDataStack.swift in Sources */,
 				FC8E71631E4AD56C00D37719 /* ScanViewController.swift in Sources */,
-				FC7966FA1E52041B00D54859 /* GoogleTextAnnotationService.swift in Sources */,
 				FCF64BDB1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift in Sources */,
 				FC329D9E1E5419820047F692 /* OCRAI.xcdatamodeld in Sources */,
 				FCED88511E4F014200623684 /* MockCancellable.swift in Sources */,
@@ -769,7 +754,6 @@
 				FC91B7671E4C3B8700AF11C6 /* MockImageAnnotationService.swift in Sources */,
 				FCC8ADA51E56B99500F32CC4 /* ServiceFactory.swift in Sources */,
 				FCD683321E65D15700022474 /* AnnotationsRenderer.swift in Sources */,
-				FC7966FC1E52046100D54859 /* GoogleImageAnnotationService.swift in Sources */,
 				FC0BF6D71E54AA8600A0ED29 /* DocumentCell.swift in Sources */,
 				FCED884B1E4CC90F00623684 /* AsyncOperation.swift in Sources */,
 				FC8E71611E4AD56C00D37719 /* AppDelegate.swift in Sources */,

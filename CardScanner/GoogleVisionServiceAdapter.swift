@@ -72,18 +72,19 @@ extension GoogleVisionAPI.AnnotateImageResponse {
     
     private func parseTextAnnotations(_ allEntities: [GoogleVisionAPI.EntityAnnotation]?) -> AnnotatedText {
         
-        guard let allEntities = allEntities, let composite = allEntities.first?.description else {
+        guard let allEntities = allEntities, let rawValue = allEntities.first?.description else {
             return AnnotatedText(text: "")
         }
         
-        var output = AnnotatedText(text: composite)
+        var output = AnnotatedText(text: rawValue)
+        let composite = output.content
         
         // First text entity contains the aggregate of all remaining entities.
         let components = allEntities.dropFirst()
         
         // Try to map the polygons of the individual entity components to the corresponding words in the composite string.
         
-        var cursor = composite.startIndex..<composite.endIndex
+        var cursor = composite.startIndex ..< composite.endIndex
         
         for component in components {
             if let componentText = component.description {

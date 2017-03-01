@@ -45,11 +45,10 @@ struct MonkeyLearnEntitiesTextAnnotationServiceAdapter: TextAnnotationService {
     }
     
     private func parseEntities(_ entities: [MonkeyLearnEntitiesAPI.Entity], text: AnnotatedText) -> [Entity] {
-//        let response.entities.filter({ $0.tag == .person }).map({ Entity(monkeyLearnEntity: $0, annotation: annotation) })
-        
         var output = [Entity]()
         
         for entity in entities {
+            // FIXME: Check for multiple matching occurrences of entity.
             if let range = text.content.range(of: entity.value) {
                 let annotations = text.getAnnotations(forRange: range)
                 output.append(

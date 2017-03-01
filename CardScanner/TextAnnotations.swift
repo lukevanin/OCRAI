@@ -21,8 +21,8 @@ struct AnnotatedText {
     private var annotations: [TextAnnotation]
     
     init(text: String) {
-        self.content = text
         self.lines = text.components(separatedBy: "\n")
+        self.content = lines.joined(separator: ", ")
         self.annotations = []
     }
     
@@ -49,42 +49,3 @@ struct AnnotatedText {
         return start ..< end
     }
 }
-
-//struct TextAnnotations {
-//    let annotations: [Annotation]
-//    
-//    var lines: [String] {
-//        return annotations.map({ $0.content + "\n" })
-//    }
-//    
-//    func annotationsForRange(_ range: NSRange) -> [Annotation] {
-//        let firstLine = lineIndexForCharacterIndex(range.location)
-//        let lastLine = lineIndexForCharacterIndex(range.location + range.length)
-//        return Array(annotations.prefix(lastLine).suffix(firstLine))
-//    }
-//    
-//    func lineIndexForCharacterIndex(_ index: Int) -> Int {
-//        // E.g.
-//        //  Strings = [Peter, John, Tim]
-//        //  Lengths = [5, 4, 3]
-//        //  Character c = 11 (m in Tim)
-//        //  Expected line = 2
-//        //
-//        // Algorithm:
-//        //  c = 11, line = 0
-//        //  c = c - 5 = 11 - 5 = 6, line = line + 1 = 1
-//        //  c = c - 4 = 6 - 4 = 2, line = line + 1 = 2
-//        //  return line = 2
-//        
-//        let lineLengths = lines.map({ $0.characters.count })
-//        var line = 0
-//        var c = index
-//        
-//        while (line < lineLengths.count && c > lineLengths[line]) {
-//            c = c - lineLengths[line]
-//            line += 1
-//        }
-//        
-//        return line
-//    }
-//}
