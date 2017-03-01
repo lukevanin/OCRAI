@@ -83,6 +83,11 @@ public struct GoogleNaturalLanguageAPI {
         public let language: String
     }
     
+    enum ConfigError: Error {
+        case file
+        case field(String)
+    }
+    
     public enum APIError: Error {
         case parse
     }
@@ -94,6 +99,27 @@ public struct GoogleNaturalLanguageAPI {
     private let analyzeEntitiesEndpoint = "https://language.googleapis.com/v1beta1/documents:analyzeEntities"
     private let session = URLSession.shared
     
+    public init() throws {
+        try self.init(configFileName: "google-api-config.plist")
+    }
+    
+    public init(configFileName: String) throws {
+        let url = Bundle.main.bundleURL.appendingPathComponent(configFileName)
+        try self.init(configFile: url)
+    }
+    
+    public init(configFile: URL) throws {
+        guard let file = NSDictionary(contentsOf: configFile) else {
+            throw ConfigError.file
+        }
+        
+        guard let key = file["key"] as? String else {
+            throw ConfigError.field("key")
+        }
+        
+        self.init(key: key)
+    }
+
     public init(key: String) {
         self.key = key
     }

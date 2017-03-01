@@ -13,7 +13,7 @@ struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
     let service: GoogleNaturalLanguageAPI
     
     func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) {
-        let text = request.text.content
+        let text = request.text.lines.joined(separator: ", ")
         let serviceRequest = GoogleNaturalLanguageAPI.AnalyzeEntitiesRequest(
             encodingType: .utf8,
             document: GoogleNaturalLanguageAPI.Document(

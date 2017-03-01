@@ -11,23 +11,18 @@ import GoogleVisionAPI
 import GoogleNaturalLanguageAPI
 import MonkeyLearnEntitiesAPI
 
-private let googleServiceKey = "AIzaSyCJlcbm0qAGU6MZUc3m_wdqESq3xKqDSw8"
-
-private let monkeyLearnAccount = "ex_isnnZRbS"
-private let monkeyLearnAuthorizationToken = "6f420a106bb97bd6973ed5f20cd637a59c46c1d0"
-
 struct DefaultServiceFactory: ServiceFactory {
     
     func imageAnnotationService() -> ImageAnnotationService? {
-        let service = GoogleVisionAPI(key: googleServiceKey)
+        let service = try! GoogleVisionAPI()
         return GoogleVisionServiceAdapter(service: service)
     }
     
     func textAnnotationService() -> TextAnnotationService? {
-//        let googleNaturalLanguageService = GoogleNaturalLanguageAPI(key: googleServiceKey)
+//        let googleNaturalLanguageService = try! GoogleNaturalLanguageAPI()
 //        let googleNaturalLanguageServiceAdapter = GoogleNaturalLanguageServiceAdapter(service: googleNaturalLanguageService)
         
-        let monkeyLearnService = MonkeyLearnEntitiesAPI(account: monkeyLearnAccount, authorizationToken: monkeyLearnAuthorizationToken)
+        let monkeyLearnService = try! MonkeyLearnEntitiesAPI()
         let monkeyLearnAdapter = MonkeyLearnEntitiesTextAnnotationServiceAdapter(service: monkeyLearnService)
         
         let dataDetectorService = DataDetectorTextAnnotationService()

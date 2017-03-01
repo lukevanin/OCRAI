@@ -53,6 +53,10 @@
 		FCC8ADA71E56B9E400F32CC4 /* TestServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC8ADA61E56B9E400F32CC4 /* TestServiceFactory.swift */; };
 		FCD683321E65D15700022474 /* AnnotationsRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD683311E65D15700022474 /* AnnotationsRenderer.swift */; };
 		FCD683341E66065A00022474 /* DocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD683331E66065A00022474 /* DocumentView.swift */; };
+		FCD683361E66CF8D00022474 /* google-api-config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCD683351E66CF8D00022474 /* google-api-config.plist */; };
+		FCD683381E66DD8000022474 /* monkeylearn-api-config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCD683371E66DD8000022474 /* monkeylearn-api-config.plist */; };
+		FCD6833A1E66DE2200022474 /* google-api-config.default.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCD683391E66DE2200022474 /* google-api-config.default.plist */; };
+		FCD6833C1E66DE3B00022474 /* monkeylearn-api-config.default.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCD6833B1E66DE3B00022474 /* monkeylearn-api-config.default.plist */; };
 		FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */; };
 		FCE8A4FA1E563D7500512D56 /* ImageFragmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE8A4F91E563D7500512D56 /* ImageFragmentCell.swift */; };
 		FCED88471E4CC72D00623684 /* ScannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED88461E4CC72D00623684 /* ScannerService.swift */; };
@@ -170,6 +174,10 @@
 		FCD3DE4A1E52DE2E000ED5F7 /* CardScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CardScanner.entitlements; sourceTree = "<group>"; };
 		FCD683311E65D15700022474 /* AnnotationsRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationsRenderer.swift; sourceTree = "<group>"; };
 		FCD683331E66065A00022474 /* DocumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentView.swift; sourceTree = "<group>"; };
+		FCD683351E66CF8D00022474 /* google-api-config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "google-api-config.plist"; sourceTree = "<group>"; };
+		FCD683371E66DD8000022474 /* monkeylearn-api-config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "monkeylearn-api-config.plist"; sourceTree = "<group>"; };
+		FCD683391E66DE2200022474 /* google-api-config.default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "google-api-config.default.plist"; sourceTree = "<group>"; };
+		FCD6833B1E66DE3B00022474 /* monkeylearn-api-config.default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "monkeylearn-api-config.default.plist"; sourceTree = "<group>"; };
 		FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedListViewController.swift; sourceTree = "<group>"; };
 		FCE8A4F91E563D7500512D56 /* ImageFragmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFragmentCell.swift; sourceTree = "<group>"; };
 		FCED88461E4CC72D00623684 /* ScannerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerService.swift; sourceTree = "<group>"; };
@@ -415,6 +423,10 @@
 				FC329D9C1E5419820047F692 /* OCRAI.xcdatamodeld */,
 				FC8E71671E4AD56C00D37719 /* Assets.xcassets */,
 				FC8E716C1E4AD56C00D37719 /* Info.plist */,
+				FCD683351E66CF8D00022474 /* google-api-config.plist */,
+				FCD683391E66DE2200022474 /* google-api-config.default.plist */,
+				FCD683371E66DD8000022474 /* monkeylearn-api-config.plist */,
+				FCD6833B1E66DE3B00022474 /* monkeylearn-api-config.default.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -670,8 +682,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCD683361E66CF8D00022474 /* google-api-config.plist in Resources */,
+				FCD6833C1E66DE3B00022474 /* monkeylearn-api-config.default.plist in Resources */,
+				FCD6833A1E66DE2200022474 /* google-api-config.default.plist in Resources */,
 				FC8E716B1E4AD56C00D37719 /* LaunchScreen.storyboard in Resources */,
 				FC8E71681E4AD56C00D37719 /* Assets.xcassets in Resources */,
+				FCD683381E66DD8000022474 /* monkeylearn-api-config.plist in Resources */,
 				FC8E71661E4AD56C00D37719 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

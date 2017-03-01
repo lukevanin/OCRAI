@@ -10,6 +10,11 @@ import Foundation
 
 public struct MonkeyLearnEntitiesAPI {
     
+    enum ConfigError: Swift.Error {
+        case file
+        case field(String)
+    }
+
     public enum Error: Swift.Error {
         case parse
     }
@@ -53,13 +58,38 @@ public struct MonkeyLearnEntitiesAPI {
             self.entities = try entities.map { try Entity(json: $0) }
         }
     }
-    
+
     public typealias Completion = (Response?, Swift.Error?) -> Void
     
     private let account: String
     private let authorizationToken: String
     private let session: URLSession
     
+    public init() throws {
+        try self.init(configFileName: "monkeylearn-api-config.plist")
+    }
+    
+    public init(configFileName: String) throws {
+        let url = Bundle.main.bundleURL.appendingPathComponent(configFileName)
+        try self.init(configFile: url)
+    }
+    
+    public init(configFile: URL) throws {
+        guard let file = NSDictionary(contentsOf: configFile) else {
+            throw ConfigError.file
+        }
+        
+        guard let account = file["account"] as? String else {
+            throw ConfigError.field("account")
+        }
+        
+        guard let authorizationToken = file["authorizationToken"] as? String else {
+            throw ConfigError.field("authorizationToken")
+        }
+        
+        self.init(account: account, authorizationToken: authorizationToken)
+    }
+
     public init(account: String, authorizationToken: String, session: URLSession? = nil) {
         self.account = account
         self.authorizationToken = authorizationToken

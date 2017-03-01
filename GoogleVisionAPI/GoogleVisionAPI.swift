@@ -77,6 +77,11 @@ public struct GoogleVisionAPI {
         }
     }
     
+    enum ConfigError: Error {
+        case file
+        case field(String)
+    }
+    
     enum APIError: Error {
         case undefined
         case connection(Error)
@@ -92,6 +97,27 @@ public struct GoogleVisionAPI {
     private let queue = DispatchQueue.main
     
     public typealias AnnotateCompletion = ([AnnotateImageResponse]?, Error?) -> Void
+    
+    public init() throws {
+        try self.init(configFileName: "google-api-config.plist")
+    }
+    
+    public init(configFileName: String) throws {
+        let url = Bundle.main.bundleURL.appendingPathComponent(configFileName)
+        try self.init(configFile: url)
+    }
+    
+    public init(configFile: URL) throws {
+        guard let file = NSDictionary(contentsOf: configFile) else {
+            throw ConfigError.file
+        }
+        
+        guard let key = file["key"] as? String else {
+            throw ConfigError.field("key")
+        }
+        
+        self.init(key: key)
+    }
     
     public init(key: String) {
         self.key = key

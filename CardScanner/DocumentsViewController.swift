@@ -35,7 +35,8 @@ class DocumentsViewController: UITableViewController {
     }()
     
     @IBAction func onAddAction(_ sender: Any) {
-        let image = UIImage(named: "card-sample-2")!
+        let image = UIImage(named: "card-sample-1")!
+//        let image = UIImage(named: "card-sample-2")!
         let data = UIImageJPEGRepresentation(image, 1.0)
         importDocumentFromImage(data: data!)
     }
