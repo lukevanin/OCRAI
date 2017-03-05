@@ -189,7 +189,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         super.viewDidLoad()
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
-        navigationItem.rightBarButtonItems = [actionsButtonItem, editButtonItem]
+        navigationItem.rightBarButtonItems = [editButtonItem, actionsButtonItem]
         
         let headerHeight: CGFloat = 300
         
@@ -232,6 +232,18 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
+        
+        // Disable all buttons except for edit/done button when editing.
+        if let buttonItems = navigationItem.rightBarButtonItems {
+            for buttonItem in buttonItems {
+                if buttonItem != editButtonItem {
+                    buttonItem.isEnabled = !editing
+                }
+            }
+        }
+        
+        // Show scan button in edit mode.
+        scanButton.isHidden = !editing
         
         // Rows
         activeSections.removeAll()

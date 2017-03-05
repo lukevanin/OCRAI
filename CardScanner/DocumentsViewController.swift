@@ -90,6 +90,11 @@ class DocumentsViewController: UITableViewController {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.rightBarButtonItems = [editButtonItem]
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         listController.refresh()
@@ -107,23 +112,13 @@ class DocumentsViewController: UITableViewController {
         
         if let item = listController.object(at: indexPath), let imageData = item.imageData {
             
-            var title: String?
-            var color: UIColor?
-            
-            if let fragments = item.fragments?.allObjects as? [Fragment] {
-                let personFragment = fragments.first { $0.type == .person }
-                let organizationFragment = fragments.first { $0.type == .organization }
-                title = personFragment?.value ?? organizationFragment?.value ?? "Untitled"
-                cell.documentView.fragments = fragments
-//                color = personFragment?.type.color ?? organizationFragment?.type.color ?? UIColor.black
-            }
-            else {
-                cell.documentView.fragments = nil
-            }
+            let title = item.title
+            let color = item.primaryType.color
+            cell.documentView.fragments = item.allFragments
             
             cell.titleLabel.text = title
-//            cell.titleLabel.backgroundColor = color
             cell.titleLabel.isHidden = title?.isEmpty ?? true
+            cell.backgroundColor = color
             
             if let image = UIImage(data: imageData as Data) {
                 cell.documentView.image = image
