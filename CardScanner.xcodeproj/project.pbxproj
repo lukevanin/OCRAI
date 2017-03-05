@@ -55,6 +55,8 @@
 		FCD683381E66DD8000022474 /* monkeylearn-api-config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCD683371E66DD8000022474 /* monkeylearn-api-config.plist */; };
 		FCD6833A1E66DE2200022474 /* google-api-config.default.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCD683391E66DE2200022474 /* google-api-config.default.plist */; };
 		FCD6833C1E66DE3B00022474 /* monkeylearn-api-config.default.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCD6833B1E66DE3B00022474 /* monkeylearn-api-config.default.plist */; };
+		FCD6833E1E6723B600022474 /* FragmentType+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD6833D1E6723B600022474 /* FragmentType+Color.swift */; };
+		FCD683401E6723CC00022474 /* FragmentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD6833F1E6723CC00022474 /* FragmentType.swift */; };
 		FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */; };
 		FCE8A4FA1E563D7500512D56 /* ImageFragmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE8A4F91E563D7500512D56 /* ImageFragmentCell.swift */; };
 		FCED88471E4CC72D00623684 /* ScannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED88461E4CC72D00623684 /* ScannerService.swift */; };
@@ -174,6 +176,8 @@
 		FCD683371E66DD8000022474 /* monkeylearn-api-config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "monkeylearn-api-config.plist"; sourceTree = "<group>"; };
 		FCD683391E66DE2200022474 /* google-api-config.default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "google-api-config.default.plist"; sourceTree = "<group>"; };
 		FCD6833B1E66DE3B00022474 /* monkeylearn-api-config.default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "monkeylearn-api-config.default.plist"; sourceTree = "<group>"; };
+		FCD6833D1E6723B600022474 /* FragmentType+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FragmentType+Color.swift"; sourceTree = "<group>"; };
+		FCD6833F1E6723CC00022474 /* FragmentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentType.swift; sourceTree = "<group>"; };
 		FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedListViewController.swift; sourceTree = "<group>"; };
 		FCE8A4F91E563D7500512D56 /* ImageFragmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFragmentCell.swift; sourceTree = "<group>"; };
 		FCED88461E4CC72D00623684 /* ScannerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerService.swift; sourceTree = "<group>"; };
@@ -269,6 +273,7 @@
 				FCD683311E65D15700022474 /* AnnotationsRenderer.swift */,
 				FCD683331E66065A00022474 /* DocumentView.swift */,
 				FCEF9BF71E608D3F00B7D509 /* Material.swift */,
+				FCD6833D1E6723B600022474 /* FragmentType+Color.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 				FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */,
 				FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */,
 				FC0036491E6484B700B722AC /* TextAnnotations.swift */,
+				FCD6833F1E6723CC00022474 /* FragmentType.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -740,6 +746,7 @@
 				FCF54E751E6477F500DAEA38 /* Polygon.swift in Sources */,
 				FCB33AC61E5C0662006CAF6E /* AddressFragment.swift in Sources */,
 				FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */,
+				FCD683401E6723CC00022474 /* FragmentType.swift in Sources */,
 				FCC8ADA71E56B9E400F32CC4 /* TestServiceFactory.swift in Sources */,
 				FC0BF6CE1E54A9E200A0ED29 /* DocumentsViewController.swift in Sources */,
 				FC0591811E58908800B0DDB4 /* DefaultServiceFactory.swift in Sources */,
@@ -759,6 +766,7 @@
 				FC8E71611E4AD56C00D37719 /* AppDelegate.swift in Sources */,
 				FC7966F81E5201F300D54859 /* MockAddressResolutionService.swift in Sources */,
 				FCF64BD51E59D1D500E036D0 /* AggregateTextAnnotationService.swift in Sources */,
+				FCD6833E1E6723B600022474 /* FragmentType+Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -108,18 +108,21 @@ class DocumentsViewController: UITableViewController {
         if let item = listController.object(at: indexPath), let imageData = item.imageData {
             
             var title: String?
+            var color: UIColor?
             
             if let fragments = item.fragments?.allObjects as? [Fragment] {
                 let personFragment = fragments.first { $0.type == .person }
                 let organizationFragment = fragments.first { $0.type == .organization }
-                title = personFragment?.value ?? organizationFragment?.value
+                title = personFragment?.value ?? organizationFragment?.value ?? "Untitled"
                 cell.documentView.fragments = fragments
+//                color = personFragment?.type.color ?? organizationFragment?.type.color ?? UIColor.black
             }
             else {
                 cell.documentView.fragments = nil
             }
             
             cell.titleLabel.text = title
+//            cell.titleLabel.backgroundColor = color
             cell.titleLabel.isHidden = title?.isEmpty ?? true
             
             if let image = UIImage(data: imageData as Data) {

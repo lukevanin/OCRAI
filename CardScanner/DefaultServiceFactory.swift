@@ -42,18 +42,18 @@ struct DefaultServiceFactory: ServiceFactory {
 //                        )
 //                }),
                 
-//                .descriptor(
-//                    service: monkeyLearnAdapter,
-//                    combine: { original, response in
-//                        return TextAnnotationResponse(
-//                            personEntities: response.personEntities,
-//                            organizationEntities: response.organizationEntities,
-//                            addressEntities: original.addressEntities,
-//                            phoneEntities: original.phoneEntities,
-//                            urlEntities: original.urlEntities,
-//                            emailEntities: original.emailEntities
-//                        )
-//                }),
+                .descriptor(
+                    service: monkeyLearnAdapter,
+                    combine: { original, response in
+                        return TextAnnotationResponse(
+                            personEntities: response.personEntities,
+                            organizationEntities: response.organizationEntities,
+                            addressEntities: original.addressEntities,
+                            phoneEntities: original.phoneEntities,
+                            urlEntities: original.urlEntities,
+                            emailEntities: original.emailEntities
+                        )
+                }),
                 
                 .descriptor(
                     service: dataDetectorService,

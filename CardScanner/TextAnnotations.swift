@@ -22,7 +22,7 @@ struct AnnotatedText {
     
     init(text: String) {
         self.lines = text.components(separatedBy: "\n")
-        self.content = lines.joined(separator: ", ")
+        self.content = lines.joined(separator: "; ")
         self.annotations = []
     }
     

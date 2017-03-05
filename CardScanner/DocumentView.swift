@@ -33,6 +33,7 @@ class DocumentView: UIView {
         super.layoutSubviews()
         
         guard let imageSize = image?.size else {
+            documentImageView.image = nil
             annotationsImageView.image = nil
             return
         }
@@ -46,8 +47,8 @@ class DocumentView: UIView {
         annotationsImageView.image = renderAnnotations(size: actualSize, scale: scale)
         
         let origin = CGPoint(
-            x: (bounds.size.width - actualSize.width) * 0.5,
-            y: (bounds.size.height - actualSize.height) * 0.5
+            x: round((bounds.size.width - actualSize.width) * 0.5),
+            y: round((bounds.size.height - actualSize.height) * 0.5)
         )
         let frame = CGRect(origin: origin, size: actualSize)
         documentImageView.frame = frame

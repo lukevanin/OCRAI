@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import CoreLocation
+import Contacts
 
 private let entityName = "Document"
 
@@ -22,6 +23,71 @@ extension Document {
         self.identifier = UUID().uuidString
         self.imageData = imageData as NSData
         self.creationDate = Date(timeIntervalSinceNow: 0) as NSDate
+    }
+}
+
+extension Document {
+    var contact: CNContact {
+        let contact = CNMutableContact()
+        
+        if let organization = fragments(ofType: .organization).first?.value {
+            contact.organizationName = organization
+            contact.contactType = .organization
+        }
+        
+        if let name = fragments(ofType: .person).first?.value {
+            contact.givenName = name
+            contact.contactType = .person
+        }
+        
+        let phoneNumbers = fragments(ofType: .phoneNumber)
+        contact.phoneNumbers = phoneNumbers.flatMap({ $0.value }).map {
+            CNLabeledValue(
+                label: nil,
+                value: CNPhoneNumber(stringValue: $0)
+            )
+        }
+        
+        let urlAddresses = fragments(ofType: .url)
+        contact.urlAddresses = urlAddresses.flatMap({ $0.value }).map {
+            CNLabeledValue(
+                label: nil,
+                value: $0 as NSString
+            )
+        }
+        
+        let emailAddresses = fragments(ofType: .email)
+        contact.emailAddresses = emailAddresses.flatMap({ $0.value }).map {
+            CNLabeledValue(
+                label: nil,
+                value: $0 as NSString
+            )
+        }
+        
+//        let postalAddresses = fragments(ofType: .address)
+//        contact.postalAddresses = postalAddresses.flatMap({ $0.value }).map {
+//            let address = CNMutablePostalAddress()
+//
+//            // FIXME: Detect address components in addres value
+//            address
+//            
+//            CNLabeledValue(
+//                label: nil,
+//                value: $0 as NSString
+//            )
+//        }
+    
+        return contact
+    }
+    
+    var allFragments: [Fragment] {
+        return (fragments?.allObjects as? [Fragment]) ?? []
+    }
+    
+    func fragments(ofType type: FragmentType) -> [Fragment] {
+        return allFragments
+            .filter() { $0.type == type }
+            .sorted() { $0.ordinality < $1.ordinality }
     }
 }
 

@@ -30,9 +30,6 @@ struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
             var output = [Entity]()
             let entities = response.entities.filter() { $0.type == type }
             
-            let content = self.text.content
-            let contentUTF = content.utf16
-            
             for entity in entities {
                 for mention in entity.mentions {
                     let text = mention.text
@@ -68,7 +65,7 @@ struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
             }
             let parser = ResponseParser(text: request.text)
             let output = parser.parse(response: response)
-            completion(nil, error)
+            completion(output, nil)
         }
     }
 }
