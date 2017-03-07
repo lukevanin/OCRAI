@@ -23,6 +23,7 @@ class BasicFragmentCell: UITableViewCell, UITextFieldDelegate {
     weak var delegate: TextCellDelegate?
     
     @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var colorAccentView: UIView!
     @IBOutlet weak var contentTextField: UITextField!
 
     override func awakeFromNib() {

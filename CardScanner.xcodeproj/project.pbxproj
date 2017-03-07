@@ -33,8 +33,9 @@
 		FC7966F81E5201F300D54859 /* MockAddressResolutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7966F71E5201F300D54859 /* MockAddressResolutionService.swift */; };
 		FC7966FE1E52118200D54859 /* TestScannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7966FD1E52118200D54859 /* TestScannerService.swift */; };
 		FC7967011E52C37500D54859 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7967001E52C37500D54859 /* Document.swift */; };
+		FC8A0E571E6C539C00DC3C66 /* PhotoLibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8A0E561E6C539C00DC3C66 /* PhotoLibraryCell.swift */; };
+		FC8A0E591E6C540B00DC3C66 /* PhotoLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8A0E581E6C540B00DC3C66 /* PhotoLibraryViewController.swift */; };
 		FC8E71611E4AD56C00D37719 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8E71601E4AD56C00D37719 /* AppDelegate.swift */; };
-		FC8E71631E4AD56C00D37719 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8E71621E4AD56C00D37719 /* ScanViewController.swift */; };
 		FC8E71661E4AD56C00D37719 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC8E71641E4AD56C00D37719 /* Main.storyboard */; };
 		FC8E71681E4AD56C00D37719 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC8E71671E4AD56C00D37719 /* Assets.xcassets */; };
 		FC8E716B1E4AD56C00D37719 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC8E71691E4AD56C00D37719 /* LaunchScreen.storyboard */; };
@@ -151,9 +152,10 @@
 		FC7966F71E5201F300D54859 /* MockAddressResolutionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAddressResolutionService.swift; sourceTree = "<group>"; };
 		FC7966FD1E52118200D54859 /* TestScannerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestScannerService.swift; sourceTree = "<group>"; };
 		FC7967001E52C37500D54859 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		FC8A0E561E6C539C00DC3C66 /* PhotoLibraryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryCell.swift; sourceTree = "<group>"; };
+		FC8A0E581E6C540B00DC3C66 /* PhotoLibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryViewController.swift; sourceTree = "<group>"; };
 		FC8E715D1E4AD56C00D37719 /* CardScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC8E71601E4AD56C00D37719 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FC8E71621E4AD56C00D37719 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		FC8E71651E4AD56C00D37719 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FC8E71671E4AD56C00D37719 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FC8E716A1E4AD56C00D37719 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				FC0BF6D21E54AA4E00A0ED29 /* BasicFragmentCell.swift */,
 				FCB33ACB1E5E9C4A006CAF6E /* AddressFragmentCell.swift */,
 				FCE8A4F91E563D7500512D56 /* ImageFragmentCell.swift */,
+				FC8A0E561E6C539C00DC3C66 /* PhotoLibraryCell.swift */,
 				FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */,
 				FCD683311E65D15700022474 /* AnnotationsRenderer.swift */,
 				FCD683331E66065A00022474 /* DocumentView.swift */,
@@ -395,7 +398,7 @@
 				FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */,
 				FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */,
 				FC0BF6CB1E54A99200A0ED29 /* CameraViewController.swift */,
-				FC8E71621E4AD56C00D37719 /* ScanViewController.swift */,
+				FC8A0E581E6C540B00DC3C66 /* PhotoLibraryViewController.swift */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -721,6 +724,7 @@
 				FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */,
 				FCED884D1E4D795C00623684 /* _DocumentBuilder.swift in Sources */,
 				FC00364C1E6578FE00B722AC /* FragmentAnnotation.swift in Sources */,
+				FC8A0E591E6C540B00DC3C66 /* PhotoLibraryViewController.swift in Sources */,
 				FC91B75A1E4C32D800AF11C6 /* ImageAnnotationService.swift in Sources */,
 				FC0BF6D01E54AA1F00A0ED29 /* DocumentViewController.swift in Sources */,
 				FC7967011E52C37500D54859 /* Document.swift in Sources */,
@@ -753,13 +757,13 @@
 				FC329DA21E5420780047F692 /* Fragment.swift in Sources */,
 				FC7966FE1E52118200D54859 /* TestScannerService.swift in Sources */,
 				FC329D9B1E5419640047F692 /* CoreDataStack.swift in Sources */,
-				FC8E71631E4AD56C00D37719 /* ScanViewController.swift in Sources */,
 				FCF64BDB1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift in Sources */,
 				FC329D9E1E5419820047F692 /* OCRAI.xcdatamodeld in Sources */,
 				FCED88511E4F014200623684 /* MockCancellable.swift in Sources */,
 				FCE8A4FA1E563D7500512D56 /* ImageFragmentCell.swift in Sources */,
 				FC91B7671E4C3B8700AF11C6 /* MockImageAnnotationService.swift in Sources */,
 				FCC8ADA51E56B99500F32CC4 /* ServiceFactory.swift in Sources */,
+				FC8A0E571E6C539C00DC3C66 /* PhotoLibraryCell.swift in Sources */,
 				FCD683321E65D15700022474 /* AnnotationsRenderer.swift in Sources */,
 				FC0BF6D71E54AA8600A0ED29 /* DocumentCell.swift in Sources */,
 				FCED884B1E4CC90F00623684 /* AsyncOperation.swift in Sources */,

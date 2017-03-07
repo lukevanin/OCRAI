@@ -82,7 +82,8 @@ struct AnnotationsRenderer {
                 let points = fragment.points().map { $0.scale(by: scale) }
                 
                 // Draw bounding box
-                let color = fragment.type.color
+//                let color = fragment.type.color
+                let color = UIColor.yellow
                 
 //                for point in points {
 //                    self.draw(point: point, color: color, context: context.cgContext)

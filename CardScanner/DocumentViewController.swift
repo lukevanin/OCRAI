@@ -213,6 +213,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setToolbarHidden(true, animated: false)
         loadDocument()
     }
     
@@ -243,7 +244,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         // Show scan button in edit mode.
-        scanButton.isHidden = !editing
+//        scanButton.isHidden = !editing
         
         // Rows
         activeSections.removeAll()
@@ -574,8 +575,9 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     private func configureCell(_ cell: BasicFragmentCell, withType type: FragmentType) {
-        cell.colorView.backgroundColor = type.color
-        cell.backgroundColor = type.color.withAlphaComponent(0.1)
+        cell.colorView.backgroundColor = isEditing ? type.color : UIColor.clear
+        cell.colorAccentView.backgroundColor = type.accentColor //withAlphaComponent(0.95)
+//        cell.backgroundColor = type.color.withAlphaComponent(0.1)
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
@@ -692,10 +694,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             return
         }
         
-//        headerView.backgroundView?.backgroundColor = UIColor(white: 0.9, alpha: 1.0)
-        let type = self.section(at: section).type
-        headerView.backgroundView?.backgroundColor = type.color.withAlphaComponent(0.8)
-        headerView.textLabel?.textColor = UIColor.white.withAlphaComponent(1.0)
+        headerView.backgroundView?.backgroundColor = UIColor(white: 0.8, alpha: 1.0)
     }
     
     func textCell(cell: BasicFragmentCell, textDidChange text: String?) {

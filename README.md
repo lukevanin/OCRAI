@@ -25,6 +25,7 @@ Note: The API key should not be restricted.
 ### Essential
 
 - Refactoring.
+- Enable camera / photo library buttons only when functionality is available.
 - Normalize image orientation when taking photo and importing.
 - Remove "Add test image functionality".
 - Import image from photo library.
@@ -37,10 +38,11 @@ Note: The API key should not be restricted.
 
 ### Nice to have
 
+- Search: Name, organization, phone number.
 - iPad layout: Grid documents list. Show document as model popover, or side detail view.
 - Continue scanning in background when switching back to list from detail view.
 - Improve editing: Remove modal edit/done state. Tap on textfield to edit. Enter to save. Always show blank textfield - adding text and entering saves data and creates new blank textfield.
-- Improve organization name detection.
+- Improve organization name detection: Check remaining text for nouns, after name detection. 
 - Pre-process scanned image: Histogram balance.
 - Scan raw / uncompressed image data (avoid JPEG artifacts).
 - Support additional services: Haven, Tesseract.
