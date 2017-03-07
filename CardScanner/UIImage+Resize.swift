@@ -12,7 +12,7 @@ extension UIImage {
     
     func resize(size: CGSize) -> UIImage {
         let scale = calculateImageScale(size: size)
-        return resizeImage(size: size, scale: scale)
+        return resizeImage(scale: scale)
     }
     
     private func calculateImageScale(size targetSize: CGSize) -> CGFloat {
@@ -36,25 +36,26 @@ extension UIImage {
         return scale
     }
 
-    private func resizeImage(size: CGSize, scale: CGFloat) -> UIImage {
+    private func resizeImage(scale: CGFloat) -> UIImage {
         
         // FIXME: Don't scale image up if smaller than target size.
         
-        let imageSize = self.size
-        
         let imageTargetSize = CGSize(
-            width: imageSize.width * scale,
-            height: imageSize.height * scale
+            width: size.width * scale,
+            height: size.height * scale
         )
         
         let imageTargetOrigin = CGPoint(
-            x: (size.width - imageTargetSize.width) * 0.5,
-            y: (size.height - imageTargetSize.height) * 0.5
+            x: 0,
+            y: 0
         )
         
-        let imageRect = CGRect(origin: imageTargetOrigin, size: imageTargetSize)
+        let imageRect = CGRect(
+            origin: imageTargetOrigin,
+            size: imageTargetSize
+        )
         
-        UIGraphicsBeginImageContextWithOptions(size, true, 1.0)
+        UIGraphicsBeginImageContextWithOptions(imageTargetSize, true, 1.0)
         draw(in: imageRect)
         let output = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

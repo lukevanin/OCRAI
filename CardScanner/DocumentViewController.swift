@@ -187,7 +187,8 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.estimatedRowHeight = 100
+        tableView.tableFooterView = UIView()
+        tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
         navigationItem.rightBarButtonItems = [editButtonItem, actionsButtonItem]
         
@@ -361,27 +362,24 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
                 backgroundImageView.image = nil
             }
 
-            if let fragments = document?.allFragments {
-                
-                documentView.fragments = fragments
-                
-                func makeSection(title: String, type: FragmentType) -> Section {
-                    return Section(
-                        title: title,
-                        type: type,
-                        values: document?.fragments(ofType: type) ?? []
-                    )
-                }
-                
-                sections.append(makeSection(title: "Person", type: .person))
-                sections.append(makeSection(title: "Organization", type: .organization))
-                sections.append(makeSection(title: "Phone Number", type: .phoneNumber))
-                sections.append(makeSection(title: "Email", type: .email))
-                sections.append(makeSection(title: "URL", type: .url))
-                sections.append(makeSection(title: "Address", type: .address))
-                // FIXME: Add images
-                // FIXME: Add dates
+            documentView.document = document
+            
+            func makeSection(title: String, type: FragmentType) -> Section {
+                return Section(
+                    title: title,
+                    type: type,
+                    values: document?.fragments(ofType: type) ?? []
+                )
             }
+            
+            sections.append(makeSection(title: "Person", type: .person))
+            sections.append(makeSection(title: "Organization", type: .organization))
+            sections.append(makeSection(title: "Phone Number", type: .phoneNumber))
+            sections.append(makeSection(title: "Email", type: .email))
+            sections.append(makeSection(title: "URL", type: .url))
+            sections.append(makeSection(title: "Address", type: .address))
+            // FIXME: Add images
+            // FIXME: Add dates
             
             self.sections = sections
             
@@ -523,13 +521,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         configureCell(cell, withType: fragment.type)
         cell.showsReorderControl = true
         
-//        switch fragment.type {
-//        case .phoneNumber, .email:
-//            cell.accessoryType = .detailButton
-//            
-//        default:
-//            cell.accessoryType = .none
-//        }
         cell.accessoryType = .none
         cell.editingAccessoryType = .none
         
@@ -585,7 +576,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     private func configureCell(_ cell: BasicFragmentCell, withType type: FragmentType) {
-        cell.colorView.backgroundColor = isEditing ? type.color : UIColor.clear
+        cell.colorView.backgroundColor = isEditing ? UIColor(white: 0.90, alpha: 1.0) : UIColor.clear
         cell.colorAccentView.backgroundColor = type.accentColor //withAlphaComponent(0.95)
 //        cell.backgroundColor = type.color.withAlphaComponent(0.1)
     }

@@ -58,21 +58,23 @@ class DocumentsViewController: UITableViewController {
                 return
             }
             
+            guard let image = UIImage(data: data, scale: 1.0) else {
+                return
+            }
+                
             let document = Document(
                 imageData: data,
+                imageSize: image.size,
                 context: context
             )
+
+            // Render thumbnail
+            let thumbnailImage = self.makeThumbnail(from: image)
+            document.thumbnailImageData = UIImagePNGRepresentation(thumbnailImage) as NSData?
             
-            if let image = UIImage(data: data, scale: 1.0) {
-                
-                // Render thumbnail
-                let thumbnailImage = self.makeThumbnail(from: image)
-                document.thumbnailImageData = UIImagePNGRepresentation(thumbnailImage) as NSData?
-                
-                // Render blurred thumbnail
-                let blurredImage = self.makeBlurredImage(from: image)
-                document.blurredImageData = UIImagePNGRepresentation(blurredImage) as NSData?
-            }
+            // Render blurred thumbnail
+            let blurredImage = self.makeBlurredImage(from: image)
+            document.blurredImageData = UIImagePNGRepresentation(blurredImage) as NSData?
             
             do {
                 try context.save()
@@ -102,7 +104,8 @@ class DocumentsViewController: UITableViewController {
     }
     
     private func makeBlurredImage(from image: UIImage) -> UIImage {
-        return UIImageEffects.imageByApplyingLightEffect(to: image)
+//        return UIImageEffects.imageByApplyingLightEffect(to: image)
+        return UIImageEffects.imageByApplyingExtraLightEffect(to: image)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -140,15 +143,8 @@ class DocumentsViewController: UITableViewController {
         
         if let item = listController.object(at: indexPath) {
             
-            let title = item.title
-//            let color = item.primaryType.color
-            cell.documentView.fragments = item.allFragments
+            cell.documentView.document = item
             
-            cell.titleLabel.text = title
-            cell.titleLabel.isHidden = title?.isEmpty ?? true
-//            cell.backgroundColor = color
-            
-            //
             if let imageData = item.thumbnailImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {
                 cell.documentView.image = image
                 cell.documentView.isHidden = false
@@ -170,5 +166,42 @@ class DocumentsViewController: UITableViewController {
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+            
+        case .delete:
+            deleteItem(at: indexPath)
+            
+        default:
+            break
+        }
+    }
+    
+    private func deleteItem(at indexPath: IndexPath) {
+        
+        guard let document = listController.object(at: indexPath), let identifier = document.identifier else {
+            return
+        }
+        
+        coreData.performBackgroundChanges() { [weak self] context in
+            guard let document = try context.documents(withIdentifier: identifier).first else {
+                return
+            }
+            
+            context.delete(document)
+            try context.save()
+        }
+    }
+}
+
+extension DocumentsViewController: ManagedListControllerDelegate {
+    func applyChanges(_ changes: [Change]) {
+        tableView.applyChanges(changes)
+        
+        if tableView.numberOfRows(inSection: 0) == 0 {
+            tableView.setEditing(false, animated: true)
+        }
     }
 }

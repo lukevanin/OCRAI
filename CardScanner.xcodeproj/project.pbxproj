@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B77332741E6EE23000A6B114 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B77332731E6EE23000A6B114 /* UIImageEffects.m */; };
+		B7B9CB111E6F18F8004765A9 /* UICollectionView+Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */; };
 		FC00364A1E6484B700B722AC /* TextAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0036491E6484B700B722AC /* TextAnnotations.swift */; };
 		FC00364C1E6578FE00B722AC /* FragmentAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */; };
 		FC00364E1E65796700B722AC /* FragmentAnnotationVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364D1E65796700B722AC /* FragmentAnnotationVertex.swift */; };
@@ -130,6 +131,7 @@
 		B773326A1E6EE1B300A6B114 /* CardScanner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CardScanner-Bridging-Header.h"; sourceTree = "<group>"; };
 		B77332721E6EE23000A6B114 /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
 		B77332731E6EE23000A6B114 /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
+		B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Photos.swift"; sourceTree = "<group>"; };
 		FC0036491E6484B700B722AC /* TextAnnotations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnnotations.swift; sourceTree = "<group>"; };
 		FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentAnnotation.swift; sourceTree = "<group>"; };
 		FC00364D1E65796700B722AC /* FragmentAnnotationVertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentAnnotationVertex.swift; sourceTree = "<group>"; };
@@ -346,7 +348,6 @@
 			children = (
 				B773326E1E6EE1F900A6B114 /* Objective-C */,
 				FC91B7611E4C36FF00AF11C6 /* App */,
-				FC91B7631E4C371200AF11C6 /* UI */,
 				FC91B7621E4C370400AF11C6 /* View Controller */,
 				FC0BF6D11E54AA3700A0ED29 /* View */,
 				FC7966FF1E52C36600D54859 /* Model */,
@@ -354,6 +355,7 @@
 				FCEDE6D61E58C093001B4776 /* Adapter */,
 				FC91B75F1E4C36DF00AF11C6 /* Service */,
 				FC91B7601E4C36E500AF11C6 /* Utility */,
+				FC91B7631E4C371200AF11C6 /* UI */,
 				FC91B7641E4C372D00AF11C6 /* Resources */,
 			);
 			path = CardScanner;
@@ -394,6 +396,7 @@
 				FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */,
 				FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */,
 				FC00364F1E6591B900B722AC /* CGPoint.swift */,
+				B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -786,6 +789,7 @@
 				FCED884B1E4CC90F00623684 /* AsyncOperation.swift in Sources */,
 				FC8E71611E4AD56C00D37719 /* AppDelegate.swift in Sources */,
 				FC7966F81E5201F300D54859 /* MockAddressResolutionService.swift in Sources */,
+				B7B9CB111E6F18F8004765A9 /* UICollectionView+Photos.swift in Sources */,
 				FCF64BD51E59D1D500E036D0 /* AggregateTextAnnotationService.swift in Sources */,
 				FCD6833E1E6723B600022474 /* FragmentType+Color.swift in Sources */,
 			);

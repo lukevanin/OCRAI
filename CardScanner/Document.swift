@@ -15,18 +15,32 @@ private let entityName = "Document"
 
 
 extension Document {
-    convenience init(imageData: Data, context: NSManagedObjectContext) {
+    convenience init(imageData: Data, imageSize: CGSize, context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             fatalError("Cannot initialize entity \(entityName)")
         }
         self.init(entity: entity, insertInto: context)
         self.identifier = UUID().uuidString
         self.imageData = imageData as NSData
+        self.imageSize = imageSize
         self.creationDate = Date(timeIntervalSinceNow: 0) as NSDate
     }
 }
 
 extension Document {
+    
+    var imageSize: CGSize {
+        get {
+            return CGSize(
+                width: CGFloat(imageWidth),
+                height: CGFloat(imageHeight)
+            )
+        }
+        set {
+            imageWidth = Int32(newValue.width)
+            imageHeight = Int32(newValue.height)
+        }
+    }
     
     var title: String? {
         let personFragment = allFragments.first { $0.type == .person }

@@ -31,18 +31,19 @@ extension Fragment {
 struct AnnotationsRenderer {
     
     let size: CGSize
-    let scale: CGFloat
-    let fragments: [Fragment]
+    let document: Document
     let format: UIGraphicsImageRendererFormat
     let renderer: UIGraphicsImageRenderer
 
-    init(size: CGSize, scale: CGFloat, fragments: [Fragment]) {
+    init(size: CGSize, document: Document) {
         self.size = size
-        self.scale = scale
-        self.fragments = fragments
-        
+        self.document = document
+
         let format = UIGraphicsImageRendererFormat()
-        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        let renderer = UIGraphicsImageRenderer(
+            size: size,
+            format: format
+        )
         
         self.format = format
         self.renderer = renderer
@@ -50,11 +51,19 @@ struct AnnotationsRenderer {
 
     func render() -> UIImage? {
         
+        // Calculate scale from original image space, to render space.
+        let scale = CGPoint(
+            x: size.width / document.imageSize.width,
+            y: size.height / document.imageSize.height
+        )
+        
         let output = renderer.image { (context) in
 
             // Background
             context.cgContext.saveGState()
             let bounds = CGRect(origin: .zero, size: size)
+            
+            let fragments = document.allFragments
             
             for fragment in fragments {
                 
@@ -71,6 +80,7 @@ struct AnnotationsRenderer {
             }
 
             let color = UIColor.white.withAlphaComponent(0.1)
+//            let color = UIColor.magenta
             context.cgContext.setFillColor(color.cgColor)
             context.cgContext.fill(bounds)
 
@@ -82,8 +92,8 @@ struct AnnotationsRenderer {
                 let points = fragment.points().map { $0.scale(by: scale) }
                 
                 // Draw bounding box
-//                let color = fragment.type.color
-                let color = UIColor.yellow
+                let color = fragment.type.accentColor
+//                let color = UIColor.cyan
                 
 //                for point in points {
 //                    self.draw(point: point, color: color, context: context.cgContext)
@@ -138,18 +148,21 @@ struct AnnotationsRenderer {
         
         let lineWidth = 1.0 / format.scale
         
-        context.setLineWidth(lineWidth)
-        
-        context.setStrokeColor(UIColor.white.withAlphaComponent(0.2).cgColor)
-        context.stroke(rect.insetBy(dx: -1, dy: -1))
-        
-        context.setStrokeColor(UIColor.black.withAlphaComponent(0.2).cgColor)
-        context.stroke(rect)
+//        context.setLineWidth(lineWidth)
+//        
+//        context.setStrokeColor(UIColor.white.withAlphaComponent(0.2).cgColor)
+//        context.stroke(rect.insetBy(dx: -1, dy: -1))
+//        
+//        context.setStrokeColor(UIColor.black.withAlphaComponent(0.2).cgColor)
+//        context.stroke(rect)
+//
+//        context.setStrokeColor(color.withAlphaComponent(0.5).cgColor)
+//        context.stroke(rect)
 
-        context.setStrokeColor(color.withAlphaComponent(0.5).cgColor)
-        context.stroke(rect)
-
-        context.setFillColor(color.withAlphaComponent(0.1).cgColor)
+        context.setFillColor(color.withAlphaComponent(0.5).cgColor)
         context.fill(rect)
+        
+//        context.setFillColor(color.cgColor)
+//        context.fill(rect)
     }
 }

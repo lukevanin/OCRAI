@@ -12,4 +12,8 @@ extension CGPoint {
     func scale(by scale: CGFloat) -> CGPoint {
         return CGPoint(x: x * scale, y: y * scale)
     }
+
+    func scale(by scale: CGPoint) -> CGPoint {
+        return CGPoint(x: x * scale.x, y: y * scale.y)
+    }
 }

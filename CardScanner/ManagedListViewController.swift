@@ -15,9 +15,51 @@ enum Change {
     case delete(IndexPath)
 }
 
-protocol ManagedListViewController {
+protocol ManagedListControllerDelegate {
     func applyChanges(_ changes: [Change])
 }
+
+
+extension UITableView {
+    func applyChanges(_ changes: [Change]) {
+        assert(Thread.isMainThread)
+        beginUpdates()
+        for change in changes {
+            switch change {
+            case .insert(let indexPath):
+                insertRows(at: [indexPath], with: .automatic)
+                
+            case .delete(let indexPath):
+                deleteRows(at: [indexPath], with: .automatic)
+                
+            case .update(let indexPath):
+                reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
+        endUpdates()
+    }
+}
+
+extension UICollectionView {
+    func applyChanges(_ changes: [Change], completion: ((Bool) -> Void)? = nil) {
+        assert(Thread.isMainThread)
+        performBatchUpdates({ [weak self] in
+            for change in changes {
+                switch change {
+                case .insert(let indexPath):
+                    self?.insertItems(at: [indexPath])
+                    
+                case .delete(let indexPath):
+                    self?.deleteItems(at: [indexPath])
+                    
+                case .update(let indexPath):
+                    self?.reloadItems(at: [indexPath])
+                }
+            }
+        }, completion: completion)
+    }
+}
+
 
 class ManagedListController<ResultType : NSManagedObject> : NSObject, NSFetchedResultsControllerDelegate {
     
@@ -34,7 +76,7 @@ class ManagedListController<ResultType : NSManagedObject> : NSObject, NSFetchedR
     private let context: NSManagedObjectContext
     private let changeHandler: ChangeHandler
     
-    convenience init(fetchRequest: NSFetchRequest<ResultType>, context: NSManagedObjectContext, delegate: ManagedListViewController) {
+    convenience init(fetchRequest: NSFetchRequest<ResultType>, context: NSManagedObjectContext, delegate: ManagedListControllerDelegate) {
         self.init(fetchRequest: fetchRequest, context: context) { changes in
             delegate.applyChanges(changes)
         }
@@ -122,49 +164,5 @@ class ManagedListController<ResultType : NSManagedObject> : NSObject, NSFetchedR
         let changes = self.changes
         self.changes.removeAll()
         changeHandler(changes)
-    }
-}
-
-extension UITableViewController: ManagedListViewController {
-    func applyChanges(_ changes: [Change]) {
-        assert(Thread.isMainThread)
-        tableView.beginUpdates()
-        for change in changes {
-            switch change {
-            case .insert(let indexPath):
-                tableView.insertRows(at: [indexPath], with: .automatic)
-                
-            case .delete(let indexPath):
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-                
-            case .update(let indexPath):
-                tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        }
-        tableView.endUpdates()
-    }
-}
-
-extension UICollectionViewController: ManagedListViewController {
-    func applyChanges(_ changes: [Change]) {
-        assert(Thread.isMainThread)
-        guard let collectionView = self.collectionView else {
-            return
-        }
-        collectionView.performBatchUpdates({
-            for change in changes {
-                switch change {
-                case .insert(let indexPath):
-                    collectionView.insertItems(at: [indexPath])
-                    
-                case .delete(let indexPath):
-                    collectionView.deleteItems(at: [indexPath])
-                    
-                case .update(let indexPath):
-                    collectionView.reloadItems(at: [indexPath])
-                }
-            }
-        }, completion: { (finished) in
-        })
     }
 }

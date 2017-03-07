@@ -16,7 +16,7 @@ class DocumentView: UIView {
         }
     }
     
-    var fragments: [Fragment]? {
+    var document: Document? {
         didSet {
             invalidateAnnotations()
         }
@@ -38,13 +38,17 @@ class DocumentView: UIView {
             return
         }
         
-        let scale = calculateScale(from: imageSize, to: bounds.size)
+        let scale = calculateScale(
+            from: imageSize,
+            to: bounds.size
+        )
+        
         let actualSize = CGSize(
             width: imageSize.width * scale,
             height: imageSize.height * scale
         )
         
-        annotationsImageView.image = renderAnnotations(size: actualSize, scale: scale)
+        annotationsImageView.image = renderAnnotations(size: actualSize)
         
         let origin = CGPoint(
             x: round((bounds.size.width - actualSize.width) * 0.5),
@@ -55,16 +59,15 @@ class DocumentView: UIView {
         annotationsImageView.frame = frame
     }
     
-    private func renderAnnotations(size: CGSize, scale: CGFloat) -> UIImage? {
+    private func renderAnnotations(size: CGSize) -> UIImage? {
         
-        guard let fragments = self.fragments else {
+        guard let document = self.document else {
             return nil
         }
         
         let renderer = AnnotationsRenderer(
             size: size,
-            scale: scale,
-            fragments: fragments
+            document: document
         )
 
         let output = renderer.render()

@@ -15,6 +15,8 @@
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="identifier" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="imageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
+        <attribute name="imageHeight" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="imageWidth" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="thumbnailImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
         <relationship name="fragments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Fragment" inverseName="document" inverseEntity="Fragment" syncable="YES"/>
     </entity>
@@ -53,7 +55,7 @@
     </entity>
     <elements>
         <element name="AddressFragment" positionX="-27" positionY="99" width="128" height="30"/>
-        <element name="Document" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="Document" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="Fragment" positionX="-54" positionY="-9" width="128" height="165"/>
         <element name="FragmentAnnotation" positionX="-54" positionY="108" width="128" height="75"/>
         <element name="FragmentAnnotationVertex" positionX="-45" positionY="117" width="128" height="90"/>

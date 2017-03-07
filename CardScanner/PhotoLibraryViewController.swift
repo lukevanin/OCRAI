@@ -16,15 +16,21 @@ private let unwindSegueIdentifier = "unwindSegue"
 class PhotoLibraryViewController: UICollectionViewController, ImageSource {
     
     private let imageManager = PHImageManager.default()
+    private let photoLibrary = PHPhotoLibrary.shared()
 
     var selectedImageData: Data?
     
-    private var result: PHFetchResult<PHAsset>?
+    fileprivate var result: PHFetchResult<PHAsset>?
     private var currentRequestID: PHImageRequestID?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadPhotos()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        // FIXME: Calculate cell size according to screen real estate.
     }
     
     private func loadPhotos() {
@@ -33,12 +39,22 @@ class PhotoLibraryViewController: UICollectionViewController, ImageSource {
         let options = PHFetchOptions()
         options.includeAssetSourceTypes = [.typeUserLibrary]
         options.wantsIncrementalChangeDetails = true
+        options.sortDescriptors = [
+            NSSortDescriptor(key: "modificationDate", ascending: false)
+        ]
         
         // Issue request
         result = PHAsset.fetchAssets(with: .image, options: options)
         collectionView?.reloadData()
-        
-        // FIXME: Observe photo library for automatic updates.
+    }
+    
+    private func startAutomaticUpdates() {
+        // Observe photo library for automatic updates.
+        photoLibrary.register(self)
+    }
+    
+    private func stopAutomaticUpdates() {
+        photoLibrary.unregisterChangeObserver(self)
     }
     
     // MARK: Collection delegate
@@ -89,5 +105,18 @@ class PhotoLibraryViewController: UICollectionViewController, ImageSource {
         }
         imageManager.cancelImageRequest(requestID)
         currentRequestID = nil
+    }
+}
+
+extension PhotoLibraryViewController: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        guard let result = self.result, let changes = changeInstance.changeDetails(for: result) else {
+            return
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.result = changes.fetchResultAfterChanges
+            self?.collectionView?.applyChanges(changes, inSection: 0)
+        }
     }
 }
