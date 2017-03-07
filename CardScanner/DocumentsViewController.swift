@@ -61,6 +61,17 @@ class DocumentsViewController: UITableViewController {
                 context: context
             )
             
+            if let image = UIImage(data: data, scale: 1.0) {
+                
+                // Render thumbnail
+                let thumbnailImage = self.makeThumbnail(from: image)
+                document.thumbnailImageData = UIImagePNGRepresentation(thumbnailImage) as NSData?
+                
+                // Render blurred thumbnail
+                let blurredImage = self.makeBlurredImage(from: image)
+                document.blurredImageData = UIImagePNGRepresentation(blurredImage) as NSData?
+            }
+            
             do {
                 try context.save()
 
@@ -76,6 +87,20 @@ class DocumentsViewController: UITableViewController {
                 print("Cannot save document: \(error)")
             }
         }
+    }
+    
+    private func makeThumbnail(from image: UIImage) -> UIImage {
+        let width = UIScreen.main.bounds.size.width * UIScreen.main.scale
+        let height = width * 0.75
+        let size = CGSize(
+            width: width,
+            height: height
+        )
+        return image.resize(size: size)
+    }
+    
+    private func makeBlurredImage(from image: UIImage) -> UIImage {
+        return UIImageEffects.imageByApplyingLightEffect(to: image)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -105,10 +130,10 @@ class DocumentsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DocumentCell
         
-        if let item = listController.object(at: indexPath), let imageData = item.imageData {
+        if let item = listController.object(at: indexPath) {
             
             var title: String?
-            var color: UIColor?
+//            var color: UIColor?
             
             if let fragments = item.fragments?.allObjects as? [Fragment] {
                 let personFragment = fragments.first { $0.type == .person }
@@ -122,10 +147,10 @@ class DocumentsViewController: UITableViewController {
             }
             
             cell.titleLabel.text = title
-//            cell.titleLabel.backgroundColor = color
             cell.titleLabel.isHidden = title?.isEmpty ?? true
             
-            if let image = UIImage(data: imageData as Data) {
+            //
+            if let imageData = item.thumbnailImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {
                 cell.documentView.image = image
                 cell.documentView.isHidden = false
                 cell.placeholderImageView.isHidden = true
@@ -134,6 +159,14 @@ class DocumentsViewController: UITableViewController {
                 cell.documentView.image = nil
                 cell.documentView.isHidden = true
                 cell.placeholderImageView.isHidden = false
+            }
+            
+            //
+            if let imageData = item.blurredImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {
+                cell.backgroundImageView.image = image
+            }
+            else {
+                cell.backgroundImageView.image = nil
             }
         }
         

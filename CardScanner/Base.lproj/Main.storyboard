@@ -137,54 +137,60 @@
         <scene sceneID="E2M-ac-VZ1">
             <objects>
                 <tableViewController id="4ko-Us-cua" customClass="DocumentsViewController" customModule="CardScanner" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="200" sectionHeaderHeight="28" sectionFooterHeight="28" id="RL5-h5-jZj">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="240" sectionHeaderHeight="28" sectionFooterHeight="28" id="RL5-h5-jZj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocumentCell" id="2AF-rX-AFp" customClass="DocumentCell" customModule="CardScanner" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="200"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="240"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2AF-rX-AFp" id="G51-3d-BLK">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fKr-TA-Joh">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
+                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="999" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZg-e4-Ter">
                                             <rect key="frame" x="8" y="8" width="304" height="24"/>
-                                            <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7zD-4y-1vJ" customClass="DocumentView" customModule="CardScanner" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="40" width="304" height="152"/>
+                                            <rect key="frame" x="8" y="40" width="304" height="160"/>
                                             <subviews>
                                                 <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f4q-UB-CsY">
-                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="152"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="160"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </imageView>
                                                 <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ic-ra-Fu4">
-                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="152"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="160"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <outlet property="annotationsImageView" destination="9ic-ra-Fu4" id="iEi-jF-44N"/>
                                                 <outlet property="documentImageView" destination="f4q-UB-CsY" id="hPw-1Z-mEo"/>
                                             </connections>
                                         </view>
                                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card" translatesAutoresizingMaskIntoConstraints="NO" id="J7R-yI-Tco" userLabel="placeholder">
-                                            <rect key="frame" x="120" y="76" width="80" height="80"/>
+                                            <rect key="frame" x="120" y="80" width="80" height="80"/>
                                         </imageView>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="7zD-4y-1vJ" firstAttribute="leading" secondItem="G51-3d-BLK" secondAttribute="leadingMargin" id="7vd-TB-fxU"/>
+                                        <constraint firstItem="fKr-TA-Joh" firstAttribute="leading" secondItem="G51-3d-BLK" secondAttribute="leading" id="G5B-R6-zo0"/>
+                                        <constraint firstItem="fKr-TA-Joh" firstAttribute="top" secondItem="G51-3d-BLK" secondAttribute="top" id="KTg-YS-pJO"/>
                                         <constraint firstItem="J7R-yI-Tco" firstAttribute="centerX" secondItem="7zD-4y-1vJ" secondAttribute="centerX" id="KcB-wS-eSc"/>
                                         <constraint firstItem="J7R-yI-Tco" firstAttribute="centerX" secondItem="G51-3d-BLK" secondAttribute="centerX" id="N1K-j1-CBe"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="7zD-4y-1vJ" secondAttribute="bottom" id="N6c-gr-0Bn"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="7zD-4y-1vJ" secondAttribute="bottom" constant="32" id="N6c-gr-0Bn"/>
+                                        <constraint firstAttribute="trailing" secondItem="fKr-TA-Joh" secondAttribute="trailing" id="NTx-pg-wMP"/>
+                                        <constraint firstAttribute="bottom" secondItem="fKr-TA-Joh" secondAttribute="bottom" id="PK0-mF-54k"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="7zD-4y-1vJ" secondAttribute="trailing" id="SHt-Zf-Y3v"/>
                                         <constraint firstItem="fZg-e4-Ter" firstAttribute="trailing" secondItem="G51-3d-BLK" secondAttribute="trailingMargin" id="Yoj-Es-Uf9"/>
                                         <constraint firstItem="fZg-e4-Ter" firstAttribute="leading" secondItem="G51-3d-BLK" secondAttribute="leadingMargin" id="ZVs-dN-N65"/>
@@ -193,8 +199,9 @@
                                         <constraint firstItem="J7R-yI-Tco" firstAttribute="centerY" secondItem="7zD-4y-1vJ" secondAttribute="centerY" id="zx3-xD-LN9"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="backgroundImageView" destination="fKr-TA-Joh" id="6PE-ui-3A4"/>
                                     <outlet property="documentView" destination="7zD-4y-1vJ" id="DbW-AK-cz0"/>
                                     <outlet property="placeholderImageView" destination="J7R-yI-Tco" id="Ot6-4Z-eNE"/>
                                     <outlet property="titleLabel" destination="fZg-e4-Ter" id="ZJT-KK-K6H"/>
@@ -339,41 +346,25 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7vh-AX-bJ1">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                         </imageView>
-                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c7u-jE-dSI">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
-                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="a6F-cd-4Ja">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1pD-XX-B08" customClass="DocumentView" customModule="CardScanner" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="0.0" width="304" height="300"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hRW-FC-ZUF">
-                                                <rect key="frame" x="0.0" y="0.0" width="304" height="300"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </imageView>
-                                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bpL-8B-Yab">
-                                                <rect key="frame" x="46" y="66" width="177" height="179"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="annotationsImageView" destination="bpL-8B-Yab" id="qnU-cp-H9g"/>
-                                            <outlet property="documentImageView" destination="hRW-FC-ZUF" id="ANC-Re-Z5p"/>
-                                        </connections>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="1pD-XX-B08" secondAttribute="bottom" id="1E5-hR-8o5"/>
-                                    <constraint firstItem="1pD-XX-B08" firstAttribute="leading" secondItem="a6F-cd-4Ja" secondAttribute="leading" constant="8" id="T2W-0j-v7A"/>
-                                    <constraint firstItem="1pD-XX-B08" firstAttribute="top" secondItem="a6F-cd-4Ja" secondAttribute="top" id="a2a-Wu-Wcb"/>
-                                    <constraint firstAttribute="trailing" secondItem="1pD-XX-B08" secondAttribute="trailing" constant="8" id="zvb-5V-3n6"/>
-                                </constraints>
-                            </view>
-                            <blurEffect style="extraLight"/>
-                        </visualEffectView>
+                        <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1pD-XX-B08" customClass="DocumentView" customModule="CardScanner" customModuleProvider="target">
+                            <rect key="frame" x="8" y="0.0" width="304" height="300"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hRW-FC-ZUF">
+                                    <rect key="frame" x="0.0" y="0.0" width="304" height="300"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </imageView>
+                                <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bpL-8B-Yab">
+                                    <rect key="frame" x="46" y="66" width="177" height="179"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="annotationsImageView" destination="bpL-8B-Yab" id="qnU-cp-H9g"/>
+                                <outlet property="documentImageView" destination="hRW-FC-ZUF" id="ANC-Re-Z5p"/>
+                            </connections>
+                        </view>
                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="JM3-Wu-Zi0">
                             <rect key="frame" x="142" y="132" width="37" height="37"/>
                             <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -400,17 +391,17 @@
                     </subviews>
                     <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="c7u-jE-dSI" firstAttribute="leading" secondItem="viy-im-j8j" secondAttribute="leading" id="3pU-ns-fJh"/>
                         <constraint firstItem="JM3-Wu-Zi0" firstAttribute="centerX" secondItem="viy-im-j8j" secondAttribute="centerX" id="7Eq-53-sgg"/>
                         <constraint firstItem="7vh-AX-bJ1" firstAttribute="leading" secondItem="viy-im-j8j" secondAttribute="leading" id="AhU-SE-hef"/>
                         <constraint firstItem="7vh-AX-bJ1" firstAttribute="top" secondItem="viy-im-j8j" secondAttribute="top" id="Chd-uH-lMC"/>
                         <constraint firstAttribute="bottom" secondItem="7vh-AX-bJ1" secondAttribute="bottom" id="Fyt-AS-Jt5"/>
-                        <constraint firstItem="c7u-jE-dSI" firstAttribute="top" secondItem="viy-im-j8j" secondAttribute="top" id="OCx-2v-ivN"/>
+                        <constraint firstItem="1pD-XX-B08" firstAttribute="top" secondItem="viy-im-j8j" secondAttribute="top" id="H6a-lk-CSf"/>
                         <constraint firstAttribute="trailing" secondItem="7vh-AX-bJ1" secondAttribute="trailing" id="OFA-25-WOO"/>
-                        <constraint firstAttribute="trailing" secondItem="c7u-jE-dSI" secondAttribute="trailing" id="SEi-WI-EpZ"/>
+                        <constraint firstAttribute="bottom" secondItem="1pD-XX-B08" secondAttribute="bottom" id="OgL-cO-ZXy"/>
+                        <constraint firstItem="1pD-XX-B08" firstAttribute="leading" secondItem="viy-im-j8j" secondAttribute="leading" constant="8" id="a5O-Xv-Qa8"/>
                         <constraint firstItem="L0M-wG-TNz" firstAttribute="centerX" secondItem="viy-im-j8j" secondAttribute="centerX" id="k0F-NS-Y8r"/>
-                        <constraint firstAttribute="bottom" secondItem="c7u-jE-dSI" secondAttribute="bottom" id="mWI-sc-9pM"/>
                         <constraint firstAttribute="bottom" secondItem="L0M-wG-TNz" secondAttribute="bottom" constant="8" id="qdC-Vc-zmj"/>
+                        <constraint firstAttribute="trailing" secondItem="1pD-XX-B08" secondAttribute="trailing" constant="8" id="sIl-2a-Lrx"/>
                         <constraint firstItem="JM3-Wu-Zi0" firstAttribute="centerY" secondItem="viy-im-j8j" secondAttribute="centerY" id="uzx-LC-Upk"/>
                     </constraints>
                 </view>

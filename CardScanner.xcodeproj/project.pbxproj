@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B77332741E6EE23000A6B114 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B77332731E6EE23000A6B114 /* UIImageEffects.m */; };
 		FC00364A1E6484B700B722AC /* TextAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0036491E6484B700B722AC /* TextAnnotations.swift */; };
 		FC00364C1E6578FE00B722AC /* FragmentAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */; };
 		FC00364E1E65796700B722AC /* FragmentAnnotationVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364D1E65796700B722AC /* FragmentAnnotationVertex.swift */; };
@@ -125,6 +126,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B773326A1E6EE1B300A6B114 /* CardScanner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CardScanner-Bridging-Header.h"; sourceTree = "<group>"; };
+		B77332721E6EE23000A6B114 /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
+		B77332731E6EE23000A6B114 /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 		FC0036491E6484B700B722AC /* TextAnnotations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnnotations.swift; sourceTree = "<group>"; };
 		FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentAnnotation.swift; sourceTree = "<group>"; };
 		FC00364D1E65796700B722AC /* FragmentAnnotationVertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentAnnotationVertex.swift; sourceTree = "<group>"; };
@@ -241,6 +245,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B773326E1E6EE1F900A6B114 /* Objective-C */ = {
+			isa = PBXGroup;
+			children = (
+				B773326A1E6EE1B300A6B114 /* CardScanner-Bridging-Header.h */,
+				B77332721E6EE23000A6B114 /* UIImageEffects.h */,
+				B77332731E6EE23000A6B114 /* UIImageEffects.m */,
+			);
+			name = "Objective-C";
+			sourceTree = "<group>";
+		};
 		FC05917F1E58906F00B0DDB4 /* Factory */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,7 +341,7 @@
 		FC8E715F1E4AD56C00D37719 /* CardScanner */ = {
 			isa = PBXGroup;
 			children = (
-				FCD3DE4A1E52DE2E000ED5F7 /* CardScanner.entitlements */,
+				B773326E1E6EE1F900A6B114 /* Objective-C */,
 				FC91B7611E4C36FF00AF11C6 /* App */,
 				FC91B7631E4C371200AF11C6 /* UI */,
 				FC91B7621E4C370400AF11C6 /* View Controller */,
@@ -412,6 +426,7 @@
 		FC91B7641E4C372D00AF11C6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FCD3DE4A1E52DE2E000ED5F7 /* CardScanner.entitlements */,
 				FC329D9C1E5419820047F692 /* OCRAI.xcdatamodeld */,
 				FC8E71671E4AD56C00D37719 /* Assets.xcassets */,
 				FC8E716C1E4AD56C00D37719 /* Info.plist */,
@@ -617,6 +632,7 @@
 					FC8E715C1E4AD56C00D37719 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = DBK476475Y;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
@@ -746,6 +762,7 @@
 				FCF54E751E6477F500DAEA38 /* Polygon.swift in Sources */,
 				FCB33AC61E5C0662006CAF6E /* AddressFragment.swift in Sources */,
 				FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */,
+				B77332741E6EE23000A6B114 /* UIImageEffects.m in Sources */,
 				FCD683401E6723CC00022474 /* FragmentType.swift in Sources */,
 				FCC8ADA71E56B9E400F32CC4 /* TestServiceFactory.swift in Sources */,
 				FC0BF6CE1E54A9E200A0ED29 /* DocumentsViewController.swift in Sources */,
@@ -972,12 +989,15 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = DBK476475Y;
 				INFOPLIST_FILE = CardScanner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lukevanin.Scanny;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CardScanner/CardScanner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -987,12 +1007,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = DBK476475Y;
 				INFOPLIST_FILE = CardScanner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lukevanin.Scanny;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CardScanner/CardScanner-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

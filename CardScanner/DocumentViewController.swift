@@ -332,10 +332,20 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             let document = try coreData.mainContext.documents(withIdentifier: documentIdentifier).first
             self.document = document
             
-            if let imageData = document?.imageData {
-                let image = UIImage(data: imageData as Data)
+            if let imageData = document?.thumbnailImageData {
+                let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale)
                 documentView.image = image
+            }
+            else {
+                documentView.image = nil
+            }
+            
+            if let imageData = document?.blurredImageData {
+                let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale)
                 backgroundImageView.image = image
+            }
+            else {
+                backgroundImageView.image = nil
             }
 
             if let fragments = document?.allFragments {

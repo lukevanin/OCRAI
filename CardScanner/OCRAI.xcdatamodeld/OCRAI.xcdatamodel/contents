@@ -11,9 +11,11 @@
         <relationship name="location" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Location" inverseName="address" inverseEntity="Location" syncable="YES"/>
     </entity>
     <entity name="Document" representedClassName="Document" syncable="YES" codeGenerationType="class">
+        <attribute name="blurredImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="identifier" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="imageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
+        <attribute name="thumbnailImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
         <relationship name="fragments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Fragment" inverseName="document" inverseEntity="Fragment" syncable="YES"/>
     </entity>
     <entity name="Fragment" representedClassName="Fragment" syncable="YES" codeGenerationType="class">
@@ -51,10 +53,10 @@
     </entity>
     <elements>
         <element name="AddressFragment" positionX="-27" positionY="99" width="128" height="30"/>
-        <element name="Document" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="Document" positionX="-63" positionY="-18" width="128" height="135"/>
         <element name="Fragment" positionX="-54" positionY="-9" width="128" height="165"/>
-        <element name="Location" positionX="-36" positionY="9" width="128" height="225"/>
         <element name="FragmentAnnotation" positionX="-54" positionY="108" width="128" height="75"/>
         <element name="FragmentAnnotationVertex" positionX="-45" positionY="117" width="128" height="90"/>
+        <element name="Location" positionX="-36" positionY="9" width="128" height="225"/>
     </elements>
 </model>
