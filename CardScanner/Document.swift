@@ -27,6 +27,19 @@ extension Document {
 }
 
 extension Document {
+    
+    var title: String? {
+        let personFragment = allFragments.first { $0.type == .person }
+        let organizationFragment = allFragments.first { $0.type == .organization }
+        return personFragment?.value ?? organizationFragment?.value
+    }
+    
+    var primaryType: FragmentType {
+        let personFragment = allFragments.first { $0.type == .person }
+        let organizationFragment = allFragments.first { $0.type == .organization }
+        return personFragment?.type ?? organizationFragment?.type ?? .unknown
+    }
+    
     var contact: CNContact {
         let contact = CNMutableContact()
         

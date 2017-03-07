@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class CameraViewController: UIViewController {
+class CameraViewController: UIViewController, ImageSource {
     
     private let cancelSegue = "cancel"
     
@@ -47,9 +47,9 @@ class CameraViewController: UIViewController {
         selectedImageData = nil
     }
     
-    @IBAction func onCancelAction(_ sender: Any) {
-        performSegue(withIdentifier: cancelSegue, sender: nil)
-    }
+//    @IBAction func onCancelAction(_ sender: Any) {
+//        performSegue(withIdentifier: cancelSegue, sender: nil)
+//    }
     
     // MARK: Life cycle
     

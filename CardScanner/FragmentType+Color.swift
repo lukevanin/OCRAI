@@ -10,6 +10,10 @@ import UIKit
 
 extension FragmentType {
     var color: UIColor {
+        return UIColor(white: 0.33, alpha: 1.0)
+    }
+    
+    var accentColor: UIColor {
         switch self {
         case .address:
             return Material.Color.orange

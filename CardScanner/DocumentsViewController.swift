@@ -14,6 +14,12 @@ private let documentSegue = "document"
 
 private let cellIdentifier = "DocumentCell"
 
+protocol ImageSource: class {
+    var selectedImageData: Data? {
+        get
+    }
+}
+
 class DocumentsViewController: UITableViewController {
     
     private lazy var coreData: CoreDataStack = {
@@ -34,21 +40,17 @@ class DocumentsViewController: UITableViewController {
         )
     }()
     
-    @IBAction func onAddAction(_ sender: Any) {
-        let image = UIImage(named: "card-sample-1")!
-//        let image = UIImage(named: "card-sample-2")!
-        let data = UIImageJPEGRepresentation(image, 1.0)
-        importDocumentFromImage(data: data!)
-    }
+    @IBOutlet weak var libraryButtonItem: UIBarButtonItem!
+    @IBOutlet weak var cameraButtonItem: UIBarButtonItem!
     
-    @IBAction func exitToDocuments(_ sender: UIStoryboardSegue) {
-        if let viewController = sender.source as? CameraViewController {
+    @IBAction func unwindToDocuments(_ segue: UIStoryboardSegue) {
+        if let viewController = segue.source as? ImageSource {
             if let imageData = viewController.selectedImageData {
                 importDocumentFromImage(data: imageData)
             }
         }
     }
-    
+
     private func importDocumentFromImage(data: Data) {
         coreData.performBackgroundChanges() { [weak self] context in
             
@@ -115,10 +117,16 @@ class DocumentsViewController: UITableViewController {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.rightBarButtonItems = [editButtonItem]
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         listController.refresh()
         tableView.reloadData()
+        navigationController?.setToolbarHidden(false, animated: false)
     }
     
     // MARK: Table view
@@ -132,22 +140,13 @@ class DocumentsViewController: UITableViewController {
         
         if let item = listController.object(at: indexPath) {
             
-            var title: String?
-//            var color: UIColor?
-            
-            if let fragments = item.fragments?.allObjects as? [Fragment] {
-                let personFragment = fragments.first { $0.type == .person }
-                let organizationFragment = fragments.first { $0.type == .organization }
-                title = personFragment?.value ?? organizationFragment?.value ?? "Untitled"
-                cell.documentView.fragments = fragments
-//                color = personFragment?.type.color ?? organizationFragment?.type.color ?? UIColor.black
-            }
-            else {
-                cell.documentView.fragments = nil
-            }
+            let title = item.title
+//            let color = item.primaryType.color
+            cell.documentView.fragments = item.allFragments
             
             cell.titleLabel.text = title
             cell.titleLabel.isHidden = title?.isEmpty ?? true
+//            cell.backgroundColor = color
             
             //
             if let imageData = item.thumbnailImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {

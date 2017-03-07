@@ -19,3 +19,36 @@ Note: The API key should not be restricted.
 2. Find the API Token under the "API Keys" section under "My Account". https://app.monkeylearn.com/main/my-account/tab/api-keys/
 3. In the XCode project, copy or rename "monkeylearn-api-config.default.plist" to "monkeylearn-api-config.plist".
 4. Edit the plist file from step 3, and enter the API token for the "authorizationToken" field.
+
+## TODO
+
+### Essential
+
+- Refactoring.
+- Enable camera / photo library buttons only when functionality is available.
+- Normalize image orientation when taking photo and importing.
+- Remove "Add test image functionality".
+- Import image from photo library.
+- Color image card according to type (person, organization, event, etc).
+- Differentiate email URLs from web URLs.
+- Include postal addresses in exported contact.
+- Delete images from list.
+- Automatically begin scanning when showing document and previous scan has not completed. Don't auto-scan if already scanned. Prompt to overwrite when scanning over existing information.
+- Resize image to 1024x768 for uploading.
+
+### Nice to have
+
+- Search: Name, organization, phone number.
+- iPad layout: Grid documents list. Show document as model popover, or side detail view.
+- Continue scanning in background when switching back to list from detail view.
+- Improve editing: Remove modal edit/done state. Tap on textfield to edit. Enter to save. Always show blank textfield - adding text and entering saves data and creates new blank textfield.
+- Improve organization name detection: Check remaining text for nouns, after name detection. 
+- Pre-process scanned image: Histogram balance.
+- Scan raw / uncompressed image data (avoid JPEG artifacts).
+- Support additional services: Haven, Tesseract.
+- Extract date information, tag fragments with dates, as event type.
+- Extract faces from scanned image.
+- Extract machine codes (QR code, bar code) from scanned image.
+- Extract logos from scanned image.
+- 3D touch shortcut actions: Take photo,
+- App extension: Scan image from photos app (import into scanner app).
