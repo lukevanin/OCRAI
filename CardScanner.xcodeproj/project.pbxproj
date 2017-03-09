@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B77332741E6EE23000A6B114 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B77332731E6EE23000A6B114 /* UIImageEffects.m */; };
+		B7751B411E70563B0024D99B /* CGRect+CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7751B401E70563B0024D99B /* CGRect+CGPoint.swift */; };
 		B7B9CB111E6F18F8004765A9 /* UICollectionView+Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */; };
 		FC00364A1E6484B700B722AC /* TextAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0036491E6484B700B722AC /* TextAnnotations.swift */; };
 		FC00364C1E6578FE00B722AC /* FragmentAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */; };
@@ -131,6 +132,7 @@
 		B773326A1E6EE1B300A6B114 /* CardScanner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CardScanner-Bridging-Header.h"; sourceTree = "<group>"; };
 		B77332721E6EE23000A6B114 /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
 		B77332731E6EE23000A6B114 /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
+		B7751B401E70563B0024D99B /* CGRect+CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+CGPoint.swift"; sourceTree = "<group>"; };
 		B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Photos.swift"; sourceTree = "<group>"; };
 		FC0036491E6484B700B722AC /* TextAnnotations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnnotations.swift; sourceTree = "<group>"; };
 		FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentAnnotation.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */,
 				FC00364F1E6591B900B722AC /* CGPoint.swift */,
 				B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */,
+				B7751B401E70563B0024D99B /* CGRect+CGPoint.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				FCF54E751E6477F500DAEA38 /* Polygon.swift in Sources */,
 				FCB33AC61E5C0662006CAF6E /* AddressFragment.swift in Sources */,
 				FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */,
+				B7751B411E70563B0024D99B /* CGRect+CGPoint.swift in Sources */,
 				B77332741E6EE23000A6B114 /* UIImageEffects.m in Sources */,
 				FCD683401E6723CC00022474 /* FragmentType.swift in Sources */,
 				FCC8ADA71E56B9E400F32CC4 /* TestServiceFactory.swift in Sources */,

@@ -31,4 +31,26 @@ extension Fragment {
         self.type = type
         self.value = value
     }
+    
+    func allAnnotations() -> [FragmentAnnotation] {
+        var output = [FragmentAnnotation]()
+        
+        if let annotations = self.annotations?.allObjects as? [FragmentAnnotation] {
+            output.append(contentsOf: annotations)
+        }
+        
+        return output
+    }
+    
+    func allVertices() -> [FragmentAnnotationVertex] {
+        
+        var output = [FragmentAnnotationVertex]()
+        
+        let annotations = allAnnotations()
+        for annotation in annotations {
+            output.append(contentsOf: annotation.allVertices())
+        }
+
+        return output
+    }
 }

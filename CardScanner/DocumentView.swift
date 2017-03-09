@@ -25,11 +25,23 @@ class DocumentView: UIView {
     @IBOutlet weak var documentImageView: UIImageView!
     @IBOutlet weak var annotationsImageView: UIImageView!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        let layer = documentImageView.layer
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 10)
+        layer.shadowOpacity = 0.5
+        layer.shadowRadius = 20
+    }
+    
     func invalidateAnnotations() {
         setNeedsLayout()
     }
     
     override func layoutSubviews() {
+        
         super.layoutSubviews()
         
         guard let imageSize = image?.size else {
@@ -57,21 +69,9 @@ class DocumentView: UIView {
         let frame = CGRect(origin: origin, size: actualSize)
         documentImageView.frame = frame
         annotationsImageView.frame = frame
-    }
-    
-    private func renderAnnotations(size: CGSize) -> UIImage? {
         
-        guard let document = self.document else {
-            return nil
-        }
-        
-        let renderer = AnnotationsRenderer(
-            size: size,
-            document: document
-        )
-
-        let output = renderer.render()
-        return output
+        let layer = documentImageView.layer
+        layer.shadowPath = UIBezierPath(rect: documentImageView.bounds).cgPath
     }
     
     private func calculateScale(from sourceSize: CGSize, to targetSize: CGSize) -> CGFloat {
@@ -92,5 +92,20 @@ class DocumentView: UIView {
         }
         
         return scale
+    }
+
+    private func renderAnnotations(size: CGSize) -> UIImage? {
+        
+        guard let document = self.document else {
+            return nil
+        }
+        
+        let renderer = AnnotationsRenderer(
+            size: size,
+            document: document
+        )
+
+        let output = renderer.render()
+        return output
     }
 }

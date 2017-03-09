@@ -52,89 +52,127 @@ struct AnnotationsRenderer {
     func render() -> UIImage? {
         
         // Calculate scale from original image space, to render space.
+        let screenScale = UIScreen.main.scale
         let scale = CGPoint(
             x: size.width / document.imageSize.width,
             y: size.height / document.imageSize.height
         )
         
-        let output = renderer.image { (context) in
+        let bounds = CGRect(origin: .zero, size: size)
+        
+        let view = UIView(frame: bounds)
+//        view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        
+        for fragment in document.allFragments {
 
-            // Background
-            context.cgContext.saveGState()
-            let bounds = CGRect(origin: .zero, size: size)
-            
-            let fragments = document.allFragments
-            
-            for fragment in fragments {
-                
-                let points = fragment.points().map { $0.scale(by: scale) }
-                
-                if let aabb = self.axisAlignedBoundingBox(forPoints: points) {
-                    let rect = aabb.insetBy(dx: -2, dy: -2)
-
-                    context.cgContext.beginPath()
-                    context.cgContext.addRect(rect)
-                    context.cgContext.addRect(.infinite)
-                    context.cgContext.clip(using: .evenOdd)
-                }
+            guard let text = fragment.value else {
+                continue
             }
+            
+            let vertices = fragment.allVertices()
+            let points = vertices.map { $0.point.scale(by: scale) }
 
-            let color = UIColor.white.withAlphaComponent(0.1)
-//            let color = UIColor.magenta
-            context.cgContext.setFillColor(color.cgColor)
-            context.cgContext.fill(bounds)
+            guard let aabb = CGRect(axisAlignedBoundingBoxForPoints: points) else {
+                continue
+            }
+            
+            let backgroundFrame = aabb.insetBy(dx: -2, dy: -2);
+            let background = UIView(frame: backgroundFrame)
+            background.backgroundColor = fragment.type.accentColor
+            background.isOpaque = true
+            view.addSubview(background)
+            
+            let labelFrame = aabb.insetBy(dx: 0, dy: 0)
 
-            context.cgContext.restoreGState()
+            let label = UILabel(frame: labelFrame)
+            label.text = text
+            label.textColor = .white
+            label.backgroundColor = .clear
+            label.isOpaque = false
+            label.font = UIFont.boldSystemFont(ofSize: 50)
+            label.adjustsFontSizeToFitWidth = true
+            label.minimumScaleFactor = 0.01
+            label.baselineAdjustment = .alignBaselines
+            label.numberOfLines = 0
+            label.clipsToBounds = false
+            
+//            let constraintSize = CGSize(
+//                width: aabb.size.width,
+//                height: 0
+//            )
+//            let finalSize = label.systemLayoutSizeFitting(constraintSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityFittingSizeLevel)
+//            label.frame = CGRect(
+//                origin: .zero,
+//                size: finalSize
+//            )
 
-            // Draw shapes
-            for fragment in fragments {
-                
-                let points = fragment.points().map { $0.scale(by: scale) }
-                
-                // Draw bounding box
-                let color = fragment.type.accentColor
-//                let color = UIColor.cyan
-                
-//                for point in points {
-//                    self.draw(point: point, color: color, context: context.cgContext)
+            view.addSubview(label)
+            
+        }
+        
+        view.layoutIfNeeded()
+        
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, screenScale)
+        //let result = view.drawHierarchy(in: bounds, afterScreenUpdates: true)
+        if let context = UIGraphicsGetCurrentContext() {
+            view.layer.render(in: context)
+        }
+        let output = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        print("Rendered view: \(output?.size)")
+        
+//        let output = renderer.image { (context) in
+//            
+
+//            // Background
+//            context.cgContext.saveGState()
+//            let bounds = CGRect(origin: .zero, size: size)
+//            
+//            let fragments = document.allFragments
+//            
+//            for fragment in fragments {
+//                
+//                let points = fragment.points().map { $0.scale(by: scale) }
+//                
+//                if let aabb = CGRect(axisAlignedBoundingBoxForPoints: points) {
+//                    let rect = aabb.insetBy(dx: -2, dy: -2)
+//
+//                    context.cgContext.beginPath()
+//                    context.cgContext.addRect(rect)
+//                    context.cgContext.addRect(.infinite)
+//                    context.cgContext.clip(using: .evenOdd)
 //                }
-                
-                if let aabb = self.axisAlignedBoundingBox(forPoints: points) {
-                    let rect = aabb.insetBy(dx: -2, dy: -2)
-                    self.draw(rect: rect, color: color, context: context.cgContext)
-                }
-            }
-        }
-
+//            }
+//
+//            let color = UIColor.white.withAlphaComponent(0.1)
+////            let color = UIColor.magenta
+//            context.cgContext0.setFillColor(color.cgColor)
+//            context.cgContext.fill(bounds)
+//
+//            context.cgContext.restoreGState()
+//
+//            // Draw shapes
+//            for fragment in fragments {
+//                
+//                let points = fragment.points().map { $0.scale(by: scale) }
+//                
+//                // Draw bounding box
+//                let color = fragment.type.accentColor
+////                let color = UIColor.cyan
+//                
+////                for point in points {
+////                    self.draw(point: point, color: color, context: context.cgContext)
+////                }
+//                
+//                if let aabb = CGRect(axisAlignedBoundingBoxForPoints: points) {
+//                    let rect = aabb.insetBy(dx: -2, dy: -2)
+//                    self.draw(rect: rect, color: color, context: context.cgContext)
+//                }
+//            }
+//        }
+//
         return output
-    }
-    
-    private func axisAlignedBoundingBox(forPoints points: [CGPoint]) -> CGRect? {
-        
-        guard let point = points.first else {
-            return nil
-        }
-
-        var minX = point.x
-        var minY = point.y
-        var maxX = minX
-        var maxY = minY
-        
-        for point in points.dropFirst() {
-            minX = min(minX, point.x)
-            minY = min(minY, point.y)
-            maxX = max(maxX, point.x)
-            maxY = max(maxY, point.y)
-        }
-        
-        let aabb = CGRect(
-            x: minX,
-            y: minY,
-            width: maxX - minX,
-            height: maxY - minY
-        )
-
-        return aabb
     }
     
     private func draw(point: CGPoint, color: UIColor, context: CGContext) {

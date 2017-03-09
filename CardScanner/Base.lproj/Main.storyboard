@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Vx3-i4-cLC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Vx3-i4-cLC">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -199,32 +199,32 @@
         <scene sceneID="E2M-ac-VZ1">
             <objects>
                 <tableViewController id="4ko-Us-cua" customClass="DocumentsViewController" customModule="CardScanner" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="240" sectionHeaderHeight="28" sectionFooterHeight="28" id="RL5-h5-jZj">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="260" sectionHeaderHeight="28" sectionFooterHeight="28" id="RL5-h5-jZj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocumentCell" id="2AF-rX-AFp" customClass="DocumentCell" customModule="CardScanner" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="240"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="260"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2AF-rX-AFp" id="G51-3d-BLK">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2AF-rX-AFp" id="G51-3d-BLK">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="260"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fKr-TA-Joh">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fKr-TA-Joh">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7zD-4y-1vJ" customClass="DocumentView" customModule="CardScanner" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="40" width="304" height="160"/>
+                                            <rect key="frame" x="8" y="30" width="304" height="180"/>
                                             <subviews>
                                                 <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f4q-UB-CsY">
-                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="160"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="180"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </imageView>
                                                 <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ic-ra-Fu4">
-                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="160"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="180"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -241,19 +241,21 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="7zD-4y-1vJ" firstAttribute="leading" secondItem="G51-3d-BLK" secondAttribute="leadingMargin" id="7vd-TB-fxU"/>
-                                        <constraint firstItem="fKr-TA-Joh" firstAttribute="leading" secondItem="G51-3d-BLK" secondAttribute="leading" id="G5B-R6-zo0"/>
                                         <constraint firstItem="fKr-TA-Joh" firstAttribute="top" secondItem="G51-3d-BLK" secondAttribute="top" id="KTg-YS-pJO"/>
                                         <constraint firstItem="J7R-yI-Tco" firstAttribute="centerX" secondItem="7zD-4y-1vJ" secondAttribute="centerX" id="KcB-wS-eSc"/>
                                         <constraint firstItem="J7R-yI-Tco" firstAttribute="centerX" secondItem="G51-3d-BLK" secondAttribute="centerX" id="N1K-j1-CBe"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="7zD-4y-1vJ" secondAttribute="bottom" constant="32" id="N6c-gr-0Bn"/>
-                                        <constraint firstAttribute="trailing" secondItem="fKr-TA-Joh" secondAttribute="trailing" id="NTx-pg-wMP"/>
-                                        <constraint firstAttribute="bottom" secondItem="fKr-TA-Joh" secondAttribute="bottom" id="PK0-mF-54k"/>
+                                        <constraint firstItem="7zD-4y-1vJ" firstAttribute="top" secondItem="fKr-TA-Joh" secondAttribute="top" constant="30" id="Ojs-M9-Aqd"/>
+                                        <constraint firstAttribute="bottom" secondItem="fKr-TA-Joh" secondAttribute="bottom" constant="20" id="PK0-mF-54k"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="7zD-4y-1vJ" secondAttribute="trailing" id="SHt-Zf-Y3v"/>
-                                        <constraint firstItem="7zD-4y-1vJ" firstAttribute="top" secondItem="G51-3d-BLK" secondAttribute="topMargin" constant="32" id="Y4Z-ZQ-zlt"/>
+                                        <constraint firstItem="fKr-TA-Joh" firstAttribute="bottom" secondItem="7zD-4y-1vJ" secondAttribute="bottom" constant="30" id="l8j-Po-XpM"/>
                                         <constraint firstItem="J7R-yI-Tco" firstAttribute="centerY" secondItem="7zD-4y-1vJ" secondAttribute="centerY" id="zx3-xD-LN9"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="fKr-TA-Joh" firstAttribute="leading" secondItem="2AF-rX-AFp" secondAttribute="leading" id="DbC-Nh-j6k"/>
+                                    <constraint firstAttribute="trailing" secondItem="fKr-TA-Joh" secondAttribute="trailing" id="wYP-d9-T07"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="backgroundImageView" destination="fKr-TA-Joh" id="6PE-ui-3A4"/>
                                     <outlet property="documentView" destination="7zD-4y-1vJ" id="DbW-AK-cz0"/>

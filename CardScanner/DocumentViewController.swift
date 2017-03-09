@@ -731,13 +731,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             if success {
                 section.remove(at: indexPath.row)
                 self.tableView.beginUpdates()
-                if section.values.count == 0 {
-                    self.activeSections.remove(at: indexPath.section)
-                    self.tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
-                }
-                else {
-                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.tableView.endUpdates()
             }
         }

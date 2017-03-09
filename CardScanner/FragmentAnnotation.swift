@@ -19,3 +19,15 @@ extension FragmentAnnotation {
         self.init(entity: entity, insertInto: context)
     }
 }
+
+extension FragmentAnnotation {
+    func allVertices() -> [FragmentAnnotationVertex] {
+        var output = [FragmentAnnotationVertex]()
+        
+        if let vertices = self.vertices?.array as? [FragmentAnnotationVertex] {
+            output.append(contentsOf: vertices)
+        }
+        
+        return output
+    }
+}
