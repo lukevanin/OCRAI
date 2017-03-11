@@ -26,6 +26,17 @@ class DocumentCell: UITableViewCell {
             layer.shadowOpacity = 0.5
             layer.shadowRadius = 4
         }
+        
+        prepareForReuse()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        backgroundImageView?.image = nil
+        placeholderImageView?.image = nil
+        documentView?.document = nil
+        titleLabel?.text = nil
+        subtitleLabel?.text = nil
     }
     
     override func layoutSubviews() {

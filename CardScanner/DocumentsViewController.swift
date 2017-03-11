@@ -158,7 +158,15 @@ class DocumentsViewController: UITableViewController {
                 cell.placeholderImageView?.isHidden = false
             }
             
-            cell.titleLabel?.text = item.title
+            let titles = item.titles
+            
+            if titles.count > 0 {
+                cell.titleLabel?.text = titles[0]
+                
+                if titles.count > 1 {
+                    cell.subtitleLabel?.text = titles[1]
+                }
+            }
             
             //
             if let imageData = item.blurredImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {

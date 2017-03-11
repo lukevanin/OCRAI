@@ -48,6 +48,28 @@ extension Document {
         return personFragment?.value ?? organizationFragment?.value
     }
     
+    var titles: [String] {
+        var output = [String]()
+        
+        let priorities: [FragmentType] = [
+            .person,
+            .organization,
+            .url,
+            .email,
+            .phoneNumber,
+            .address
+        ]
+        
+        for priority in priorities {
+            let fragment = allFragments.first { $0.type == priority }
+            if let value = fragment?.value {
+                output.append(value)
+            }
+        }
+        
+        return output
+    }
+    
     var primaryType: FragmentType {
         let personFragment = allFragments.first { $0.type == .person }
         let organizationFragment = allFragments.first { $0.type == .organization }

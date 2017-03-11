@@ -241,17 +241,35 @@
                                                         <outlet property="documentImageView" destination="f4q-UB-CsY" id="hPw-1Z-mEo"/>
                                                     </connections>
                                                 </view>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="rts-Rx-4pA">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vvM-SM-igs">
                                                     <rect key="frame" x="104" y="0.0" width="133" height="96"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="02P-fw-hcS">
-                                                            <rect key="frame" x="0.0" y="0.0" width="133" height="96"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="rts-Rx-4pA">
+                                                            <rect key="frame" x="0.0" y="30.5" width="133" height="35"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="02P-fw-hcS">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="133" height="20.5"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aec-ET-Foz">
+                                                                    <rect key="frame" x="0.0" y="20.5" width="133" height="14.5"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                    <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </stackView>
                                                     </subviews>
-                                                </stackView>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="rts-Rx-4pA" firstAttribute="centerY" secondItem="vvM-SM-igs" secondAttribute="centerY" id="JKM-z6-M8N"/>
+                                                        <constraint firstAttribute="trailing" secondItem="rts-Rx-4pA" secondAttribute="trailing" id="LZq-jr-YoO"/>
+                                                        <constraint firstItem="rts-Rx-4pA" firstAttribute="leading" secondItem="vvM-SM-igs" secondAttribute="leading" id="Tex-jk-CyN"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="7zD-4y-1vJ" firstAttribute="top" secondItem="jIT-cw-Gv3" secondAttribute="top" id="Gb5-z0-nzM"/>
@@ -277,6 +295,7 @@
                                 <connections>
                                     <outlet property="backgroundImageView" destination="fKr-TA-Joh" id="6PE-ui-3A4"/>
                                     <outlet property="documentView" destination="7zD-4y-1vJ" id="DbW-AK-cz0"/>
+                                    <outlet property="subtitleLabel" destination="aec-ET-Foz" id="hl0-0g-exJ"/>
                                     <outlet property="titleLabel" destination="02P-fw-hcS" id="EqN-k3-joG"/>
                                     <segue destination="3eI-as-eBM" kind="show" identifier="document" id="bAg-NA-9d7"/>
                                 </connections>
