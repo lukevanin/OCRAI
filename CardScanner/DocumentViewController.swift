@@ -10,7 +10,6 @@ import UIKit
 import MapKit
 import CoreData
 import Contacts
-import MessageUI
 
 private let basicCellIdentifier = "BasicCell"
 private let addressCellIdentifier = "AddressCell"
@@ -77,105 +76,18 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var documentView: DocumentView!
     @IBOutlet weak var scanButton: UIButton!
+    @IBOutlet weak var activityOverlayView: UIView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var actionsButtonItem: UIBarButtonItem!
+    @IBOutlet weak var emptyContentPlaceholderView: UIView!
     
     @IBAction func onActionsAction(_ sender: Any) {
-        let controller = UIAlertController(
-            title: nil,
-            message: nil,
-            preferredStyle: .actionSheet
-        )
-        
-        // Fragment actions
-        for section in sections {
-            for fragment in section.values {
-                switch (fragment.type, fragment.value) {
-                    
-                case (.phoneNumber, let .some(value)):
-                    if let url = URL(string: value) {
-                        controller.addAction(
-                            UIAlertAction(
-                                title: "Call \(value)",
-                                style: .default,
-                                handler: { (action) in
-                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            })
-                        )
-                    }
-                    
-                case (.email, let .some(value)):
-                    if let components = URLComponents(string: value), MFMailComposeViewController.canSendMail() {
-                        let emailAddress = components.path
-                        controller.addAction(
-                            UIAlertAction(
-                                title: "Email \(emailAddress)",
-                                style: .default,
-                                handler: { (action) in
-                                    let controller = MFMailComposeViewController()
-                                    controller.setToRecipients([emailAddress])
-                                    self.present(controller, animated: true, completion: nil)
-                            })
-                        )
-                    }
-                    
-                case (.url, let .some(value)):
-                    if let url = URL(string: value) {
-                        controller.addAction(
-                            UIAlertAction(
-                                title: "\(value)",
-                                style: .default,
-                                handler: { (action) in
-                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            })
-                        )
-                    }
-                    
-                default:
-                    break
-                }
-            }
-        }
-        
-        // Share actions
-        if
-            let contact = document?.contact,
-            let filename = CNContactFormatter.string(from: contact, style: .fullName),
-            let data = try? CNContactVCardSerialization.data(with: [contact]),
-            let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
-        {
-            controller.addAction(
-                UIAlertAction(
-                    title: "Share Contact",
-                    style: .default,
-                    handler: { (action) in
-                        let file = directory.appendingPathComponent(filename).appendingPathExtension("vcf")
-                        try! data.write(to: file, options: [.atomic])
-                        let controller = UIActivityViewController(
-                            activityItems: [file],
-                            applicationActivities: nil
-                        )
-                        self.present(controller, animated: true, completion: nil)
-                })
-            )
-        }
-        
-        // Dismiss action
-        controller.addAction(
-            UIAlertAction(
-                title: "Dismiss",
-                style: .cancel,
-                handler: { (action) in
-                    
-            })
-        )
-        
-        present(controller, animated: true, completion: nil)
+        document?.presentActions(from: self)
     }
     
     @IBAction func onScanAction(_ sender: Any) {
         if isEditing {
-            isEditing = false
+            setEditing(false, animated: true)
         }
         
         clearDocument() {
@@ -218,23 +130,11 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         loadDocument()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-    }
-    
-
-    
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
+        tableView.setEditing(editing, animated: animated)
+
         // Disable all buttons except for edit/done button when editing.
         if let buttonItems = navigationItem.rightBarButtonItems {
             for buttonItem in buttonItems {
@@ -302,13 +202,18 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         
         tableView.endUpdates()
         
-        for cell in tableView.visibleCells {
-            if let cell = cell as? BasicFragmentCell {
-                cell.editingEnabled = editing
+        
+        if let indexPaths = tableView.indexPathsForVisibleRows {
+            for indexPath in indexPaths {
+                let section = self.section(at: indexPath)
+                if let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell {
+                    cell.editingEnabled = editing
+                    configureCell(cell, withType: section.type)
+                }
             }
         }
-        
-        tableView.setEditing(editing, animated: animated)
+     
+        updateContentState()
     }
     
     // MARK: Document
@@ -354,14 +259,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
                 documentView.image = nil
             }
             
-            if let imageData = document?.blurredImageData {
-                let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale)
-                backgroundImageView.image = image
-            }
-            else {
-                backgroundImageView.image = nil
-            }
-
             documentView.document = document
             
             func makeSection(title: String, type: FragmentType) -> Section {
@@ -390,6 +287,13 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             
             tableView.reloadData()
+            updateContentState()
+            
+            if let document = document {
+                if !document.didCompleteScan {
+                    scanDocument()
+                }
+            }
         }
         catch {
             print("Cannot fetch document: \(error)")
@@ -419,13 +323,47 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             print("active")
             scanButton.isHidden = true
             activityIndicatorView.startAnimating()
+            activityOverlayView.isHidden = false
             
         case .completed:
             print("completed")
             scanButton.isHidden = false
             activityIndicatorView.stopAnimating()
+            activityOverlayView.isHidden = true
             loadDocument()
         }
+    }
+    
+    fileprivate func updateContentState() {
+        let totalRows = countFragments()
+        if totalRows == 0 {
+            showPlaceholder()
+        }
+        else {
+            hidePlaceholder()
+        }
+    }
+    
+    private func countFragments() -> Int {
+        var count = 0
+        for section in sections {
+            count += section.values.count
+        }
+        return count
+    }
+    
+    private func showPlaceholder() {
+//        tableView.addSubview(emptyContentPlaceholderView)
+//        NSLayoutConstraint.activate([
+//            emptyContentPlaceholderView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+//            emptyContentPlaceholderView.widthAnchor.constraint(equalTo: view.widthAnchor),
+//            emptyContentPlaceholderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            emptyContentPlaceholderView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+//            ])
+    }
+    
+    private func hidePlaceholder() {
+        emptyContentPlaceholderView.removeFromSuperview()
     }
     
     // MARK: Table view
@@ -527,35 +465,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let section = self.section(at: indexPath)
-        let fragment = section.values[indexPath.row]
-        
-        switch fragment.type {
-        case .phoneNumber:
-            if let value = fragment.value {
-                
-                // FIXME: Clean URL
-//                NSString *cleanedString = [[phoneNumber componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+()"] invertedSet]] componentsJoinedByString:@""];
-//                NSURL *telURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", cleanedString]];
-                if let url = URL(string: "tel:\(value)") {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-            }
-            
-        case .email:
-            if let email = fragment.value, MFMailComposeViewController.canSendMail() {
-                let controller = MFMailComposeViewController()
-                controller.setToRecipients([email])
-                controller.mailComposeDelegate = self
-                present(controller, animated: true, completion: nil)
-            }
-            
-        default:
-            break
-        }
-    }
-    
     private func tableView(_ tableView: UITableView, cellForImageFragment fragment: Fragment, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: imageCellIdentifier, for: indexPath) as! ImageFragmentCell
         return cell
@@ -578,7 +487,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     private func configureCell(_ cell: BasicFragmentCell, withType type: FragmentType) {
         cell.colorView.backgroundColor = isEditing ? UIColor(white: 0.90, alpha: 1.0) : UIColor.clear
         cell.colorAccentView.backgroundColor = type.accentColor //withAlphaComponent(0.95)
-//        cell.backgroundColor = type.color.withAlphaComponent(0.1)
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
@@ -610,24 +518,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
                     self.delete(at: indexPath)
             })
         )
-        
-//        switch fragment.type {
-//            
-//        case .phoneNumber:
-//            output.append(
-//                UITableViewRowAction(
-//                    style: .default,
-//                    title: "Call",
-//                    handler: { (action, indexPath) in
-//                        if let value = fragment.value, let url = URL(string: value) {
-//                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                        }
-//                })
-//            )
-//            
-//        default:
-//            break
-//        }
         
         if output.count == 0 {
             return nil
@@ -771,11 +661,5 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func section(at index: Int) -> Section {
         return sections[activeSections[index]]
-    }
-}
-
-extension DocumentViewController: MFMailComposeViewControllerDelegate {
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        dismiss(animated: true, completion: nil)
     }
 }

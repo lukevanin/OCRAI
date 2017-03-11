@@ -45,8 +45,12 @@ class ScanOperation: AsyncOperation {
     override func execute(completion: @escaping () -> Void) {
         state = .active
         annotate()
-        group.notify(queue: queue) { [coreData] in
+        group.notify(queue: queue) { [identifier, coreData] in
             DispatchQueue.main.async {
+                if let document = try? coreData.mainContext.documents(withIdentifier: identifier).first {
+                    document?.didCompleteScan = true
+                }
+                
                 coreData.saveNow() { _ in
                     //  FIXME: Update entity ordinality
                     self.state = .completed
@@ -58,8 +62,11 @@ class ScanOperation: AsyncOperation {
     private func annotate() {
         group.enter()
         coreData.performBackgroundChanges() { [identifier, group] context in
-            if let data = try context.documents(withIdentifier: identifier).first?.imageData {
-                self.annotateImage(data as Data)
+            if let document = try context.documents(withIdentifier: identifier).first {
+                document.didCompleteScan = false
+                if let data = document.imageData {
+                    self.annotateImage(data as Data)
+                }
             }
             group.leave()
         }

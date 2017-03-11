@@ -22,21 +22,24 @@ class DocumentView: UIView {
         }
     }
     
+    private var annotationsRenderer: AnnotationsRenderer?
+    
     @IBOutlet weak var documentImageView: UIImageView!
     @IBOutlet weak var annotationsImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        let layer = documentImageView.layer
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 10)
-        layer.shadowOpacity = 0.5
-        layer.shadowRadius = 20
+//        let layer = documentImageView.layer
+//        layer.masksToBounds = false
+//        layer.shadowColor = UIColor.black.cgColor
+//        layer.shadowOffset = CGSize(width: 0, height: 10)
+//        layer.shadowOpacity = 0.5
+//        layer.shadowRadius = 20
     }
     
     func invalidateAnnotations() {
+        annotationsRenderer = nil
         setNeedsLayout()
     }
     
@@ -60,7 +63,7 @@ class DocumentView: UIView {
             height: imageSize.height * scale
         )
         
-        annotationsImageView.image = renderAnnotations(size: actualSize)
+//        annotationsImageView.image = renderAnnotations(size: actualSize)
         
         let origin = CGPoint(
             x: round((bounds.size.width - actualSize.width) * 0.5),
@@ -94,18 +97,16 @@ class DocumentView: UIView {
         return scale
     }
 
-    private func renderAnnotations(size: CGSize) -> UIImage? {
-        
-        guard let document = self.document else {
-            return nil
-        }
-        
-        let renderer = AnnotationsRenderer(
-            size: size,
-            document: document
-        )
-
-        let output = renderer.render()
-        return output
-    }
+//    private func renderAnnotations(size: CGSize) -> UIImage? {
+//        
+//        guard let document = self.document else {
+//            return nil
+//        }
+//        
+//        if annotationsRenderer == nil {
+//            annotationsRenderer = TextAnnotationsRenderer(document: document)
+//        }
+//        
+//        return annotationsRenderer?.render(size: size)
+//    }
 }

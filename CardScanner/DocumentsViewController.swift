@@ -42,6 +42,7 @@ class DocumentsViewController: UITableViewController {
     
     @IBOutlet weak var libraryButtonItem: UIBarButtonItem!
     @IBOutlet weak var cameraButtonItem: UIBarButtonItem!
+    @IBOutlet weak var emptyContentPlaceholderView: UIView!
     
     @IBAction func unwindToDocuments(_ segue: UIStoryboardSegue) {
         if let viewController = segue.source as? ImageSource {
@@ -129,6 +130,7 @@ class DocumentsViewController: UITableViewController {
         super.viewWillAppear(animated)
         listController.refresh()
         tableView.reloadData()
+        updateViewState()
         navigationController?.setToolbarHidden(false, animated: false)
     }
     
@@ -143,29 +145,37 @@ class DocumentsViewController: UITableViewController {
         
         if let item = listController.object(at: indexPath) {
             
-            cell.documentView.document = item
+            cell.documentView?.document = item
             
             if let imageData = item.thumbnailImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {
-                cell.documentView.image = image
-                cell.documentView.isHidden = false
-                cell.placeholderImageView.isHidden = true
+                cell.documentView?.image = image
+                cell.documentView?.isHidden = false
+                cell.placeholderImageView?.isHidden = true
             }
             else {
-                cell.documentView.image = nil
-                cell.documentView.isHidden = true
-                cell.placeholderImageView.isHidden = false
+                cell.documentView?.image = nil
+                cell.documentView?.isHidden = true
+                cell.placeholderImageView?.isHidden = false
             }
+            
+            cell.titleLabel?.text = item.title
             
             //
             if let imageData = item.blurredImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {
-                cell.backgroundImageView.image = image
+//                cell.backgroundImageView.image = image
             }
             else {
-                cell.backgroundImageView.image = nil
+//                cell.backgroundImageView.image = nil
             }
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        if let document = listController.object(at: indexPath) {
+            document.presentActions(from: self)
+        }
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -194,14 +204,27 @@ class DocumentsViewController: UITableViewController {
             try context.save()
         }
     }
+    
+    // MARK: View state
+    
+    fileprivate func updateViewState() {
+        if tableView.numberOfRows(inSection: 0) == 0 {
+            // Table is empty
+            navigationItem.rightBarButtonItem = nil
+            tableView.setEditing(false, animated: true)
+            tableView.backgroundView = emptyContentPlaceholderView
+        }
+        else {
+            // Table has content.
+            navigationItem.rightBarButtonItem = editButtonItem
+            tableView.backgroundView = nil
+        }
+    }
 }
 
 extension DocumentsViewController: ManagedListControllerDelegate {
     func applyChanges(_ changes: [Change]) {
         tableView.applyChanges(changes)
-        
-        if tableView.numberOfRows(inSection: 0) == 0 {
-            tableView.setEditing(false, animated: true)
-        }
+        updateViewState()
     }
 }
