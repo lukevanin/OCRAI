@@ -11,9 +11,11 @@ import Contacts
 
 struct Entity {
     var content: String
+    var normalizedContent: String
     var annotations: [Annotation]
-    init(content: String, annotations: [Annotation]? = nil) {
+    init(content: String, normalizedContent: String? = nil, annotations: [Annotation]? = nil) {
         self.content = content
+        self.normalizedContent = normalizedContent ?? content
         self.annotations = annotations ?? []
     }
 }

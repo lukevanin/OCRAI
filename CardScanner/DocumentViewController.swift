@@ -291,7 +291,9 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             
             if let document = document {
                 if !document.didCompleteScan {
-                    scanDocument()
+                    clearDocument() {
+                        self.scanDocument()
+                    }
                 }
             }
         }

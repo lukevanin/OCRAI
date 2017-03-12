@@ -17,9 +17,9 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
     private let operationGroup: DispatchGroup
     
     private var phoneNumbers = [Entity]()
-    private var urls = [Entity]()
-    private var emails = [Entity]()
-    private var addresses = [Entity]()
+    private var urlAddresses = [Entity]()
+    private var emailAddresses = [Entity]()
+    private var postalAddresses = [Entity]()
     
     init(text: AnnotatedText, completion: @escaping TextAnnotationCompletion) {
         self.text = text
@@ -38,8 +38,9 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
         )
         let matches = detector.matches(in: content, options: [], range: range)
         makePhoneNumbers(matches)
-        makeUrls(matches)
-        makeAddresses(matches)
+        makeUrlAddresses(matches)
+        makeEmailAddresses(matches)
+        makePostalAddresses(matches)
         
         operationGroup.notify(queue: DispatchQueue.global()) {
             if !self.isCancelled {
@@ -48,10 +49,10 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
                 let response = TextAnnotationResponse(
                     personEntities: [],
                     organizationEntities: [],
-                    addressEntities: self.addresses,
+                    addressEntities: self.postalAddresses,
                     phoneEntities: self.phoneNumbers,
-                    urlEntities: self.urls,
-                    emailEntities: self.emails
+                    urlEntities: self.urlAddresses,
+                    emailEntities: self.emailAddresses
                 )
                 self.completion(response, nil)
             }
@@ -64,31 +65,42 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
         phoneNumbers.append(contentsOf: entities)
     }
     
-    private func makeUrls(_ matches: [NSTextCheckingResult]) {
-        let entities = makeEntities(forMatches: matches) { $0.url?.absoluteString }
+    private func makeUrlAddresses(_ matches: [NSTextCheckingResult]) {
+        let entities = makeEntities(forMatches: matches) {
+            guard let url = $0.url else {
+                return nil
+            }
+            
+            if let scheme = url.scheme, scheme == "mailto" {
+                return nil
+            }
+            
+            return url.absoluteString
+        }
         
-        // FIXME: Filter email URLs seperately to web urls.
-        urls.append(contentsOf: entities)
-        
-//        for entity in entities {
-//            if entity.scheme == "mailto" {
-//                emails.append(entity)
-//            }
-//            else {
-//                urls.append(entity)
-//            }
-//        }
+        urlAddresses.append(contentsOf: entities)
     }
     
-    private func makeAddresses(_ matches: [NSTextCheckingResult]) {
+    private func makeEmailAddresses(_ matches: [NSTextCheckingResult]) {
+        let entities = makeEntities(forMatches: matches) {
+            guard let url = $0.url, let scheme = url.scheme, scheme == "mailto" else {
+                return nil
+            }
+            return url.absoluteString
+        }
+        
+        emailAddresses.append(contentsOf: entities)
+    }
+    
+    private func makePostalAddresses(_ matches: [NSTextCheckingResult]) {
         let entities = makeEntities(forMatches: matches) { match in
             guard let components = match.addressComponents else {
                 return nil
             }
-            
             return makeAddress(components)
         }
-        self.addresses.append(contentsOf: entities)
+        
+        postalAddresses.append(contentsOf: entities)
     }
     
     private func makeAddress(_ entities: [String: String]) -> String? {
@@ -114,18 +126,32 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
         return content
     }
     
-    private func makeEntities(forMatches matches: [NSTextCheckingResult], value: (NSTextCheckingResult) -> String?) -> [Entity] {
+    private func makeEntities(forMatches matches: [NSTextCheckingResult], normalize: (NSTextCheckingResult) -> String?) -> [Entity] {
         var entities = [Entity]()
         
         for match in matches {
-            if let content = value(match) {
+            if let normalizedContent = normalize(match) {
+                let content = textForMatch(match)
                 let annotations = annotationsForMatch(match)
-                let entity = Entity(content: content, annotations: annotations)
+                let entity = Entity(
+                    content: content,
+                    normalizedContent: normalizedContent,
+                    annotations: annotations
+                )
                 entities.append(entity)
             }
         }
         
         return entities
+    }
+    
+    private func textForMatch(_ match: NSTextCheckingResult) -> String {
+        if match.numberOfRanges > 1 {
+            // FIXME: Handle multiple ranges in response
+            fatalError("unsupported multiple ranges")
+        }
+        let range = text.convertRange(match.range)
+        return text.getText(in: range)
     }
     
     private func annotationsForMatch(_ match: NSTextCheckingResult) -> [Annotation] {

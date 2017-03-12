@@ -106,6 +106,12 @@ class ScanOperation: AsyncOperation {
 //    }
     
     private func processTextAnnotations(_ text: AnnotatedText) {
+        
+        print("========================================")
+        print("Text:")
+        print(text.content)
+        print("========================================")
+        
         group.enter()
         service.annotateText(text: text) { response in
             if let response = response {

@@ -19,7 +19,7 @@ struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
             return TextAnnotationResponse(
                 personEntities: textEntities(type: .person, forResponse: response),
                 organizationEntities: textEntities(type: .organization, forResponse: response),
-                addressEntities: [], // FIXME: Parse address to address components
+                addressEntities: [],
                 phoneEntities: [],
                 urlEntities: [],
                 emailEntities: []
@@ -32,14 +32,16 @@ struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
             
             for entity in entities {
                 for mention in entity.mentions {
-                    let text = mention.text
-                    let offset = text.beginOffset
-                    let length = text.content.characters.count
+                    let responseText = mention.text
+                    let offset = responseText.beginOffset
+                    let length = responseText.content.characters.count
                     let range = self.text.convertRange(NSRange(location: offset, length: length))
+                    let originalText = self.text.getText(in: range)
                     let annotations = self.text.getAnnotations(forRange: range)
                     output.append(
                         Entity(
-                            content: text.content,
+                            content: originalText,
+                            normalizedContent: responseText.content,
                             annotations: annotations
                         )
                     )

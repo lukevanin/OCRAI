@@ -12,6 +12,7 @@ import MonkeyLearnEntitiesAPI
 extension Entity {
     init(monkeyLearnEntity entity: MonkeyLearnEntitiesAPI.Entity, annotation: Annotation) {
         self.content = entity.value
+        self.normalizedContent = entity.value
         self.annotations = [annotation]
     }
 }
@@ -54,6 +55,7 @@ struct MonkeyLearnEntitiesTextAnnotationServiceAdapter: TextAnnotationService {
                 output.append(
                     Entity(
                         content: entity.value,
+                        normalizedContent: entity.value,
                         annotations: annotations
                     )
                 )

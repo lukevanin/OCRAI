@@ -22,7 +22,7 @@ struct AnnotatedText {
     
     init(text: String) {
         self.lines = text.components(separatedBy: "\n")
-        self.content = lines.joined(separator: "; ")
+        self.content = lines.joined(separator: ", ")
         self.annotations = []
     }
     
@@ -37,6 +37,10 @@ struct AnnotatedText {
     
     func getAnnotations(forRange range: Range<String.Index>) -> [Annotation] {
         return getTextAnnotations(forRange: range).map { $0.annotation }
+    }
+    
+    func getText(in range: Range<String.Index>) -> String {
+        return content.substring(with: range)
     }
     
     private func getTextAnnotations(forRange range: Range<String.Index>) -> [TextAnnotation] {
