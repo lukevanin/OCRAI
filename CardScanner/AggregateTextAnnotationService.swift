@@ -27,12 +27,7 @@ private class AggregateTextAnnotationOperation: AsyncOperation {
         self.group = DispatchGroup()
         self.queue = DispatchQueue(label: "AggregateTextAnnotationOperation")
         self.response = TextAnnotationResponse(
-            personEntities: [],
-            organizationEntities: [],
-            addressEntities: [],
-            phoneEntities: [],
-            urlEntities: [],
-            emailEntities: []
+            text: request.text
         )
     }
     
@@ -61,21 +56,41 @@ private class AggregateTextAnnotationOperation: AsyncOperation {
 }
 
 struct AggregateTextAnnotationService: TextAnnotationService {
-    
+
+    typealias Combine = (TextAnnotationResponse, TextAnnotationResponse) -> TextAnnotationResponse
+
     struct ServiceDescriptor {
-        typealias Combine = (TextAnnotationResponse, TextAnnotationResponse) -> TextAnnotationResponse
         let service: TextAnnotationService
         let combine: Combine
-        static func descriptor(service: TextAnnotationService, combine: @escaping Combine) -> ServiceDescriptor {
-            return ServiceDescriptor(
-                service: service,
-                combine: combine
-            )
-        }
     }
     
     let services: [ServiceDescriptor]
     let operationQueue: OperationQueue
+    
+    init(appendDistinct services: [TextAnnotationService]) {
+        self.init(services: services) {
+            var output = $0.text
+            $1.text.enumerateTags { type, plainText, normalizedText, range in
+                // Append output from service 2 to service 1, only if service 1 does not already have content for the range.
+                if output.tags(in: range).count == 0 {
+                    output.add(type: type, text: normalizedText, in: range)
+                }
+            }
+            return TextAnnotationResponse(
+                text: output
+            )
+        }
+    }
+    
+    init(services: [TextAnnotationService], combine: @escaping Combine) {
+        let descriptors = services.map {
+            ServiceDescriptor(
+                service: $0,
+                combine: combine
+            )
+        }
+        self.init(services: descriptors)
+    }
     
     init(services: [ServiceDescriptor], operationQueue: OperationQueue? = nil) {
         self.services = services

@@ -9,6 +9,21 @@
 import Foundation
 import GoogleNaturalLanguageAPI
 
+extension FragmentType {
+    fileprivate init?(entityType: GoogleNaturalLanguageAPI.EntityType) {
+        switch entityType {
+        case .person:
+            self = .person
+            
+        case .organization:
+            self = .organization
+            
+        default:
+            return nil
+        }
+    }
+}
+
 struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
     let service: GoogleNaturalLanguageAPI
     
@@ -16,39 +31,34 @@ struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
         let text: AnnotatedText
         
         func parse(response: GoogleNaturalLanguageAPI.AnalyzeEntitiesResponse) -> TextAnnotationResponse {
-            return TextAnnotationResponse(
-                personEntities: textEntities(type: .person, forResponse: response),
-                organizationEntities: textEntities(type: .organization, forResponse: response),
-                addressEntities: [],
-                phoneEntities: [],
-                urlEntities: [],
-                emailEntities: []
-            )
+            var text = self.text
+            annotate(text: &text, entities: response.entities)
+            return TextAnnotationResponse(text: text)
         }
         
-        private func textEntities(type: GoogleNaturalLanguageAPI.EntityType, forResponse response: GoogleNaturalLanguageAPI.AnalyzeEntitiesResponse) -> [Entity] {
-            var output = [Entity]()
-            let entities = response.entities.filter() { $0.type == type }
-            
+        private func annotate(text: inout AnnotatedText, entities: [GoogleNaturalLanguageAPI.Entity]) {
             for entity in entities {
-                for mention in entity.mentions {
-                    let responseText = mention.text
-                    let offset = responseText.beginOffset
-                    let length = responseText.content.characters.count
-                    let range = self.text.convertRange(NSRange(location: offset, length: length))
-                    let originalText = self.text.getText(in: range)
-                    let annotations = self.text.getAnnotations(forRange: range)
-                    output.append(
-                        Entity(
-                            content: originalText,
-                            normalizedContent: responseText.content,
-                            annotations: annotations
-                        )
-                    )
-                }
+                annotate(text: &text, entity: entity)
+            }
+        }
+        
+        private func annotate(text: inout AnnotatedText, entity: GoogleNaturalLanguageAPI.Entity) {
+        
+            guard let type = FragmentType(entityType: entity.type) else {
+                return
             }
             
-            return output
+            for mention in entity.mentions {
+                annotate(text: &text, mention: mention, type: type)
+            }
+        }
+        
+        private func annotate(text: inout AnnotatedText, mention: GoogleNaturalLanguageAPI.EntityMention, type: FragmentType) {
+            let mentionText = mention.text
+            let offset = mentionText.beginOffset
+            let length = mentionText.content.characters.count
+            let range = text.convertRange(NSRange(location: offset, length: length))
+            text.add(type: type, text: mentionText.content, in: range)
         }
     }
     

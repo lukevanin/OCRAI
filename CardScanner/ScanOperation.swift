@@ -13,8 +13,6 @@ import CoreData
 
 class ScanOperation: AsyncOperation {
     
-    typealias ProcessEntity = (Entity, NSManagedObjectContext) throws -> Void
-    
     private let identifier: String
     private let service: ScannerService
     private let coreData: CoreDataStack
@@ -122,34 +120,38 @@ class ScanOperation: AsyncOperation {
     }
     
     private func handleTextAnnotationsResponse(_ response: TextAnnotationResponse) {
-        processEntities(response.personEntities, type: .person)
-        processEntities(response.organizationEntities, type: .organization)
-        processEntities(response.phoneEntities, type: .phoneNumber)
-        processEntities(response.urlEntities, type: .url)
-        processEntities(response.emailEntities, type: .email)
-        processEntities(response.addressEntities, type: .address)
+        processEntities(response.text)
     }
     
     // MARK: Common
     
-    private func processEntities(_ entities: [Entity], type: FragmentType) {
-        for entity in entities {
-            processEntity(entity, type: type)
+    private func processEntities(_ text: AnnotatedText) {
+        var count = 0
+        text.enumerateTags { (type, content, _, range) in
+            let annotations = text.shapes(in: range)
+            addFragment(
+                at: count,
+                type: type,
+                content: content,
+                annotations: annotations
+            )
+            count += 1
         }
     }
     
-    private func processEntity(_ entity: Entity, type: FragmentType) {
+    private func addFragment(at index: Int, type: FragmentType, content: String, annotations: [Annotation]) {
         group.enter()
         coreData.performBackgroundChanges() { [identifier, group] context in
             do {
                 let fragment = Fragment(
                     type: type,
-                    value: entity.content,
+                    value: content,
                     context: context
                 )
                 fragment.document = try context.documents(withIdentifier: identifier).first
+                fragment.ordinality = Int32(index)
                 
-                for annotation in entity.annotations {
+                for annotation in annotations {
                     let fragmentAnnotation = FragmentAnnotation(
                         context: context
                     )

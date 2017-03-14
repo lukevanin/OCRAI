@@ -59,7 +59,7 @@ extension Document {
         ]
         
         for priority in priorities {
-            let fragment = allFragments.first { $0.type == priority }
+            let fragment = fragments(ofType: priority).first
             if let value = fragment?.value {
                 output.append(value)
             }
@@ -110,7 +110,8 @@ extension Document {
                 value: $0 as NSString
             )
         }
-        
+  
+        // FIXME: Add addresses to contact
 //        let postalAddresses = fragments(ofType: .address)
 //        contact.postalAddresses = postalAddresses.flatMap({ $0.value }).map {
 //            let address = CNMutablePostalAddress()

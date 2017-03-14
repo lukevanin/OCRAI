@@ -5,6 +5,8 @@
 //  Created by Luke Van In on 2017/02/09.
 //  Copyright © 2017 Luke Van In. All rights reserved.
 //
+//  FIXME: Detect dates
+//
 
 import Foundation
 import Contacts
@@ -12,14 +14,9 @@ import CoreLocation
 
 private class DataDetectorTextAnnotationOperation: AsyncOperation {
     
-    private let text: AnnotatedText
+    private var text: AnnotatedText
     private let completion: TextAnnotationCompletion
     private let operationGroup: DispatchGroup
-    
-    private var phoneNumbers = [Entity]()
-    private var urlAddresses = [Entity]()
-    private var emailAddresses = [Entity]()
-    private var postalAddresses = [Entity]()
     
     init(text: AnnotatedText, completion: @escaping TextAnnotationCompletion) {
         self.text = text
@@ -37,36 +34,26 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
             length: content.characters.count
         )
         let matches = detector.matches(in: content, options: [], range: range)
-        makePhoneNumbers(matches)
-        makeUrlAddresses(matches)
-        makeEmailAddresses(matches)
-        makePostalAddresses(matches)
+        annotatePhoneNumbers(matches)
+        annotateUrlAddresses(matches)
+        annotateEmailAddresses(matches)
+        annotatePostalAddresses(matches)
         
         operationGroup.notify(queue: DispatchQueue.global()) {
             if !self.isCancelled {
-                
-                // FIXME: Detect dates
-                let response = TextAnnotationResponse(
-                    personEntities: [],
-                    organizationEntities: [],
-                    addressEntities: self.postalAddresses,
-                    phoneEntities: self.phoneNumbers,
-                    urlEntities: self.urlAddresses,
-                    emailEntities: self.emailAddresses
-                )
+                let response = TextAnnotationResponse(text: self.text)
                 self.completion(response, nil)
             }
             completion()
         }
     }
     
-    private func makePhoneNumbers(_ matches: [NSTextCheckingResult]) {
-        let entities = makeEntities(forMatches: matches) { $0.phoneNumber }
-        phoneNumbers.append(contentsOf: entities)
+    private func annotatePhoneNumbers(_ matches: [NSTextCheckingResult]) {
+        annotate(type: .phoneNumber, matches: matches) { $0.phoneNumber }
     }
     
-    private func makeUrlAddresses(_ matches: [NSTextCheckingResult]) {
-        let entities = makeEntities(forMatches: matches) {
+    private func annotateUrlAddresses(_ matches: [NSTextCheckingResult]) {
+        annotate(type: .url, matches: matches) {
             guard let url = $0.url else {
                 return nil
             }
@@ -77,30 +64,24 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
             
             return url.absoluteString
         }
-        
-        urlAddresses.append(contentsOf: entities)
     }
     
-    private func makeEmailAddresses(_ matches: [NSTextCheckingResult]) {
-        let entities = makeEntities(forMatches: matches) {
+    private func annotateEmailAddresses(_ matches: [NSTextCheckingResult]) {
+        annotate(type: .email, matches: matches) {
             guard let url = $0.url, let scheme = url.scheme, scheme == "mailto" else {
                 return nil
             }
             return url.absoluteString
         }
-        
-        emailAddresses.append(contentsOf: entities)
     }
     
-    private func makePostalAddresses(_ matches: [NSTextCheckingResult]) {
-        let entities = makeEntities(forMatches: matches) { match in
+    private func annotatePostalAddresses(_ matches: [NSTextCheckingResult]) {
+        annotate(type: .address, matches: matches) { match in
             guard let components = match.addressComponents else {
                 return nil
             }
             return makeAddress(components)
         }
-        
-        postalAddresses.append(contentsOf: entities)
     }
     
     private func makeAddress(_ entities: [String: String]) -> String? {
@@ -126,32 +107,17 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
         return content
     }
     
-    private func makeEntities(forMatches matches: [NSTextCheckingResult], normalize: (NSTextCheckingResult) -> String?) -> [Entity] {
-        var entities = [Entity]()
-        
+    private func annotate(type: FragmentType, matches: [NSTextCheckingResult], normalize: (NSTextCheckingResult) -> String?) {
         for match in matches {
             if let normalizedContent = normalize(match) {
-                let content = textForMatch(match)
-                let annotations = annotationsForMatch(match)
-                let entity = Entity(
-                    content: content,
-                    normalizedContent: normalizedContent,
-                    annotations: annotations
-                )
-                entities.append(entity)
+                if match.numberOfRanges > 1 {
+                    // FIXME: Handle multiple ranges in response
+                    fatalError("unsupported multiple ranges")
+                }
+                let range = text.convertRange(match.range)
+                self.text.add(type: type, text: normalizedContent, in: range)
             }
         }
-        
-        return entities
-    }
-    
-    private func textForMatch(_ match: NSTextCheckingResult) -> String {
-        if match.numberOfRanges > 1 {
-            // FIXME: Handle multiple ranges in response
-            fatalError("unsupported multiple ranges")
-        }
-        let range = text.convertRange(match.range)
-        return text.getText(in: range)
     }
     
     private func annotationsForMatch(_ match: NSTextCheckingResult) -> [Annotation] {
@@ -165,7 +131,7 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
     }
     
     private func annotationForRange(_ range: NSRange) -> [Annotation] {
-        return text.getAnnotations(forRange: text.convertRange(range))
+        return text.shapes(in: text.convertRange(range))
     }
 
     private func filter<T>(_ matches: [NSTextCheckingResult], value: (NSTextCheckingResult) -> T?) -> [T] {

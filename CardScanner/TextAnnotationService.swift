@@ -9,24 +9,25 @@
 import Foundation
 import Contacts
 
-struct Entity {
-    var content: String
-    var normalizedContent: String
-    var annotations: [Annotation]
-    init(content: String, normalizedContent: String? = nil, annotations: [Annotation]? = nil) {
-        self.content = content
-        self.normalizedContent = normalizedContent ?? content
-        self.annotations = annotations ?? []
-    }
-}
+//struct Entity {
+//    var content: String
+//    var normalizedContent: String
+//    var annotations: [Annotation]
+//    init(content: String, normalizedContent: String? = nil, annotations: [Annotation]? = nil) {
+//        self.content = content
+//        self.normalizedContent = normalizedContent ?? content
+//        self.annotations = annotations ?? []
+//    }
+//}
 
 struct TextAnnotationResponse {
-    var personEntities: [Entity]
-    var organizationEntities: [Entity]
-    var addressEntities: [Entity]
-    var phoneEntities: [Entity]
-    var urlEntities: [Entity]
-    var emailEntities: [Entity]
+//    var personEntities: [Entity]
+//    var organizationEntities: [Entity]
+//    var addressEntities: [Entity]
+//    var phoneEntities: [Entity]
+//    var urlEntities: [Entity]
+//    var emailEntities: [Entity]
+    let text: AnnotatedText
 }
 
 struct TextAnnotationRequest {

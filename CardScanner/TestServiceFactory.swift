@@ -16,9 +16,7 @@ struct TestServiceFactory: ServiceFactory {
     func imageAnnotationService() -> ImageAnnotationService? {
         return MockImageAnnotationService(
             response: ImageAnnotationResponse(
-                textAnnotations: AnnotatedText(
-                    text: "Apple Inc., apple.com, Steve Jobs, 1 Infinite Loop, Cupertino, CA 95014, Tel: 786-555-1212, Fax: 786-555-3434, steve.jobs@apple.com, @stevejobs"
-                ),
+                textAnnotations: makeAnnotatedText(),
                 logoAnnotations: [],
                 faceAnnotations: [],
                 codeAnnotations: []
@@ -28,41 +26,31 @@ struct TestServiceFactory: ServiceFactory {
     }
     
     func textAnnotationService() -> TextAnnotationService? {
+        
+        var text = AnnotatedText(lines: [
+            /* 0 */ "Apple Inc.",
+            /* 1 */ "apple.com",
+            /* 2 */ "Steven Jobs",
+            /* 3 */ "1 Infinite Loop",
+            /* 4 */ "Cupertino, CA 95014",
+            /* 5 */ "Tel: 786-555-1212",
+            /* 6 */ "Fax: 786-555-3434",
+            /* 7 */ "steve.jobs@apple.com"
+            ])
+
+        text.add(type: .organization, atLine: 0)
+        text.add(type: .url, atLine: 1)
+        text.add(type: .person, atLine: 2)
+        text.add(type: .address, atLine: 3)
+        text.add(type: .address, atLine: 4)
+        text.add(type: .phoneNumber, atLine: 5)
+        text.add(type: .phoneNumber, atLine: 6)
+        text.add(type: .email, atLine: 5)
+        
+        
         return MockTextAnnotationService(
             response: TextAnnotationResponse(
-                personEntities: [
-                    Entity(
-                        content: "Steve Jobs"
-                    )
-                ],
-                organizationEntities: [
-                    Entity(
-                        content: "Apple Inc."
-                    )
-                ],
-                addressEntities: [
-                    Entity(
-                        content: CNPostalAddressFormatter.string(from: makeAddress(), style: .mailingAddress)
-                    )
-                ],
-                phoneEntities: [
-                    Entity(
-                        content: "786-555-1212"
-                    ),
-                    Entity(
-                        content: "786-555-3434"
-                    )
-                ],
-                urlEntities: [
-                    Entity(
-                        content: "www.apple.com"
-                    )
-                ],
-                emailEntities: [
-                    Entity(
-                        content: "steve.jobs@apple.com"
-                    )
-                ]
+                text: text
             ),
             error: nil
         )
@@ -73,6 +61,22 @@ struct TestServiceFactory: ServiceFactory {
             response: [makePlacemark()],
             error: nil
         )
+    }
+    
+    func makeAnnotatedText() -> AnnotatedText {
+        return AnnotatedText(
+            lines: [
+                "Apple Inc.",
+                "apple.com",
+                "Steven Jobs",
+                "1 Infinite Loop",
+                "Cupertino, CA 95014",
+                "Tel: 786-555-1212",
+                "Fax: 786-555-3434",
+                "steve.jobs@apple.com",
+                "@stevejobs"
+                ]
+            )
     }
     
     func makePlacemark() -> CLPlacemark {

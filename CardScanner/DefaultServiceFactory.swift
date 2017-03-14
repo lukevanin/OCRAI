@@ -22,53 +22,14 @@ struct DefaultServiceFactory: ServiceFactory {
         let googleNaturalLanguageService = try! GoogleNaturalLanguageAPI()
         let googleNaturalLanguageServiceAdapter = GoogleNaturalLanguageServiceAdapter(service: googleNaturalLanguageService)
         
-        let monkeyLearnService = try! MonkeyLearnEntitiesAPI()
-        let monkeyLearnAdapter = MonkeyLearnEntitiesTextAnnotationServiceAdapter(service: monkeyLearnService)
+//        let monkeyLearnService = try! MonkeyLearnEntitiesAPI()
+//        let monkeyLearnAdapter = MonkeyLearnEntitiesTextAnnotationServiceAdapter(service: monkeyLearnService)
         
         let dataDetectorService = DataDetectorTextAnnotationService()
-        return AggregateTextAnnotationService(
-            services: [
-                
-//                .descriptor(
-//                    service: googleNaturalLanguageServiceAdapter,
-//                    combine: { original, response in
-//                        return TextAnnotationResponse(
-//                            personEntities: response.personEntities,
-//                            organizationEntities: response.organizationEntities,
-//                            addressEntities: original.addressEntities,
-//                            phoneEntities: original.phoneEntities,
-//                            urlEntities: original.urlEntities,
-//                            emailEntities: original.emailEntities
-//                        )
-//                }),
-                
-                .descriptor(
-                    service: monkeyLearnAdapter,
-                    combine: { original, response in
-                        return TextAnnotationResponse(
-                            personEntities: response.personEntities,
-                            organizationEntities: response.organizationEntities,
-                            addressEntities: original.addressEntities,
-                            phoneEntities: original.phoneEntities,
-                            urlEntities: original.urlEntities,
-                            emailEntities: original.emailEntities
-                        )
-                }),
-                
-                .descriptor(
-                    service: dataDetectorService,
-                    combine: { original, response in
-                        TextAnnotationResponse(
-                            personEntities: original.personEntities,
-                            organizationEntities: original.organizationEntities,
-                            addressEntities: response.addressEntities,
-                            phoneEntities: response.phoneEntities,
-                            urlEntities: response.urlEntities,
-                            emailEntities: response.emailEntities
-                        )
-                })
-            ]
-        )
+        return AggregateTextAnnotationService(appendDistinct: [
+                dataDetectorService,
+                googleNaturalLanguageServiceAdapter,
+                ])
     }
     
     func addressResolutionService() -> AddressResolutionService? {

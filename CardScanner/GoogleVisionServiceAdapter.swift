@@ -97,17 +97,8 @@ extension GoogleVisionAPI.AnnotateImageResponse {
                 
                 if let polygon = component.boundingPoly?.imageAnnotationPolygon() {
                     let annotation = Annotation(content: componentText, bounds: polygon)
-                    output.addAnnotation(annotation, forRange: range)
+                    output.add(shape: annotation, in: range)
                 }
-                
-                
-//                    let components = description.components(separatedBy: "\n").joined(separator: ", ")
-//                    let polygon = entity.boundingPoly?.imageAnnotationPolygon() ?? Polygon(vertices: [])
-//                    let annotation = Annotation(
-//                        content: description,
-//                        bounds: polygon
-//                    )
-//                    annotations.append(annotation)
             }
         }
         
