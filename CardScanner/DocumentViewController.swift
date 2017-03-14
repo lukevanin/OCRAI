@@ -16,45 +16,6 @@ private let addressCellIdentifier = "AddressCell"
 private let imageCellIdentifier = "ImageCell"
 
 class DocumentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TextCellDelegate {
-    
-    class Section {
-        let title: String
-        let type: FragmentType
-        var values: [Fragment]
-        
-        init(title: String, type: FragmentType, values: [Fragment]) {
-            self.title = title
-            self.type = type
-            self.values = values
-        }
-        
-        @discardableResult func remove(at: Int) -> Fragment {
-            let output = values.remove(at: at)
-            updateOrdering(from: at)
-            return output
-        }
-        
-        func append(_ fragment: Fragment) {
-            insert(fragment, at: values.count)
-        }
-        
-        func insert(_ fragment: Fragment, at: Int) {
-            fragment.type = type
-            fragment.ordinality = Int32(at)
-            values.insert(fragment, at: at)
-            updateOrdering(from: at)
-        }
-        
-        func updateOrdering() {
-            updateOrdering(from: 0)
-        }
-        
-        func updateOrdering(from: Int) {
-            for i in from ..< values.count {
-                values[i].ordinality = Int32(i)
-            }
-        }
-    }
 
     var documentIdentifier: String!
     var coreData: CoreDataStack!
@@ -68,8 +29,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }()
     
     private var document: Document?
-    private var sections = [Section]()
-    private var activeSections = [Int]()
+    private var model: DocumentViewModel?
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backgroundImageView: UIImageView!
@@ -82,19 +42,20 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     @IBOutlet weak var emptyContentPlaceholderView: UIView!
     
     @IBAction func onActionsAction(_ sender: Any) {
-        document?.presentActions(from: self)
+        guard let document = document else {
+            return
+        }
+        presentActionsAlertForDocument(document: document)
     }
     
     @IBAction func onScanAction(_ sender: Any) {
         if isEditing {
             setEditing(false, animated: true)
         }
-        
-        clearDocument() {
-            DispatchQueue.main.async {
-                self.scanDocument()
-            }
-        }
+
+        // FIXME: Prompt to replace existing values if any.
+        clearDocument()
+        scanDocument()
     }
     
     override func viewDidLoad() {
@@ -132,126 +93,49 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        
         tableView.setEditing(editing, animated: animated)
-
-        // Disable all buttons except for edit/done button when editing.
-        if let buttonItems = navigationItem.rightBarButtonItems {
-            for buttonItem in buttonItems {
-                if buttonItem != editButtonItem {
-                    buttonItem.isEnabled = !editing
-                }
-            }
-        }
+        updateButtonState()
         
-        // Show scan button in edit mode.
-//        scanButton.isHidden = !editing
-        
-        // Rows
-        activeSections.removeAll()
-        
-        tableView.beginUpdates()
-        
-        if editing {
+        if let model = model {
+            model.includeEmptySections = editing
             
-            // Edit mode.
-            // Insert one additional row for each section.
-            var indexPaths = [IndexPath]()
-            var sectionIndices = IndexSet()
-            for i in 0 ..< sections.count {
-                let section = sections[i]
-                activeSections.append(i)
-                
-                let count = section.values.count
-                
-                if count == 0 {
-                    sectionIndices.insert(i)
-                }
-                else {
-                    
-                }
-                
-                let indexPath = IndexPath(row: count, section: i)
-                indexPaths.append(indexPath)
-            }
-            tableView.insertSections(sectionIndices, with: .automatic)
-            tableView.insertRows(at: indexPaths, with: .automatic)
-        }
-        else {
-            // Non-edit mode.
-            // Remove additional row for each section.
-            var indexPaths = [IndexPath]()
-            var sectionIndices = IndexSet()
-            for i in 0 ..< sections.count {
-                let section = sections[i]
-                let count = section.values.count
-                
-                if count == 0 {
-                    sectionIndices.insert(i)
-                }
-                else {
-                    activeSections.append(i)
-                }
-                
-                let indexPath = IndexPath(row: count, section: i)
-                indexPaths.append(indexPath)
-            }
-            tableView.deleteRows(at: indexPaths, with: .automatic)
-            tableView.deleteSections(sectionIndices, with: .automatic)
-        }
-        
-        tableView.endUpdates()
-        
-        
-        if let indexPaths = tableView.indexPathsForVisibleRows {
-            for indexPath in indexPaths {
-                let section = self.section(at: indexPath)
-                if let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell {
-                    cell.editingEnabled = editing
-                    configureCell(cell, withType: section.type)
+            if let indexPaths = tableView.indexPathsForVisibleRows {
+                for indexPath in indexPaths {
+                    if let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell {
+                        let type = model.typeForSection(at: indexPath.section)
+                        configureCell(cell, with: type)
+                    }
                 }
             }
         }
-     
-        updateContentState()
+    }
+    
+    //
+    //  Disable all buttons except for edit/done nav bar button when editing.
+    //
+    private func updateButtonState() {
+        guard let buttonItems = navigationItem.rightBarButtonItems else {
+            return
+        }
+        
+        buttonItems.filter({ $0 != editButtonItem }).forEach({ $0.isEnabled = !isEditing })
     }
     
     // MARK: Document
     
-    private func clearDocument(completion: @escaping () -> Void) {
-        sections.removeAll()
-        activeSections.removeAll()
-        tableView.reloadData()
-        
-        coreData.performBackgroundChanges { [documentIdentifier] (context) in
-            
-            let document = try context.documents(withIdentifier: documentIdentifier!).first
-            
-            if let fragments = document?.fragments?.allObjects as? [Fragment] {
-                for fragment in fragments {
-                    context.delete(fragment)
-                }
-            }
-            
-            do {
-                try context.save()
-            }
-            catch {
-                print("Cannot remove fragments from document: \(error)")
-            }
-            
-            completion()
-        }
+    private func clearDocument() {
+        model?.clear()
     }
     
     private func loadDocument() {
         do {
-            var sections = [Section]()
+            self.document = try coreData.mainContext.documents(withIdentifier: documentIdentifier).first
             
-            let document = try coreData.mainContext.documents(withIdentifier: documentIdentifier).first
-            self.document = document
+            guard let document = self.document else {
+                return
+            }
             
-            if let imageData = document?.thumbnailImageData {
+            if let imageData = document.thumbnailImageData {
                 let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale)
                 documentView.image = image
             }
@@ -260,52 +144,36 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             
             documentView.document = document
-            
-            func makeSection(title: String, type: FragmentType) -> Section {
-                return Section(
-                    title: title,
-                    type: type,
-                    values: document?.fragments(ofType: type) ?? []
-                )
-            }
-            
-            sections.append(makeSection(title: "Person", type: .person))
-            sections.append(makeSection(title: "Organization", type: .organization))
-            sections.append(makeSection(title: "Phone Number", type: .phoneNumber))
-            sections.append(makeSection(title: "Email", type: .email))
-            sections.append(makeSection(title: "URL", type: .url))
-            sections.append(makeSection(title: "Address", type: .address))
-            // FIXME: Add images
-            // FIXME: Add dates
-            
-            self.sections = sections
-            
-            for i in 0 ..< sections.count {
-                if sections[i].values.count > 0 {
-                    self.activeSections.append(i)
-                }
-            }
-            
+
+            model = DocumentViewModel(
+                document: document,
+                coreData: coreData
+            )
+            model?.delegate = self
             tableView.reloadData()
-            updateContentState()
-            
-            if let document = document {
-                if !document.didCompleteScan {
-                    clearDocument() {
-                        self.scanDocument()
-                    }
-                }
-            }
+
+            scanDocumentIfNeeded()
         }
         catch {
             print("Cannot fetch document: \(error)")
         }
     }
     
-    private func saveDocument() {
+    private func scanDocumentIfNeeded() {
+        guard let document = document else {
+            return
+        }
         
-        // FIXME: Fetch and update fragments on background context to maintain synchronization.
-        coreData.saveNow()
+        if document.didCompleteScan {
+            return
+        }
+        
+        clearDocument()
+        scanDocument()
+    }
+    
+    private func saveDocument() {
+        model?.save()
     }
     
     private func scanDocument() {
@@ -323,59 +191,35 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             
         case .active:
             print("active")
-            scanButton.isHidden = true
-            activityIndicatorView.startAnimating()
-            activityOverlayView.isHidden = false
+            updateViewState(scanning: true)
             
         case .completed:
             print("completed")
-            scanButton.isHidden = false
-            activityIndicatorView.stopAnimating()
-            activityOverlayView.isHidden = true
-            loadDocument()
+            updateViewState(scanning: false)
+            model?.fetch()
         }
     }
     
-    fileprivate func updateContentState() {
-        let totalRows = countFragments()
-        if totalRows == 0 {
-            showPlaceholder()
+    private func updateViewState(scanning: Bool) {
+        scanButton.isHidden = scanning
+        activityOverlayView.isHidden = !scanning
+
+        if scanning {
+            activityIndicatorView.startAnimating()
         }
         else {
-            hidePlaceholder()
+            activityIndicatorView.stopAnimating()
         }
-    }
-    
-    private func countFragments() -> Int {
-        var count = 0
-        for section in sections {
-            count += section.values.count
-        }
-        return count
-    }
-    
-    private func showPlaceholder() {
-//        tableView.addSubview(emptyContentPlaceholderView)
-//        NSLayoutConstraint.activate([
-//            emptyContentPlaceholderView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-//            emptyContentPlaceholderView.widthAnchor.constraint(equalTo: view.widthAnchor),
-//            emptyContentPlaceholderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            emptyContentPlaceholderView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//            ])
-    }
-    
-    private func hidePlaceholder() {
-        emptyContentPlaceholderView.removeFromSuperview()
     }
     
     // MARK: Table view
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return activeSections.count
+        return model?.numberOfSections ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let numberOfItems = self.section(at: section).values.count
+        let numberOfItems = model?.numberOfRowsInSection(section) ?? 0
         
         if isEditing {
             return numberOfItems + 1
@@ -386,22 +230,23 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.section(at: section).title
+        return model?.titleForSection(at: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = self.section(at: indexPath.section)
         
-        if isEditing && (indexPath.row == section.values.count) {
-            return self.tableView(tableView, cellForBlankTextFragmentOfType: section.type, at: indexPath)
+        guard let model = model else {
+            return self.tableView(tableView, cellForBlankTextFragmentOfType: .unknown, at: indexPath)
         }
         
-        let fragment = section.values[indexPath.row]
+        if isEditing && (indexPath.row == model.numberOfRowsInSection(indexPath.section)) {
+            let type = model.typeForSection(at: indexPath.section)
+            return self.tableView(tableView, cellForBlankTextFragmentOfType: type, at: indexPath)
+        }
+        
+        let fragment = model.fragment(at: indexPath)
         
         switch fragment.type {
-            
-        case .face, .logo:
-            return self.tableView(tableView, cellForImageFragment:fragment, at: indexPath)
             
         default:
             return self.tableView(tableView, cellForTextFragment:fragment, at: indexPath)
@@ -409,66 +254,21 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     private func tableView(_ tableView: UITableView, cellForBlankTextFragmentOfType type: FragmentType, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
-        
-        let title: String
-        switch type {
-        case .address:
-            title = "Address"
-            
-        case .email:
-            title = "Email"
-            
-        case .face:
-            title = "Name"
-            
-        case .logo:
-            title = "Brand"
-            
-        case .note:
-            title = "Note"
-            
-        case .organization:
-            title = "Organization"
-            
-        case .person:
-            title = "Name"
-            
-        case .phoneNumber:
-            title = "Phone Number"
-            
-        case .url:
-            title = "URL"
-            
-        case .unknown:
-            title = "Text"
-        }
-        cell.contentTextField.placeholder = title
-        cell.editingEnabled = true
-        configureCell(cell, withType: type)
-        cell.accessoryType = .none
-        cell.editingAccessoryType = .none
-        cell.delegate = self
-        
+        let cell = self.tableView(tableView, cellForFragmentType: type, at: indexPath)
+        cell.contentTextField.placeholder = type.description
         return cell
     }
     
     private func tableView(_ tableView: UITableView, cellForTextFragment fragment: Fragment, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
-        cell.delegate = self
+        let cell = self.tableView(tableView, cellForFragmentType: fragment.type, at: indexPath)
         cell.contentTextField.text = fragment.value
-        cell.editingEnabled = isEditing
-        configureCell(cell, withType: fragment.type)
-        cell.showsReorderControl = true
-        
-        cell.accessoryType = .none
-        cell.editingAccessoryType = .none
-        
         return cell
     }
     
-    private func tableView(_ tableView: UITableView, cellForImageFragment fragment: Fragment, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: imageCellIdentifier, for: indexPath) as! ImageFragmentCell
+    private func tableView(_ tableView: UITableView, cellForFragmentType type: FragmentType, at indexPath: IndexPath) -> BasicFragmentCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
+        cell.delegate = self
+        configureCell(cell, with: type)
         return cell
     }
     
@@ -477,8 +277,10 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        let section = self.section(at: indexPath)
-        if indexPath.row == section.values.count {
+        guard let model = model else {
+            return false
+        }
+        if indexPath.row == model.numberOfRowsInSection(indexPath.section) {
             return false
         }
         else {
@@ -486,15 +288,22 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    private func configureCell(_ cell: BasicFragmentCell, withType type: FragmentType) {
+    private func configureCell(_ cell: BasicFragmentCell, with type: FragmentType) {
         cell.colorView.backgroundColor = isEditing ? UIColor(white: 0.90, alpha: 1.0) : UIColor.clear
         cell.colorAccentView.backgroundColor = type.accentColor //withAlphaComponent(0.95)
+        cell.editingEnabled = isEditing
+        cell.showsReorderControl = true
+        cell.accessoryType = .none
+        cell.editingAccessoryType = .none
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        guard let model = model else {
+            return .none
+        }
+        
         if isEditing {
-            let section = self.section(at: indexPath.section)
-            if indexPath.row == section.values.count {
+            if indexPath.row == model.numberOfRowsInSection(indexPath.section) {
                 return .insert
             }
             else {
@@ -508,9 +317,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         var output = [UITableViewRowAction]()
-        
-        let section = self.section(at: indexPath.section)
-        let fragment = section.values[indexPath.row]
         
         output.append(
             UITableViewRowAction(
@@ -529,38 +335,20 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        let sourceSection = self.section(at: sourceIndexPath.section)
-        let destinationSection = self.section(at: proposedDestinationIndexPath.section)
         
-        let limit: Int
-        
-        if sourceIndexPath.section == proposedDestinationIndexPath.section {
-            // Moving within same section
-            limit = destinationSection.values.count - 1
-        }
-        else {
-            // Moving to a different section
-            limit = destinationSection.values.count
+        guard let model = model else {
+            return proposedDestinationIndexPath
         }
         
-        let index = min(limit, proposedDestinationIndexPath.row)
-        return IndexPath(row: index, section: proposedDestinationIndexPath.section)
+        return model.targetIndexPathForMove(from: sourceIndexPath, to: proposedDestinationIndexPath)
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let sourceSection = self.section(at: sourceIndexPath.section)
-        let destinationSection = self.section(at: destinationIndexPath.section)
-        let fragment = sourceSection.values.remove(at: sourceIndexPath.row)
-        fragment.type = destinationSection.type
-        destinationSection.values.insert(fragment, at: destinationIndexPath.row)
-        sourceSection.updateOrdering()
-        destinationSection.updateOrdering()
-        saveDocument()
+        model?.move(from: sourceIndexPath, to: destinationIndexPath)
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        let section = self.section(at: indexPath.section)
         
         switch editingStyle {
             
@@ -590,15 +378,19 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         headerView.backgroundView?.backgroundColor = UIColor(white: 0.8, alpha: 1.0)
     }
     
+    // MARK: Cell delegate
+    
     func textCell(cell: BasicFragmentCell, textDidChange text: String?) {
 
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
         
-        let section = self.section(at: indexPath.section)
+        guard let model = model else {
+            return
+        }
         
-        if indexPath.row == section.values.count {
+        if indexPath.row == model.numberOfRowsInSection(indexPath.section) {
             insert(value: text, at: indexPath)
             cell.contentTextField.text = nil
         }
@@ -613,55 +405,33 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         
         coreData.saveNow()
     }
+
+    // MARK: Data
     
-    func delete(at indexPath: IndexPath) {
-        let section = self.section(at: indexPath.section)
-        let context = coreData.mainContext
-        let fragment = section.values[indexPath.row]
-        context.delete(fragment)
-        coreData.saveNow() { success in
-            if success {
-                section.remove(at: indexPath.row)
-                self.tableView.beginUpdates()
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                self.tableView.endUpdates()
-            }
+    private func insert(value: String?, at indexPath: IndexPath) {
+        guard let model = model else {
+            return
         }
+        model.insert(value: value, at: indexPath)
     }
     
-    func update(value: String?, at indexPath: IndexPath) {
-        let section = self.section(at: indexPath.section)
-        let fragment = section.values[indexPath.row]
-        fragment.value = value
-        coreData.saveNow()
-    }
-    
-    func insert(value: String?, at indexPath: IndexPath) {
-        let section = self.section(at: indexPath.section)
-        let context = coreData.mainContext
-        do {
-            let fragment = Fragment(type: section.type, value: value, context: context)
-            fragment.document = try context.documents(withIdentifier: documentIdentifier).first
-            try context.save()
-            coreData.saveNow() { success in
-                if success {
-                    section.append(fragment)
-                    self.tableView.beginUpdates()
-                    self.tableView.insertRows(at: [indexPath], with: .automatic)
-                    self.tableView.endUpdates()
-                }
-            }
+    private func update(value: String?, at indexPath: IndexPath) {
+        guard let model = model else {
+            return
         }
-        catch {
-            print("Cannot insert item: \(error)")
+        model.update(value: value, at: indexPath)
+    }
+    
+    private func delete(at indexPath: IndexPath) {
+        guard let model = model else {
+            return
         }
+        model.delete(at: indexPath)
     }
-    
-    func section(at indexPath: IndexPath) -> Section {
-        return section(at: indexPath.section)
-    }
-    
-    func section(at index: Int) -> Section {
-        return sections[activeSections[index]]
+}
+
+extension DocumentViewController: DocumentViewModelDelegate {
+    func documentModel(model: DocumentViewModel, didUpdateWithChanges changes: DocumentViewModel.Changes) {
+        tableView.applyChanges(changes)
     }
 }

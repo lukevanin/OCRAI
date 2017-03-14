@@ -51,4 +51,33 @@ class DocumentCell: UITableViewCell {
             layer.shadowPath = UIBezierPath(rect: backgroundImageView.bounds).cgPath
         }
     }
+    
+    func configure(with document: Document) {
+        documentView?.document = document
+        
+        // FIXME: Instantiate image in background thread
+        if let imageData = document.thumbnailImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {
+            documentView?.image = image
+            documentView?.isHidden = false
+            placeholderImageView?.isHidden = true
+        }
+        else {
+            documentView?.image = nil
+            documentView?.isHidden = true
+            placeholderImageView?.isHidden = false
+        }
+        
+        let titles = document.titles
+        
+        if titles.count > 0 {
+            titleLabel?.text = titles[0]
+            
+            if titles.count > 1 {
+                subtitleLabel?.text = titles[1]
+            }
+        }
+        else {
+            titleLabel?.text = "Tap to scan"
+        }
+    }
 }

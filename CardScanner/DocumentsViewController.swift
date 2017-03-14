@@ -143,38 +143,8 @@ class DocumentsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DocumentCell
         
-        if let item = listController.object(at: indexPath) {
-            
-            cell.documentView?.document = item
-            
-            if let imageData = item.thumbnailImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {
-                cell.documentView?.image = image
-                cell.documentView?.isHidden = false
-                cell.placeholderImageView?.isHidden = true
-            }
-            else {
-                cell.documentView?.image = nil
-                cell.documentView?.isHidden = true
-                cell.placeholderImageView?.isHidden = false
-            }
-            
-            let titles = item.titles
-            
-            if titles.count > 0 {
-                cell.titleLabel?.text = titles[0]
-                
-                if titles.count > 1 {
-                    cell.subtitleLabel?.text = titles[1]
-                }
-            }
-            
-            //
-            if let imageData = item.blurredImageData, let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale) {
-//                cell.backgroundImageView.image = image
-            }
-            else {
-//                cell.backgroundImageView.image = nil
-            }
+        if let document = listController.object(at: indexPath) {
+            cell.configure(with: document)
         }
         
         return cell
@@ -182,7 +152,7 @@ class DocumentsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         if let document = listController.object(at: indexPath) {
-            document.presentActions(from: self)
+            presentActionsAlertForDocument(document: document)
         }
     }
     

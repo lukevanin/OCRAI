@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B7667A671E759C0D0066375E /* DocumentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7667A661E759C0D0066375E /* DocumentViewModel.swift */; };
+		B7667A6A1E75AFE20066375E /* UIAlertController+Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7667A691E75AFE20066375E /* UIAlertController+Document.swift */; };
 		B77332741E6EE23000A6B114 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B77332731E6EE23000A6B114 /* UIImageEffects.m */; };
 		B7751B411E70563B0024D99B /* CGRect+CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7751B401E70563B0024D99B /* CGRect+CGPoint.swift */; };
 		B7751B441E7452270024D99B /* ColorAnnotationsRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7751B431E7452270024D99B /* ColorAnnotationsRenderer.swift */; };
 		B7751B461E74528C0024D99B /* TextAnnotationsRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7751B451E74528C0024D99B /* TextAnnotationsRenderer.swift */; };
 		B7751B481E74678A0024D99B /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7751B471E74678A0024D99B /* PaddedLabel.swift */; };
-		B7751B4A1E7479DD0024D99B /* Document+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7751B491E7479DD0024D99B /* Document+Actions.swift */; };
 		B7751B4C1E747A4A0024D99B /* Fragment+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7751B4B1E747A4A0024D99B /* Fragment+Geometry.swift */; };
 		B7B9CB111E6F18F8004765A9 /* UICollectionView+Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */; };
-		FC00364A1E6484B700B722AC /* TextAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0036491E6484B700B722AC /* TextAnnotations.swift */; };
+		FC00364A1E6484B700B722AC /* AnnotatedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0036491E6484B700B722AC /* AnnotatedText.swift */; };
 		FC00364C1E6578FE00B722AC /* FragmentAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */; };
 		FC00364E1E65796700B722AC /* FragmentAnnotationVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364D1E65796700B722AC /* FragmentAnnotationVertex.swift */; };
 		FC0036501E6591B900B722AC /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364F1E6591B900B722AC /* CGPoint.swift */; };
@@ -134,6 +135,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B7667A661E759C0D0066375E /* DocumentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewModel.swift; sourceTree = "<group>"; };
+		B7667A691E75AFE20066375E /* UIAlertController+Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Document.swift"; sourceTree = "<group>"; };
 		B773326A1E6EE1B300A6B114 /* CardScanner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CardScanner-Bridging-Header.h"; sourceTree = "<group>"; };
 		B77332721E6EE23000A6B114 /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
 		B77332731E6EE23000A6B114 /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
@@ -141,10 +144,9 @@
 		B7751B431E7452270024D99B /* ColorAnnotationsRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorAnnotationsRenderer.swift; sourceTree = "<group>"; };
 		B7751B451E74528C0024D99B /* TextAnnotationsRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnnotationsRenderer.swift; sourceTree = "<group>"; };
 		B7751B471E74678A0024D99B /* PaddedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
-		B7751B491E7479DD0024D99B /* Document+Actions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Document+Actions.swift"; sourceTree = "<group>"; };
 		B7751B4B1E747A4A0024D99B /* Fragment+Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Fragment+Geometry.swift"; sourceTree = "<group>"; };
 		B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Photos.swift"; sourceTree = "<group>"; };
-		FC0036491E6484B700B722AC /* TextAnnotations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnnotations.swift; sourceTree = "<group>"; };
+		FC0036491E6484B700B722AC /* AnnotatedText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotatedText.swift; sourceTree = "<group>"; };
 		FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentAnnotation.swift; sourceTree = "<group>"; };
 		FC00364D1E65796700B722AC /* FragmentAnnotationVertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentAnnotationVertex.swift; sourceTree = "<group>"; };
 		FC00364F1E6591B900B722AC /* CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
@@ -261,6 +263,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B7667A681E75AF520066375E /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		B773326E1E6EE1F900A6B114 /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,9 +323,6 @@
 				FCD683331E66065A00022474 /* DocumentView.swift */,
 				B7751B471E74678A0024D99B /* PaddedLabel.swift */,
 				FCEF9BF71E608D3F00B7D509 /* Material.swift */,
-				FCD6833D1E6723B600022474 /* FragmentType+Color.swift */,
-				B7751B491E7479DD0024D99B /* Document+Actions.swift */,
-				B7751B4B1E747A4A0024D99B /* Fragment+Geometry.swift */,
 				B7751B421E7451D90024D99B /* Annotations */,
 			);
 			name = View;
@@ -333,14 +339,17 @@
 		FC7966FF1E52C36600D54859 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B7667A661E759C0D0066375E /* DocumentViewModel.swift */,
 				FC7967001E52C37500D54859 /* Document.swift */,
 				FC329D9F1E541F930047F692 /* Location.swift */,
 				FC329DA11E5420780047F692 /* Fragment.swift */,
 				FC00364D1E65796700B722AC /* FragmentAnnotationVertex.swift */,
 				FC00364B1E6578FE00B722AC /* FragmentAnnotation.swift */,
 				FCB33AC51E5C0662006CAF6E /* AddressFragment.swift */,
-				FC0036491E6484B700B722AC /* TextAnnotations.swift */,
+				FC0036491E6484B700B722AC /* AnnotatedText.swift */,
 				FCD6833F1E6723CC00022474 /* FragmentType.swift */,
+				FCD6833D1E6723B600022474 /* FragmentType+Color.swift */,
+				B7751B4B1E747A4A0024D99B /* Fragment+Geometry.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -373,6 +382,7 @@
 			children = (
 				B773326E1E6EE1F900A6B114 /* Objective-C */,
 				FC91B7611E4C36FF00AF11C6 /* App */,
+				B7667A681E75AF520066375E /* Controller */,
 				FC91B7621E4C370400AF11C6 /* View Controller */,
 				FC0BF6D11E54AA3700A0ED29 /* View */,
 				FC7966FF1E52C36600D54859 /* Model */,
@@ -442,6 +452,7 @@
 				FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */,
 				FC0BF6CB1E54A99200A0ED29 /* CameraViewController.swift */,
 				FC8A0E581E6C540B00DC3C66 /* PhotoLibraryViewController.swift */,
+				B7667A691E75AFE20066375E /* UIAlertController+Document.swift */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -789,8 +800,9 @@
 				FCF54E6F1E63E5B600DAEA38 /* MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift in Sources */,
 				FC8E71771E4AD5B300D37719 /* UIImage+Resize.swift in Sources */,
 				FC91B76C1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift in Sources */,
-				FC00364A1E6484B700B722AC /* TextAnnotations.swift in Sources */,
+				FC00364A1E6484B700B722AC /* AnnotatedText.swift in Sources */,
 				FC91B75C1E4C36AB00AF11C6 /* TextAnnotationService.swift in Sources */,
+				B7667A671E759C0D0066375E /* DocumentViewModel.swift in Sources */,
 				FCED88531E4F037400623684 /* MockTextAnnotationService.swift in Sources */,
 				FC8E71791E4AD5B300D37719 /* ContentError.swift in Sources */,
 				FCB33ACC1E5E9C4A006CAF6E /* AddressFragmentCell.swift in Sources */,
@@ -810,13 +822,13 @@
 				FCF64BDB1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift in Sources */,
 				FC329D9E1E5419820047F692 /* OCRAI.xcdatamodeld in Sources */,
 				FCED88511E4F014200623684 /* MockCancellable.swift in Sources */,
-				B7751B4A1E7479DD0024D99B /* Document+Actions.swift in Sources */,
 				FCE8A4FA1E563D7500512D56 /* ImageFragmentCell.swift in Sources */,
 				FC91B7671E4C3B8700AF11C6 /* MockImageAnnotationService.swift in Sources */,
 				FCC8ADA51E56B99500F32CC4 /* ServiceFactory.swift in Sources */,
 				FC8A0E571E6C539C00DC3C66 /* PhotoLibraryCell.swift in Sources */,
 				FCD683321E65D15700022474 /* AnnotationsRenderer.swift in Sources */,
 				FC0BF6D71E54AA8600A0ED29 /* DocumentCell.swift in Sources */,
+				B7667A6A1E75AFE20066375E /* UIAlertController+Document.swift in Sources */,
 				FCED884B1E4CC90F00623684 /* AsyncOperation.swift in Sources */,
 				B7751B461E74528C0024D99B /* TextAnnotationsRenderer.swift in Sources */,
 				FC8E71611E4AD56C00D37719 /* AppDelegate.swift in Sources */,

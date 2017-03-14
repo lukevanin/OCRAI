@@ -43,9 +43,7 @@ extension Document {
     }
     
     var title: String? {
-        let personFragment = allFragments.first { $0.type == .person }
-        let organizationFragment = allFragments.first { $0.type == .organization }
-        return personFragment?.value ?? organizationFragment?.value
+        return titles.first
     }
     
     var titles: [String] {

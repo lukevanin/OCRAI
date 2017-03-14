@@ -24,25 +24,21 @@ Note: The API key should not be restricted.
 
 ### Essential
 
-- Refactoring.
 - Enable camera / photo library buttons only when functionality is available.
 - Normalize image orientation when taking photo and importing.
-- Remove "Add test image functionality".
-- Import image from photo library.
 - Color image card according to type (person, organization, event, etc).
-- Differentiate email URLs from web URLs.
 - Include postal addresses in exported contact.
-- Delete images from list.
-- Automatically begin scanning when showing document and previous scan has not completed. Don't auto-scan if already scanned. Prompt to overwrite when scanning over existing information.
+- Prompt to overwrite when scanning over existing information.
 - Resize image to 1024x768 for uploading.
 
 ### Nice to have
 
+- Only use single derived value for each line of text. Don't re-scan line of text if already tagged. I.e. Don't tag "Sandy Bay" as organization if already tagged as an address.
 - Search: Name, organization, phone number.
 - iPad layout: Grid documents list. Show document as model popover, or side detail view.
 - Continue scanning in background when switching back to list from detail view.
 - Improve editing: Remove modal edit/done state. Tap on textfield to edit. Enter to save. Always show blank textfield - adding text and entering saves data and creates new blank textfield.
-- Improve organization name detection: Check remaining text for nouns, after name detection. 
+- Improve organization name detection: Check remaining text for nouns, after name detection.
 - Pre-process scanned image: Histogram balance.
 - Scan raw / uncompressed image data (avoid JPEG artifacts).
 - Support additional services: Haven, Tesseract.
