@@ -378,12 +378,8 @@ Add photos from your library or camera to get started.</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8lL-Cp-TUI">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0mp-zR-Y3a">
-                                <rect key="frame" x="0.0" y="64" width="320" height="524"/>
+                                <rect key="frame" x="0.0" y="-0.5" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -469,14 +465,10 @@ Add photos from your library or camera to get started.</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="8lL-Cp-TUI" firstAttribute="leading" secondItem="Pve-qS-ABj" secondAttribute="leading" id="SjC-OZ-DeB"/>
-                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="height" secondItem="Pve-qS-ABj" secondAttribute="height" constant="-44" id="T64-1Q-h9E"/>
-                            <constraint firstItem="ziz-1C-mSx" firstAttribute="top" secondItem="8lL-Cp-TUI" secondAttribute="bottom" id="U49-HB-fSV"/>
-                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="centerX" secondItem="Pve-qS-ABj" secondAttribute="centerX" id="XYC-3v-Fa7"/>
-                            <constraint firstItem="8lL-Cp-TUI" firstAttribute="top" secondItem="Pve-qS-ABj" secondAttribute="top" id="cJU-wv-WME"/>
-                            <constraint firstAttribute="trailing" secondItem="8lL-Cp-TUI" secondAttribute="trailing" id="ntM-7B-c7e"/>
-                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="width" secondItem="Pve-qS-ABj" secondAttribute="width" id="zCu-bs-DBw"/>
-                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="centerY" secondItem="Pve-qS-ABj" secondAttribute="centerY" constant="42" id="zkD-wo-Tlu"/>
+                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="width" secondItem="Pve-qS-ABj" secondAttribute="width" id="DrX-yw-JJn"/>
+                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="centerY" secondItem="Pve-qS-ABj" secondAttribute="centerY" id="KrA-e2-UoZ"/>
+                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="height" secondItem="Pve-qS-ABj" secondAttribute="height" id="mKP-rN-vMq"/>
+                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="centerX" secondItem="Pve-qS-ABj" secondAttribute="centerX" id="shi-IO-LJW"/>
                         </constraints>
                     </view>
                     <toolbarItems>
@@ -532,7 +524,7 @@ Add photos from your library or camera to get started.</string>
                                 <outlet property="documentImageView" destination="hRW-FC-ZUF" id="ANC-Re-Z5p"/>
                             </connections>
                         </view>
-                        <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azp-7A-bLO">
+                        <view alpha="0.33000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azp-7A-bLO">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
