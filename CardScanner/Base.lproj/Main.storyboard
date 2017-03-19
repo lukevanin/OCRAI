@@ -324,6 +324,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="X2n-1p-zVv"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="IeT-pS-dDZ">
+                        <nil key="title"/>
                         <barButtonItem key="backBarButtonItem" title="Back" id="h1V-CY-iC6"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>

@@ -52,9 +52,49 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             setEditing(false, animated: true)
         }
 
-//        // FIXME: Prompt to replace existing values if any.
-        clearDocument()
-        scanDocument()
+        promptToScan() { [weak self] shouldScan in
+            guard shouldScan else {
+                return
+            }
+            self?.clearDocument()
+            self?.scanDocument()
+        }
+    }
+    
+    private func promptToScan(completion: @escaping (Bool) -> Void) {
+        
+        let totalFragments = model?.totalFragments ?? 0
+        
+        if totalFragments == 0 {
+            completion(true)
+            return
+        }
+        
+        let controller = UIAlertController(
+            title: nil,
+            message: "Do you want to overwrite existing content?",
+            preferredStyle: .alert
+        )
+        
+        controller.addAction(
+            UIAlertAction(
+                title: "Overwrite",
+                style: .destructive,
+                handler: { action in
+                    completion(true)
+            })
+        )
+        
+        controller.addAction(
+            UIAlertAction(
+                title: "Cancel",
+                style: .cancel,
+                handler: { action in
+                    completion(false)
+            })
+        )
+        
+        present(controller, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
