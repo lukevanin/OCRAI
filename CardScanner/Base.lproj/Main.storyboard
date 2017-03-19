@@ -328,7 +328,9 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="cameraButtonItem" destination="5IQ-Hp-med" id="E7Y-4N-MMm"/>
                         <outlet property="emptyContentPlaceholderView" destination="PD9-p8-7aY" id="GKV-BT-CVH"/>
+                        <outlet property="libraryButtonItem" destination="2Ah-d0-OIV" id="Zs7-Dd-TJN"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b9z-2W-Nis" userLabel="First Responder" sceneMemberID="firstResponder"/>

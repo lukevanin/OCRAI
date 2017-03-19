@@ -124,6 +124,9 @@ class DocumentsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItems = [editButtonItem]
+        
+        cameraButtonItem.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        libraryButtonItem.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
     }
     
     override func viewWillAppear(_ animated: Bool) {
