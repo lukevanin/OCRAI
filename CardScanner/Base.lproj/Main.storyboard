@@ -524,7 +524,7 @@ Add photos from your library or camera to get started.</string>
                                 <outlet property="documentImageView" destination="hRW-FC-ZUF" id="ANC-Re-Z5p"/>
                             </connections>
                         </view>
-                        <view alpha="0.33000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azp-7A-bLO">
+                        <view hidden="YES" alpha="0.33000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azp-7A-bLO">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>

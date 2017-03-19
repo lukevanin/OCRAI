@@ -31,11 +31,13 @@ class DocumentView: UIView {
         super.awakeFromNib()
         
         let layer = documentImageView.layer
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 2)
-        layer.shadowOpacity = 0.25
-        layer.shadowRadius = 4
+//        layer.masksToBounds = false
+//        layer.shadowColor = UIColor.black.cgColor
+//        layer.shadowOffset = CGSize(width: 0, height: 2)
+//        layer.shadowOpacity = 0.25
+//        layer.shadowRadius = 4
+        layer.cornerRadius = 5
+        layer.masksToBounds = true
     }
     
     func invalidateAnnotations() {

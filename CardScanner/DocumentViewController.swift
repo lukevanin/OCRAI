@@ -477,7 +477,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: Data
     
     private func insert(at indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell, let text = cell.contentTextField.text, !text.isEmpty else {
+        guard let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell, let text = cell.contentTextField.text else {
             return
         }
         cell.contentTextField.text = nil
@@ -485,7 +485,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     private func insert(value: String?, at indexPath: IndexPath) {
-        guard let model = model else {
+        guard let model = model, let value = value else {
             return
         }
         model.insert(value: value, at: indexPath)

@@ -399,7 +399,12 @@ class DocumentViewModel {
         )
     }
     
-    func insert(value: String?, at indexPath: IndexPath) {
+    func insert(value: String, at indexPath: IndexPath) {
+        
+        guard !value.isEmpty else {
+            return
+        }
+        
         let section = self.section(at: indexPath.section)
         let context = coreData.mainContext
         let fragment = Fragment(type: section.type, value: value, context: context)
@@ -408,17 +413,16 @@ class DocumentViewModel {
         
         save()
         
-        notify(with:
-            Changes(
-                hasIncrementalChanges: true,
-                insertedSections: nil,
-                deletedSections: nil,
-                insertedRows: [indexPath],
-                deletedRows: nil,
-                updatedRows: nil,
-                movedRows: nil
-            )
+        let changes = Changes(
+            hasIncrementalChanges: true,
+            insertedSections: nil,
+            deletedSections: nil,
+            insertedRows: [indexPath],
+            deletedRows: nil,
+            updatedRows: nil,
+            movedRows: nil
         )
+        notify(with: changes)
     }
     
     func targetIndexPathForMove(from sourceIndexPath: IndexPath, to proposedDestinationIndexPath: IndexPath) -> IndexPath {
