@@ -32,12 +32,11 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     private var model: DocumentViewModel?
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var documentView: DocumentView!
-    @IBOutlet weak var scanButton: UIButton!
     @IBOutlet weak var activityOverlayView: UIView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var scanButtonItem: UIBarButtonItem!
     @IBOutlet weak var actionsButtonItem: UIBarButtonItem!
     @IBOutlet weak var emptyContentPlaceholderView: UIView!
     
@@ -53,7 +52,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             setEditing(false, animated: true)
         }
 
-        // FIXME: Prompt to replace existing values if any.
+//        // FIXME: Prompt to replace existing values if any.
         clearDocument()
         scanDocument()
     }
@@ -63,7 +62,13 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
-        navigationItem.rightBarButtonItems = [editButtonItem, actionsButtonItem]
+        
+        navigationItem.rightBarButtonItem = editButtonItem
+        
+        initializeHeader()
+    }
+    
+    private func initializeHeader() {
         
         let headerHeight: CGFloat = 300
         
@@ -87,27 +92,59 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setToolbarHidden(true, animated: false)
+        navigationController?.setToolbarHidden(false, animated: false)
         loadDocument()
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
+        resignTextFieldIfNeeded()
         super.setEditing(editing, animated: animated)
+        tableView.beginUpdates()
+        updateModelState()
         tableView.setEditing(editing, animated: animated)
+        tableView.endUpdates()
         updateButtonState()
-        
-        if let model = model {
-            model.includeEmptySections = editing
-            
-            if let indexPaths = tableView.indexPathsForVisibleRows {
-                for indexPath in indexPaths {
-                    if let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell {
-                        let type = model.typeForSection(at: indexPath.section)
-                        configureCell(cell, with: type)
-                    }
-                }
+        updateTableCells()
+    }
+    
+    private func resignTextFieldIfNeeded() {
+        let cells = tableView.visibleCells
+        for cell in cells {
+            if let cell = cell as? BasicFragmentCell {
+                cell.contentTextField.resignFirstResponder()
             }
         }
+    }
+    
+    private func updateModelState() {
+        guard let model = model else {
+            return
+        }
+
+        model.includeEmptySections = isEditing
+    }
+    
+    private func updateTableCells() {
+    
+        guard let indexPaths = tableView.indexPathsForVisibleRows else {
+            return
+        }
+        
+        for indexPath in indexPaths {
+            updateTableCell(at: indexPath)
+        }
+    }
+    
+    private func updateTableCell(at indexPath: IndexPath) {
+        guard let model = model else {
+            return
+        }
+        guard let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell else {
+            return
+        }
+        let type = model.typeForSection(at: indexPath.section)
+        print("Configuring cell at \(indexPath) as \(type)")
+        cell.configure(type: type, isEditing: self.isEditing)
     }
     
     //
@@ -201,7 +238,8 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     private func updateViewState(scanning: Bool) {
-        scanButton.isHidden = scanning
+        scanButtonItem.isEnabled = !scanning
+        actionsButtonItem.isEnabled = !scanning
         activityOverlayView.isHidden = !scanning
 
         if scanning {
@@ -255,7 +293,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private func tableView(_ tableView: UITableView, cellForBlankTextFragmentOfType type: FragmentType, at indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView(tableView, cellForFragmentType: type, at: indexPath)
-        cell.contentTextField.placeholder = type.description
         return cell
     }
     
@@ -268,33 +305,12 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     private func tableView(_ tableView: UITableView, cellForFragmentType type: FragmentType, at indexPath: IndexPath) -> BasicFragmentCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
         cell.delegate = self
-        configureCell(cell, with: type)
+        cell.configure(type: type, isEditing: isEditing)
         return cell
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
-    }
-    
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        guard let model = model else {
-            return false
-        }
-        if indexPath.row == model.numberOfRowsInSection(indexPath.section) {
-            return false
-        }
-        else {
-            return true
-        }
-    }
-    
-    private func configureCell(_ cell: BasicFragmentCell, with type: FragmentType) {
-        cell.colorView.backgroundColor = isEditing ? UIColor(white: 0.90, alpha: 1.0) : UIColor.clear
-        cell.colorAccentView.backgroundColor = type.accentColor //withAlphaComponent(0.95)
-        cell.editingEnabled = isEditing
-        cell.showsReorderControl = true
-        cell.accessoryType = .none
-        cell.editingAccessoryType = .none
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
@@ -334,20 +350,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         return output
     }
     
-    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        
-        guard let model = model else {
-            return proposedDestinationIndexPath
-        }
-        
-        return model.targetIndexPathForMove(from: sourceIndexPath, to: proposedDestinationIndexPath)
-    }
-    
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        model?.move(from: sourceIndexPath, to: destinationIndexPath)
-        tableView.reloadData()
-    }
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         switch editingStyle {
@@ -359,13 +361,41 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             delete(at: indexPath)
             
         case .insert:
-            if let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell, let text = cell.contentTextField.text, !text.isEmpty {
-                cell.contentTextField.text = nil
-                insert(value: text, at: indexPath)
-            }
+            insert(at: indexPath)
         }
     }
     
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        guard let model = model, isEditing else {
+            return false
+        }
+        if indexPath.row == model.numberOfRowsInSection(indexPath.section) {
+            return false
+        }
+        else {
+            return true
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        
+        guard let model = model else {
+            return proposedDestinationIndexPath
+        }
+        
+        return model.targetIndexPathForMove(from: sourceIndexPath, to: proposedDestinationIndexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        guard let model = model else {
+            return
+        }
+        let delegate = model.delegate
+        model.delegate = nil
+        model.move(from: sourceIndexPath, to: destinationIndexPath)
+        model.delegate = delegate
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -375,7 +405,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             return
         }
         
-        headerView.backgroundView?.backgroundColor = UIColor(white: 0.8, alpha: 1.0)
+        headerView.backgroundView?.backgroundColor = UIColor(white: 0.9, alpha: 1.0)
     }
     
     // MARK: Cell delegate
@@ -390,7 +420,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             return
         }
         
-        if indexPath.row == model.numberOfRowsInSection(indexPath.section) {
+        if isEditing && indexPath.row == model.numberOfRowsInSection(indexPath.section) {
             insert(value: text, at: indexPath)
             cell.contentTextField.text = nil
         }
@@ -402,11 +432,17 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
                 update(value: text, at: indexPath)
             }
         }
-        
-        coreData.saveNow()
     }
 
     // MARK: Data
+    
+    private func insert(at indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell, let text = cell.contentTextField.text, !text.isEmpty else {
+            return
+        }
+        cell.contentTextField.text = nil
+        insert(value: text, at: indexPath)
+    }
     
     private func insert(value: String?, at indexPath: IndexPath) {
         guard let model = model else {

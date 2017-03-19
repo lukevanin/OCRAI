@@ -15,31 +15,32 @@ protocol DocumentViewModelDelegate: class {
 extension UITableView {
     func applyChanges(_ changes: DocumentViewModel.Changes) {
         assert(Thread.isMainThread)
+        
         if changes.hasIncrementalChanges {
             beginUpdates()
             
-            if let sections = changes.deletedSections {
-                deleteSections(sections, with: .top)
+            if let sections = changes.deletedSections, sections.count > 0 {
+                deleteSections(sections, with: .fade)
             }
             
-            if let sections = changes.insertedSections {
-                insertSections(sections, with: .bottom)
+            if let sections = changes.insertedSections, sections.count > 0 {
+                insertSections(sections, with: .fade)
             }
             
-            if let indexPaths = changes.deletedRows {
-                deleteRows(at: indexPaths, with: .top)
+            if let indexPaths = changes.deletedRows, indexPaths.count > 0 {
+                deleteRows(at: indexPaths, with: .fade)
             }
             
-            if let indexPaths = changes.insertedRows {
-                insertRows(at: indexPaths, with: .bottom)
+            if let indexPaths = changes.insertedRows, indexPaths.count > 0 {
+                insertRows(at: indexPaths, with: .fade)
             }
             
-            if let indexPaths = changes.updatedRows {
-                deleteRows(at: indexPaths, with: .automatic)
-                insertRows(at: indexPaths, with: .automatic)
+            if let indexPaths = changes.updatedRows, indexPaths.count > 0 {
+                deleteRows(at: indexPaths, with: .fade)
+                insertRows(at: indexPaths, with: .fade)
             }
             
-            if let moves = changes.movedRows {
+            if let moves = changes.movedRows, moves.count > 0 {
                 for (from, to) in moves {
                     moveRow(at: from, to: to)
                 }
@@ -320,8 +321,17 @@ class DocumentViewModel {
     func clear() {
         
         var sectionIndices = IndexSet()
+        var indexPaths = [IndexPath]()
         
         for i in 0 ..< activeSections.count {
+            let section = self.section(at: i)
+            let count = section.values.count
+            
+            for j in 0 ..< count {
+                let indexPath = IndexPath(row: j, section: i)
+                indexPaths.append(indexPath)
+            }
+            
             sectionIndices.insert(i)
         }
         
@@ -336,23 +346,22 @@ class DocumentViewModel {
         
         save()
         
-        notify(with:
-            Changes(
-                hasIncrementalChanges: true,
-                insertedSections: nil,
-                deletedSections: sectionIndices,
-                insertedRows: nil,
-                deletedRows: nil,
-                updatedRows: nil,
-                movedRows: nil
-            )
+        let changes = Changes(
+            hasIncrementalChanges: true,
+            insertedSections: nil,
+            deletedSections: sectionIndices,
+            insertedRows: nil,
+            deletedRows: indexPaths,
+            updatedRows: nil,
+            movedRows: nil
         )
+        notify(with: changes)
     }
     
     func delete(at indexPath: IndexPath) {
         let section = self.section(at: indexPath.section)
-        let context = coreData.mainContext
         let fragment = section.remove(at: indexPath.row)
+        let context = coreData.mainContext
         context.delete(fragment)
         
         save()
@@ -395,7 +404,7 @@ class DocumentViewModel {
         let context = coreData.mainContext
         let fragment = Fragment(type: section.type, value: value, context: context)
         fragment.document = document
-        section.append(fragment)
+        section.insert(fragment, at: indexPath.row)
         
         save()
         
@@ -413,17 +422,16 @@ class DocumentViewModel {
     }
     
     func targetIndexPathForMove(from sourceIndexPath: IndexPath, to proposedDestinationIndexPath: IndexPath) -> IndexPath {
-//        let sourceSection = section(at: sourceIndexPath.section)
         let destinationSection = section(at: proposedDestinationIndexPath.section)
         
         let limit: Int
         
         if sourceIndexPath.section == proposedDestinationIndexPath.section {
-            // Moving within same section
+            // Moving within same section.
             limit = destinationSection.values.count - 1
         }
         else {
-            // Moving to a different section
+            // Moving to a different section.
             limit = destinationSection.values.count
         }
         
@@ -434,15 +442,13 @@ class DocumentViewModel {
     func move(from sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let sourceSection = self.section(at: sourceIndexPath.section)
         let destinationSection = self.section(at: destinationIndexPath.section)
-        let fragment = sourceSection.values.remove(at: sourceIndexPath.row)
+        let fragment = sourceSection.remove(at: sourceIndexPath.row)
         fragment.type = destinationSection.type
-        destinationSection.values.insert(fragment, at: destinationIndexPath.row)
-        sourceSection.updateOrdering()
-        destinationSection.updateOrdering()
+        destinationSection.insert(fragment, at: destinationIndexPath.row)
         
         save()
         
-        notify(with: Changes(
+        let changes = Changes(
             hasIncrementalChanges: true,
             insertedSections: nil,
             deletedSections: nil,
@@ -450,6 +456,7 @@ class DocumentViewModel {
             deletedRows: nil,
             updatedRows: nil,
             movedRows: [(sourceIndexPath, destinationIndexPath)]
-        ))
+        )
+        notify(with: changes)
     }
 }

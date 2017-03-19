@@ -340,10 +340,10 @@
                             <rect key="frame" x="8" y="14" width="304" height="122"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="picture" translatesAutoresizingMaskIntoConstraints="NO" id="0Lb-KD-6n6">
-                                    <rect key="frame" x="114.5" y="0.0" width="75" height="75"/>
+                                    <rect key="frame" x="115" y="0.0" width="75" height="75"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMv-Lb-h1Y">
-                                    <rect key="frame" x="11.5" y="75" width="281" height="47"/>
+                                    <rect key="frame" x="12" y="75" width="281" height="47"/>
                                     <string key="text">You don't have any images yet.
 Add photos from your library or camera to get started.</string>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -377,125 +377,131 @@ Add photos from your library or camera to get started.</string>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8lL-Cp-TUI">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
-                                <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0mp-zR-Y3a">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="separatorColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="69" id="23m-fa-taN" userLabel="Basic Cell" customClass="BasicFragmentCell" customModule="CardScanner" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="320" height="69"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="23m-fa-taN" id="ajb-LQ-xMF">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="68.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0mp-zR-Y3a">
+                                <rect key="frame" x="0.0" y="64" width="320" height="524"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="69" id="23m-fa-taN" userLabel="Basic Cell" customClass="BasicFragmentCell" customModule="CardScanner" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="69"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="23m-fa-taN" id="ajb-LQ-xMF">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view alpha="0.60000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMr-yo-Lwz">
+                                                    <rect key="frame" x="8" y="8" width="304" height="53"/>
                                                     <subviews>
-                                                        <view alpha="0.60000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMr-yo-Lwz">
-                                                            <rect key="frame" x="8" y="8" width="304" height="53"/>
-                                                            <subviews>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dax-sW-v7l">
-                                                                    <rect key="frame" x="16" y="20.5" width="12" height="12"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="12" id="COF-l3-okx"/>
-                                                                        <constraint firstAttribute="height" constant="12" id="gny-qk-GXW"/>
-                                                                    </constraints>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                            <integer key="value" value="6"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                            <integer key="value" value="1"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                                                            <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                </view>
-                                                            </subviews>
-                                                            <color key="backgroundColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dax-sW-v7l">
+                                                            <rect key="frame" x="16" y="20.5" width="12" height="12"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
-                                                                <constraint firstItem="Dax-sW-v7l" firstAttribute="leading" secondItem="HMr-yo-Lwz" secondAttribute="leading" constant="16" id="h9E-dG-FhN"/>
-                                                                <constraint firstItem="Dax-sW-v7l" firstAttribute="centerY" secondItem="HMr-yo-Lwz" secondAttribute="centerY" id="iB3-P4-O51"/>
+                                                                <constraint firstAttribute="width" constant="12" id="COF-l3-okx"/>
+                                                                <constraint firstAttribute="height" constant="12" id="gny-qk-GXW"/>
                                                             </constraints>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                    <integer key="value" value="22"/>
+                                                                    <integer key="value" value="6"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                                    <integer key="value" value="1"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                                                    <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="q43-5I-2Oz">
-                                                            <rect key="frame" x="46" y="8" width="244" height="53"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="mcf-ub-3bV"/>
-                                                            </constraints>
-                                                            <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                            <textInputTraits key="textInputTraits"/>
-                                                            <connections>
-                                                                <outlet property="delegate" destination="23m-fa-taN" id="upv-wO-cmi"/>
-                                                            </connections>
-                                                        </textField>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstItem="q43-5I-2Oz" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="8" id="8x6-ZJ-c4c"/>
-                                                        <constraint firstAttribute="bottom" secondItem="HMr-yo-Lwz" secondAttribute="bottom" constant="8" id="FJ9-6Q-h8g"/>
-                                                        <constraint firstAttribute="bottom" secondItem="q43-5I-2Oz" secondAttribute="bottom" constant="8" id="UCd-PO-aLs"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="q43-5I-2Oz" secondAttribute="trailing" constant="22" id="X4C-gm-Tfp"/>
-                                                        <constraint firstItem="q43-5I-2Oz" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leadingMargin" constant="38" id="ePT-bX-Ufw"/>
-                                                        <constraint firstItem="HMr-yo-Lwz" firstAttribute="trailing" secondItem="ajb-LQ-xMF" secondAttribute="trailingMargin" id="lXU-Ci-k2Z"/>
-                                                        <constraint firstItem="HMr-yo-Lwz" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="8" id="pUP-XX-wGy"/>
-                                                        <constraint firstItem="HMr-yo-Lwz" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leadingMargin" id="sl2-Wh-6fn"/>
+                                                        <constraint firstItem="Dax-sW-v7l" firstAttribute="leading" secondItem="HMr-yo-Lwz" secondAttribute="leading" constant="16" id="h9E-dG-FhN"/>
+                                                        <constraint firstItem="Dax-sW-v7l" firstAttribute="centerY" secondItem="HMr-yo-Lwz" secondAttribute="centerY" id="iB3-P4-O51"/>
                                                     </constraints>
-                                                </tableViewCellContentView>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <connections>
-                                                    <outlet property="colorAccentView" destination="Dax-sW-v7l" id="eHX-UY-j8R"/>
-                                                    <outlet property="colorView" destination="HMr-yo-Lwz" id="p4d-EI-N10"/>
-                                                    <outlet property="contentTextField" destination="q43-5I-2Oz" id="oiq-Ut-Q7v"/>
-                                                </connections>
-                                            </tableViewCell>
-                                        </prototypes>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="22"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="q43-5I-2Oz">
+                                                    <rect key="frame" x="46" y="8" width="244" height="53"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="mcf-ub-3bV"/>
+                                                    </constraints>
+                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="23m-fa-taN" id="upv-wO-cmi"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="q43-5I-2Oz" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="8" id="8x6-ZJ-c4c"/>
+                                                <constraint firstAttribute="bottom" secondItem="HMr-yo-Lwz" secondAttribute="bottom" constant="8" id="FJ9-6Q-h8g"/>
+                                                <constraint firstAttribute="bottom" secondItem="q43-5I-2Oz" secondAttribute="bottom" constant="8" id="UCd-PO-aLs"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="q43-5I-2Oz" secondAttribute="trailing" constant="22" id="X4C-gm-Tfp"/>
+                                                <constraint firstItem="q43-5I-2Oz" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leadingMargin" constant="38" id="ePT-bX-Ufw"/>
+                                                <constraint firstItem="HMr-yo-Lwz" firstAttribute="trailing" secondItem="ajb-LQ-xMF" secondAttribute="trailingMargin" id="lXU-Ci-k2Z"/>
+                                                <constraint firstItem="HMr-yo-Lwz" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="8" id="pUP-XX-wGy"/>
+                                                <constraint firstItem="HMr-yo-Lwz" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leadingMargin" id="sl2-Wh-6fn"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <outlet property="dataSource" destination="3eI-as-eBM" id="nLJ-fE-TPU"/>
-                                            <outlet property="delegate" destination="3eI-as-eBM" id="ZLJ-Gu-LZo"/>
+                                            <outlet property="colorAccentView" destination="Dax-sW-v7l" id="eHX-UY-j8R"/>
+                                            <outlet property="colorView" destination="HMr-yo-Lwz" id="p4d-EI-N10"/>
+                                            <outlet property="contentTextField" destination="q43-5I-2Oz" id="oiq-Ut-Q7v"/>
                                         </connections>
-                                    </tableView>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="0mp-zR-Y3a" firstAttribute="centerY" secondItem="8lL-Cp-TUI" secondAttribute="centerY" id="8eT-8x-yHo"/>
-                                    <constraint firstItem="0mp-zR-Y3a" firstAttribute="height" secondItem="8lL-Cp-TUI" secondAttribute="height" id="Nx9-8o-uTV"/>
-                                    <constraint firstItem="0mp-zR-Y3a" firstAttribute="centerX" secondItem="8lL-Cp-TUI" secondAttribute="centerX" id="miX-WR-XWX"/>
-                                    <constraint firstItem="0mp-zR-Y3a" firstAttribute="width" secondItem="8lL-Cp-TUI" secondAttribute="width" id="x0I-Kt-H0O"/>
-                                </constraints>
-                            </view>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="3eI-as-eBM" id="nLJ-fE-TPU"/>
+                                    <outlet property="delegate" destination="3eI-as-eBM" id="ZLJ-Gu-LZo"/>
+                                </connections>
+                            </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="8lL-Cp-TUI" firstAttribute="leading" secondItem="Pve-qS-ABj" secondAttribute="leading" id="SjC-OZ-DeB"/>
+                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="height" secondItem="Pve-qS-ABj" secondAttribute="height" constant="-44" id="T64-1Q-h9E"/>
                             <constraint firstItem="ziz-1C-mSx" firstAttribute="top" secondItem="8lL-Cp-TUI" secondAttribute="bottom" id="U49-HB-fSV"/>
+                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="centerX" secondItem="Pve-qS-ABj" secondAttribute="centerX" id="XYC-3v-Fa7"/>
                             <constraint firstItem="8lL-Cp-TUI" firstAttribute="top" secondItem="Pve-qS-ABj" secondAttribute="top" id="cJU-wv-WME"/>
                             <constraint firstAttribute="trailing" secondItem="8lL-Cp-TUI" secondAttribute="trailing" id="ntM-7B-c7e"/>
+                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="width" secondItem="Pve-qS-ABj" secondAttribute="width" id="zCu-bs-DBw"/>
+                            <constraint firstItem="0mp-zR-Y3a" firstAttribute="centerY" secondItem="Pve-qS-ABj" secondAttribute="centerY" constant="42" id="zkD-wo-Tlu"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="xtN-TH-PWv">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="fJq-6s-6pA">
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="cGz-G7-k9Q"/>
+                        <barButtonItem title="Scan" id="dYx-b0-b5h">
+                            <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onScanAction:" destination="3eI-as-eBM" id="gg9-IV-2cF"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="eRB-io-1JI"/>
+                        <barButtonItem systemItem="action" id="fJq-6s-6pA">
+                            <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="onActionsAction:" destination="3eI-as-eBM" id="ffn-SU-aLx"/>
                             </connections>
                         </barButtonItem>
-                    </navigationItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="eua-vk-OZO"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="xtN-TH-PWv"/>
                     <connections>
                         <outlet property="actionsButtonItem" destination="fJq-6s-6pA" id="nhn-HF-ccv"/>
                         <outlet property="activityIndicatorView" destination="JM3-Wu-Zi0" id="tk5-Nm-CGD"/>
                         <outlet property="activityOverlayView" destination="azp-7A-bLO" id="9fh-31-twP"/>
-                        <outlet property="backgroundImageView" destination="7vh-AX-bJ1" id="WQ4-E5-KgV"/>
                         <outlet property="documentView" destination="1pD-XX-B08" id="vjW-lV-hf5"/>
                         <outlet property="emptyContentPlaceholderView" destination="xYa-76-Gbn" id="R5G-no-iHD"/>
                         <outlet property="headerView" destination="viy-im-j8j" id="adI-9R-N6y"/>
-                        <outlet property="scanButton" destination="L0M-wG-TNz" id="Qur-eD-MHk"/>
+                        <outlet property="scanButtonItem" destination="dYx-b0-b5h" id="aHh-Yj-QqV"/>
                         <outlet property="tableView" destination="0mp-zR-Y3a" id="3Uw-Tt-yaU"/>
                     </connections>
                 </viewController>
@@ -504,10 +510,7 @@ Add photos from your library or camera to get started.</string>
                     <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7vh-AX-bJ1">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
-                        </imageView>
-                        <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1pD-XX-B08" customClass="DocumentView" customModule="CardScanner" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1pD-XX-B08" customClass="DocumentView" customModule="CardScanner" customModuleProvider="target">
                             <rect key="frame" x="8" y="0.0" width="304" height="300"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hRW-FC-ZUF">
@@ -526,7 +529,7 @@ Add photos from your library or camera to get started.</string>
                                 <outlet property="documentImageView" destination="hRW-FC-ZUF" id="ANC-Re-Z5p"/>
                             </connections>
                         </view>
-                        <view hidden="YES" alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azp-7A-bLO">
+                        <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azp-7A-bLO">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
@@ -534,41 +537,16 @@ Add photos from your library or camera to get started.</string>
                             <rect key="frame" x="141" y="131" width="37" height="37"/>
                             <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </activityIndicatorView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0M-wG-TNz">
-                            <rect key="frame" x="130" y="258" width="60" height="34"/>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="34" id="gFW-Fr-YdS"/>
-                                <constraint firstAttribute="width" constant="60" id="vxN-Cu-d0q"/>
-                            </constraints>
-                            <state key="normal" title="Scan">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="5"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="onScanAction:" destination="3eI-as-eBM" eventType="touchUpInside" id="7Zs-w2-yN9"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="azp-7A-bLO" firstAttribute="top" secondItem="viy-im-j8j" secondAttribute="top" id="2Dw-KM-t5A"/>
-                        <constraint firstItem="7vh-AX-bJ1" firstAttribute="leading" secondItem="viy-im-j8j" secondAttribute="leading" id="AhU-SE-hef"/>
-                        <constraint firstItem="7vh-AX-bJ1" firstAttribute="top" secondItem="viy-im-j8j" secondAttribute="top" id="Chd-uH-lMC"/>
                         <constraint firstAttribute="bottom" secondItem="1pD-XX-B08" secondAttribute="bottom" id="D9I-O9-iNW"/>
                         <constraint firstItem="JM3-Wu-Zi0" firstAttribute="centerY" secondItem="viy-im-j8j" secondAttribute="centerY" id="DQf-0A-Mfv"/>
-                        <constraint firstAttribute="bottom" secondItem="7vh-AX-bJ1" secondAttribute="bottom" id="Fyt-AS-Jt5"/>
-                        <constraint firstAttribute="trailing" secondItem="7vh-AX-bJ1" secondAttribute="trailing" id="OFA-25-WOO"/>
                         <constraint firstAttribute="trailing" secondItem="azp-7A-bLO" secondAttribute="trailing" id="PLI-Th-WEQ"/>
                         <constraint firstItem="azp-7A-bLO" firstAttribute="leading" secondItem="viy-im-j8j" secondAttribute="leading" id="TXz-Yk-luq"/>
                         <constraint firstItem="1pD-XX-B08" firstAttribute="leading" secondItem="viy-im-j8j" secondAttribute="leading" constant="8" id="dV2-XF-N9S"/>
-                        <constraint firstAttribute="bottom" secondItem="L0M-wG-TNz" secondAttribute="bottom" constant="8" id="eW3-UL-1V3"/>
                         <constraint firstItem="JM3-Wu-Zi0" firstAttribute="centerX" secondItem="viy-im-j8j" secondAttribute="centerX" id="m1x-rZ-woZ"/>
-                        <constraint firstItem="L0M-wG-TNz" firstAttribute="centerX" secondItem="viy-im-j8j" secondAttribute="centerX" id="mA4-vq-Rkw"/>
                         <constraint firstAttribute="bottom" secondItem="azp-7A-bLO" secondAttribute="bottom" id="oSK-3L-UNI"/>
                         <constraint firstAttribute="trailing" secondItem="1pD-XX-B08" secondAttribute="trailing" constant="8" id="q49-aP-c6e"/>
                         <constraint firstItem="1pD-XX-B08" firstAttribute="top" secondItem="viy-im-j8j" secondAttribute="top" id="vah-LW-K5V"/>
@@ -579,10 +557,10 @@ Add photos from your library or camera to get started.</string>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eBS-os-RWF">
-                            <rect key="frame" x="8" y="37.5" width="304" height="75"/>
+                            <rect key="frame" x="8" y="38" width="304" height="75"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="picture" translatesAutoresizingMaskIntoConstraints="NO" id="3kl-s8-kxz" customClass="card">
-                                    <rect key="frame" x="114.5" y="0.0" width="75" height="75"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="picture" translatesAutoresizingMaskIntoConstraints="NO" id="3kl-s8-kxz">
+                                    <rect key="frame" x="115" y="0.0" width="75" height="75"/>
                                     <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </imageView>
                             </subviews>

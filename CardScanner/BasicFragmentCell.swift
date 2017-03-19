@@ -25,6 +25,16 @@ class BasicFragmentCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var colorAccentView: UIView!
     @IBOutlet weak var contentTextField: UITextField!
+    
+    func configure(type: FragmentType, isEditing: Bool) {
+        colorView.backgroundColor = isEditing ? UIColor(white: 0.90, alpha: 1.0) : UIColor.clear
+        colorAccentView.backgroundColor = type.accentColor //withAlphaComponent(0.95)
+        editingEnabled = isEditing
+        showsReorderControl = true
+        accessoryType = .none
+        editingAccessoryType = .none
+        contentTextField.placeholder = type.description
+}
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,6 +45,12 @@ class BasicFragmentCell: UITableViewCell, UITextFieldDelegate {
         super.prepareForReuse()
         contentTextField.text = nil
         editingEnabled = false
+        colorView.backgroundColor = .clear
+        colorAccentView.backgroundColor = .clear
+        showsReorderControl = false
+        accessoryType = .none
+        editingAccessoryType = .none
+        contentTextField.placeholder = nil
     }
     
     override func willTransition(to state: UITableViewCellStateMask) {
