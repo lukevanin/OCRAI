@@ -524,8 +524,9 @@ Add photos from your library or camera to get started.</string>
                                 <outlet property="documentImageView" destination="hRW-FC-ZUF" id="ANC-Re-Z5p"/>
                             </connections>
                         </view>
-                        <view hidden="YES" alpha="0.33000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azp-7A-bLO">
+                        <view hidden="YES" alpha="0.33000000000000002" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="azp-7A-bLO">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="JM3-Wu-Zi0">
@@ -535,14 +536,10 @@ Add photos from your library or camera to get started.</string>
                     </subviews>
                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="azp-7A-bLO" firstAttribute="top" secondItem="viy-im-j8j" secondAttribute="top" id="2Dw-KM-t5A"/>
                         <constraint firstAttribute="bottom" secondItem="1pD-XX-B08" secondAttribute="bottom" id="D9I-O9-iNW"/>
                         <constraint firstItem="JM3-Wu-Zi0" firstAttribute="centerY" secondItem="viy-im-j8j" secondAttribute="centerY" id="DQf-0A-Mfv"/>
-                        <constraint firstAttribute="trailing" secondItem="azp-7A-bLO" secondAttribute="trailing" id="PLI-Th-WEQ"/>
-                        <constraint firstItem="azp-7A-bLO" firstAttribute="leading" secondItem="viy-im-j8j" secondAttribute="leading" id="TXz-Yk-luq"/>
                         <constraint firstItem="1pD-XX-B08" firstAttribute="leading" secondItem="viy-im-j8j" secondAttribute="leading" constant="8" id="dV2-XF-N9S"/>
                         <constraint firstItem="JM3-Wu-Zi0" firstAttribute="centerX" secondItem="viy-im-j8j" secondAttribute="centerX" id="m1x-rZ-woZ"/>
-                        <constraint firstAttribute="bottom" secondItem="azp-7A-bLO" secondAttribute="bottom" id="oSK-3L-UNI"/>
                         <constraint firstAttribute="trailing" secondItem="1pD-XX-B08" secondAttribute="trailing" constant="8" id="q49-aP-c6e"/>
                         <constraint firstItem="1pD-XX-B08" firstAttribute="top" secondItem="viy-im-j8j" secondAttribute="top" id="vah-LW-K5V"/>
                     </constraints>

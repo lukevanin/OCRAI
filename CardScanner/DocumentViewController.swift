@@ -434,6 +434,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         model.delegate = nil
         model.move(from: sourceIndexPath, to: destinationIndexPath)
         model.delegate = delegate
+        tableView.reloadData()
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -366,17 +366,16 @@ class DocumentViewModel {
         
         save()
         
-        notify(with:
-            Changes(
-                hasIncrementalChanges: true,
-                insertedSections: nil,
-                deletedSections: nil,
-                insertedRows: nil,
-                deletedRows: [indexPath],
-                updatedRows: nil,
-                movedRows: nil
-            )
+        let changes = Changes(
+            hasIncrementalChanges: true,
+            insertedSections: nil,
+            deletedSections: nil,
+            insertedRows: nil,
+            deletedRows: [indexPath],
+            updatedRows: nil,
+            movedRows: nil
         )
+        notify(with: changes)
     }
     
     func update(value: String?, at indexPath: IndexPath) {
@@ -386,17 +385,16 @@ class DocumentViewModel {
         
         save()
 
-        notify(with:
-            Changes(
-                hasIncrementalChanges: true,
-                insertedSections: nil,
-                deletedSections: nil,
-                insertedRows: nil,
-                deletedRows: nil,
-                updatedRows: [indexPath],
-                movedRows: nil
-            )
+        let changes = Changes(
+            hasIncrementalChanges: true,
+            insertedSections: nil,
+            deletedSections: nil,
+            insertedRows: nil,
+            deletedRows: nil,
+            updatedRows: [indexPath],
+            movedRows: nil
         )
+        notify(with: changes)
     }
     
     func insert(value: String, at indexPath: IndexPath) {
