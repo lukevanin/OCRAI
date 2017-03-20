@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B764913D1E802F7700B604CF /* ContactBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764913C1E802F7700B604CF /* ContactBuilder.swift */; };
-		B7667A671E759C0D0066375E /* DocumentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7667A661E759C0D0066375E /* DocumentViewModel.swift */; };
+		B76491411E80492700B604CF /* DocumentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76491401E80492700B604CF /* DocumentManager.swift */; };
+		B7667A671E759C0D0066375E /* DocumentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7667A661E759C0D0066375E /* DocumentModel.swift */; };
 		B7667A6A1E75AFE20066375E /* UIAlertController+Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7667A691E75AFE20066375E /* UIAlertController+Document.swift */; };
 		B77332741E6EE23000A6B114 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B77332731E6EE23000A6B114 /* UIImageEffects.m */; };
 		B7751B411E70563B0024D99B /* CGRect+CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7751B401E70563B0024D99B /* CGRect+CGPoint.swift */; };
@@ -137,7 +138,8 @@
 
 /* Begin PBXFileReference section */
 		B764913C1E802F7700B604CF /* ContactBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactBuilder.swift; sourceTree = "<group>"; };
-		B7667A661E759C0D0066375E /* DocumentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewModel.swift; sourceTree = "<group>"; };
+		B76491401E80492700B604CF /* DocumentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentManager.swift; sourceTree = "<group>"; };
+		B7667A661E759C0D0066375E /* DocumentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentModel.swift; sourceTree = "<group>"; };
 		B7667A691E75AFE20066375E /* UIAlertController+Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Document.swift"; sourceTree = "<group>"; };
 		B773326A1E6EE1B300A6B114 /* CardScanner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CardScanner-Bridging-Header.h"; sourceTree = "<group>"; };
 		B77332721E6EE23000A6B114 /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
@@ -349,7 +351,8 @@
 		FC7966FF1E52C36600D54859 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B7667A661E759C0D0066375E /* DocumentViewModel.swift */,
+				B76491401E80492700B604CF /* DocumentManager.swift */,
+				B7667A661E759C0D0066375E /* DocumentModel.swift */,
 				FC7967001E52C37500D54859 /* Document.swift */,
 				FC329D9F1E541F930047F692 /* Location.swift */,
 				FC329DA11E5420780047F692 /* Fragment.swift */,
@@ -814,7 +817,7 @@
 				FC91B76C1E4C3C5C00AF11C6 /* DataDetectorTextAnnotationService.swift in Sources */,
 				FC00364A1E6484B700B722AC /* AnnotatedText.swift in Sources */,
 				FC91B75C1E4C36AB00AF11C6 /* TextAnnotationService.swift in Sources */,
-				B7667A671E759C0D0066375E /* DocumentViewModel.swift in Sources */,
+				B7667A671E759C0D0066375E /* DocumentModel.swift in Sources */,
 				FCED88531E4F037400623684 /* MockTextAnnotationService.swift in Sources */,
 				FC8E71791E4AD5B300D37719 /* ContentError.swift in Sources */,
 				FCB33ACC1E5E9C4A006CAF6E /* AddressFragmentCell.swift in Sources */,
@@ -833,6 +836,7 @@
 				FC329D9B1E5419640047F692 /* CoreDataStack.swift in Sources */,
 				FCF64BDB1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift in Sources */,
 				FC329D9E1E5419820047F692 /* OCRAI.xcdatamodeld in Sources */,
+				B76491411E80492700B604CF /* DocumentManager.swift in Sources */,
 				FCED88511E4F014200623684 /* MockCancellable.swift in Sources */,
 				FCE8A4FA1E563D7500512D56 /* ImageFragmentCell.swift in Sources */,
 				FC91B7671E4C3B8700AF11C6 /* MockImageAnnotationService.swift in Sources */,

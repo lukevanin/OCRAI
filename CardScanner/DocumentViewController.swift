@@ -19,17 +19,10 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
 
     var documentIdentifier: String!
     var coreData: CoreDataStack!
-    
-    private lazy var scanner: ScannerService = {
-        let factory = DefaultServiceFactory()
-        return ScannerService(
-            factory: factory,
-            coreData: self.coreData
-        )
-    }()
+    var scanner: ScannerService?
     
     private var document: Document?
-    private var model: DocumentViewModel?
+    private var model: DocumentModel?
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var headerView: UIView!
@@ -133,7 +126,14 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setToolbarHidden(false, animated: false)
+        scanner?.addObserver(self)
+        updateScannerState()
         loadDocument()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        scanner?.removeObserver(self)
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -222,7 +222,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             
             documentView.document = document
 
-            model = DocumentViewModel(
+            model = DocumentModel(
                 document: document,
                 coreData: coreData
             )
@@ -254,17 +254,18 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     private func scanDocument() {
-        scanner.scan(document: documentIdentifier) { (state) in
-            DispatchQueue.main.async {
-                self.handleScannerState(state)
-            }
-        }
+        scanner?.scan()
     }
     
-    private func handleScannerState(_ state: ScannerService.State) {
+    private func updateScannerState() {
+        guard let scanner = self.scanner else {
+            return
+        }
+        handleScannerState(scanner.state)
+    }
+    
+    fileprivate func handleScannerState(_ state: ScannerService.State) {
         switch state {
-        case .pending:
-            print("pending")
             
         case .active:
             print("active")
@@ -272,8 +273,11 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             
         case .completed:
             print("completed")
-            updateViewState(scanning: false)
             model?.fetch()
+            
+        case .idle:
+            print("idle")
+            updateViewState(scanning: false)
         }
     }
     
@@ -507,8 +511,22 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 }
 
-extension DocumentViewController: DocumentViewModelDelegate {
-    func documentModel(model: DocumentViewModel, didUpdateWithChanges changes: DocumentViewModel.Changes) {
+extension DocumentViewController: DocumentModelDelegate {
+    func documentModel(model: DocumentModel, didUpdateWithChanges changes: DocumentModel.Changes) {
         tableView.applyChanges(changes)
+    }
+}
+
+extension DocumentViewController: ScannerObserver {
+    func scanner(service: ScannerService, didChangeState state: ScannerService.State) {
+        DispatchQueue.main.async {
+            assert(Thread.isMainThread)
+            
+            guard service.identifier == self.documentIdentifier else {
+                return
+            }
+            
+            self.handleScannerState(state)
+        }
     }
 }

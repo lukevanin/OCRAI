@@ -27,6 +27,14 @@ class DocumentsViewController: UITableViewController {
         instance.autosave(every: 30.0)
         return instance
     }()
+    
+    private lazy var documentManager: DocumentManager = { [unowned self] in
+        let factory = DefaultServiceFactory()
+        return DocumentManager(
+            factory: factory,
+            coreData: self.coreData
+        )
+    }()
 
     private lazy var listController: ManagedListController<Document> = {
         let fetchRequest: NSFetchRequest<Document> = Document.fetchRequest()
@@ -111,13 +119,24 @@ class DocumentsViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let viewController = segue.destination as? DocumentViewController {
-            if let identifier = sender as? String {
-                viewController.documentIdentifier = identifier
+            
+            let identifier: String
+            
+            if let itemIdentifier = sender as? String {
+                // Document originated from import.
+                identifier = itemIdentifier
             }
-            else if let indexPath = tableView.indexPathForSelectedRow, let item = listController.object(at: indexPath) {
-                viewController.documentIdentifier = item.identifier
+            else if let indexPath = tableView.indexPathForSelectedRow, let item = listController.object(at: indexPath), let itemIdentifier = item.identifier {
+                // Tapped on existing document.
+                identifier = itemIdentifier
             }
+            else {
+                return
+            }
+            
+            viewController.documentIdentifier = identifier
             viewController.coreData = coreData
+            viewController.scanner = documentManager.createScanner(forDocument: identifier)
         }
     }
     
@@ -147,7 +166,11 @@ class DocumentsViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DocumentCell
         
         if let document = listController.object(at: indexPath) {
-            cell.configure(with: document)
+            var scanner: ScannerService?
+            if let identifier = document.identifier {
+                scanner = documentManager.getScanner(forDocument: identifier)
+            }
+            cell.configure(with: document, scanner: scanner)
         }
         
         return cell
@@ -175,6 +198,8 @@ class DocumentsViewController: UITableViewController {
         guard let document = listController.object(at: indexPath), let identifier = document.identifier else {
             return
         }
+        
+        documentManager.removeScanner(forDocument: identifier)
         
         coreData.performBackgroundChanges() { [weak self] context in
             guard let document = try context.documents(withIdentifier: identifier).first else {

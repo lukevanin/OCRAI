@@ -9,6 +9,17 @@
 import UIKit
 
 class DocumentCell: UITableViewCell {
+    
+    private var document: Document?
+    private var scanner: ScannerService? {
+        willSet {
+            scanner?.removeObserver(self)
+        }
+        didSet {
+            scanner?.addObserver(self)
+        }
+    }
+    
     @IBOutlet weak var backgroundImageView: UIImageView?
     @IBOutlet weak var placeholderImageView: UIImageView?
     @IBOutlet weak var documentView: DocumentView?
@@ -42,6 +53,8 @@ class DocumentCell: UITableViewCell {
         documentView?.document = nil
         titleLabel?.text = nil
         subtitleLabel?.text = nil
+        document = nil
+        scanner = nil
     }
     
     override func layoutSubviews() {
@@ -52,7 +65,7 @@ class DocumentCell: UITableViewCell {
         }
     }
     
-    func configure(with document: Document) {
+    func configure(with document: Document, scanner: ScannerService?) {
         documentView?.document = document
         
         // FIXME: Instantiate image in background thread
@@ -67,17 +80,49 @@ class DocumentCell: UITableViewCell {
             placeholderImageView?.isHidden = false
         }
         
-        let titles = document.titles
+        self.document = document
+        self.scanner = scanner
+        updateView()
+    }
+    
+    fileprivate func updateView() {
         
-        if titles.count > 0 {
-            titleLabel?.text = titles[0]
-            
-            if titles.count > 1 {
-                subtitleLabel?.text = titles[1]
-            }
+        var title: String?
+        var subtitle: String?
+
+        let isScanned = document?.didCompleteScan ?? false
+        
+        if let scanner = self.scanner, scanner.state != .idle {
+            title = "Scanning..."
         }
         else {
-            titleLabel?.text = "Tap to scan"
+            if isScanned {
+                if let titles = document?.titles, titles.count > 0 {
+                    title = titles[0]
+                    
+                    if titles.count > 1 {
+                        subtitle = titles[1]
+                    }
+                }
+                else {
+                    title = "No content"
+                }
+            }
+            else {
+                title = "Tap to scan"
+            }
+        }
+        
+        titleLabel?.text = title
+        subtitleLabel?.text = subtitle
+    }
+}
+
+extension DocumentCell: ScannerObserver {
+    func scanner(service: ScannerService, didChangeState: ScannerService.State) {
+        DispatchQueue.main.async {
+            assert(Thread.isMainThread)
+            self.updateView()
         }
     }
 }

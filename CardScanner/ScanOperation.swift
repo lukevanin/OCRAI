@@ -13,24 +13,17 @@ import CoreData
 
 class ScanOperation: AsyncOperation {
     
-    private let identifier: String
+    let identifier: String
+    
     private let service: ScannerService
     private let coreData: CoreDataStack
-    private let progress: ScannerService.ProgressHandler
     private let queue: DispatchQueue
     private let group: DispatchGroup
     
-    private var state: ScannerService.State = .pending {
-        didSet {
-            self.progress(state)
-        }
-    }
-    
-    init(document identifier: String, service: ScannerService, coreData: CoreDataStack, progress: @escaping ScannerService.ProgressHandler) {
+    init(document identifier: String, service: ScannerService, coreData: CoreDataStack) {
         self.identifier = identifier
         self.service = service
         self.coreData = coreData
-        self.progress = progress
         self.queue = DispatchQueue(label: "ScannerServiceOperation")
         self.group = DispatchGroup()
     }
@@ -41,7 +34,6 @@ class ScanOperation: AsyncOperation {
     }
     
     override func execute(completion: @escaping () -> Void) {
-        state = .active
         annotate()
         group.notify(queue: queue) { [identifier, coreData] in
             DispatchQueue.main.async {
@@ -49,10 +41,8 @@ class ScanOperation: AsyncOperation {
                     document?.didCompleteScan = true
                 }
                 
-                coreData.saveNow() { _ in
-                    //  FIXME: Update entity ordinality
-                    self.state = .completed
-                }
+                coreData.saveNow()
+                completion()
             }
         }
     }

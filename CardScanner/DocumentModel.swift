@@ -1,5 +1,5 @@
 //
-//  DocumentViewModel.swift
+//  DocumentModel.swift
 //  CardScanner
 //
 //  Created by Anonymous on 2017/03/12.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol DocumentViewModelDelegate: class {
-    func documentModel(model: DocumentViewModel, didUpdateWithChanges changes: DocumentViewModel.Changes)
+protocol DocumentModelDelegate: class {
+    func documentModel(model: DocumentModel, didUpdateWithChanges changes: DocumentModel.Changes)
 }
 
 extension UITableView {
-    func applyChanges(_ changes: DocumentViewModel.Changes) {
+    func applyChanges(_ changes: DocumentModel.Changes) {
         assert(Thread.isMainThread)
         
         if changes.hasIncrementalChanges {
@@ -54,7 +54,7 @@ extension UITableView {
     }
 }
 
-class DocumentViewModel {
+class DocumentModel {
     
     struct Changes {
         let hasIncrementalChanges: Bool
@@ -105,7 +105,7 @@ class DocumentViewModel {
         }
     }
     
-    weak var delegate: DocumentViewModelDelegate?
+    weak var delegate: DocumentModelDelegate?
     
     var totalFragments: Int {
         var count = 0

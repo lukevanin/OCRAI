@@ -11,13 +11,13 @@ import Contacts
 import MapKit
 import CoreLocation
 
-extension ScannerService {
-    static func test(coreData: CoreDataStack) -> ScannerService {
-        let factory = TestServiceFactory()
-        let service = ScannerService(
-            factory: factory,
-            coreData: coreData
-        )
-        return service
-    }
-}
+//extension ScannerService {
+//    static func test(coreData: CoreDataStack) -> ScannerService {
+//        let factory = TestServiceFactory()
+//        let service = ScannerService(
+//            factory: factory,
+//            coreData: coreData
+//        )
+//        return service
+//    }
+//}
