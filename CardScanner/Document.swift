@@ -75,57 +75,14 @@ extension Document {
     }
     
     var contact: CNContact {
-        let contact = CNMutableContact()
-        
-        if let organization = fragments(ofType: .organization).first?.value {
-            contact.organizationName = organization
-            contact.contactType = .organization
-        }
-        
-        if let name = fragments(ofType: .person).first?.value {
-            contact.givenName = name
-            contact.contactType = .person
-        }
-        
-        let phoneNumbers = fragments(ofType: .phoneNumber)
-        contact.phoneNumbers = phoneNumbers.flatMap({ $0.value }).map {
-            CNLabeledValue(
-                label: nil,
-                value: CNPhoneNumber(stringValue: $0)
-            )
-        }
-        
-        let urlAddresses = fragments(ofType: .url)
-        contact.urlAddresses = urlAddresses.flatMap({ $0.value }).map {
-            CNLabeledValue(
-                label: nil,
-                value: $0 as NSString
-            )
-        }
-        
-        let emailAddresses = fragments(ofType: .email)
-        contact.emailAddresses = emailAddresses.flatMap({ $0.value }).map {
-            CNLabeledValue(
-                label: nil,
-                value: $0 as NSString
-            )
-        }
-  
-        // FIXME: Add addresses to contact
-//        let postalAddresses = fragments(ofType: .address)
-//        contact.postalAddresses = postalAddresses.flatMap({ $0.value }).map {
-//            let address = CNMutablePostalAddress()
-//
-//            // FIXME: Detect address components in addres value
-//            address
-//            
-//            CNLabeledValue(
-//                label: nil,
-//                value: $0 as NSString
-//            )
-//        }
-    
-        return contact
+        let builder = ContactBuilder()
+        builder.addOrganization(fragments: fragments(ofType: .organization))
+        builder.addPerson(fragments: fragments(ofType: .person))
+        builder.addPhoneNumbers(fragments: fragments(ofType: .phoneNumber))
+        builder.addURLAddresses(fragments: fragments(ofType: .url))
+        builder.addEmailAddresses(fragments: fragments(ofType: .email))
+        builder.addPostalAddresses(fragments: fragments(ofType: .address))
+        return builder.build()
     }
     
     var allFragments: [Fragment] {

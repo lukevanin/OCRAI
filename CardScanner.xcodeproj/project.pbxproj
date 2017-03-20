@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B764913D1E802F7700B604CF /* ContactBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764913C1E802F7700B604CF /* ContactBuilder.swift */; };
 		B7667A671E759C0D0066375E /* DocumentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7667A661E759C0D0066375E /* DocumentViewModel.swift */; };
 		B7667A6A1E75AFE20066375E /* UIAlertController+Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7667A691E75AFE20066375E /* UIAlertController+Document.swift */; };
 		B77332741E6EE23000A6B114 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B77332731E6EE23000A6B114 /* UIImageEffects.m */; };
@@ -87,7 +88,7 @@
 		FCF54E6D1E6331A400DAEA38 /* MonkeyLearnEntitiesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF54E6C1E6331A400DAEA38 /* MonkeyLearnEntitiesAPI.swift */; };
 		FCF54E6F1E63E5B600DAEA38 /* MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF54E6E1E63E5B600DAEA38 /* MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift */; };
 		FCF54E751E6477F500DAEA38 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF54E741E6477F500DAEA38 /* Polygon.swift */; };
-		FCF64BD31E59A6A300E036D0 /* CNPostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */; };
+		FCF64BD31E59A6A300E036D0 /* CNMutablePostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD21E59A6A300E036D0 /* CNMutablePostalAddress.swift */; };
 		FCF64BD51E59D1D500E036D0 /* AggregateTextAnnotationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD41E59D1D500E036D0 /* AggregateTextAnnotationService.swift */; };
 		FCF64BD71E59DE3500E036D0 /* GoogleVisionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD61E59DE3500E036D0 /* GoogleVisionAPI.swift */; };
 		FCF64BD91E59DE5B00E036D0 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF64BD81E59DE5B00E036D0 /* JSON.swift */; };
@@ -135,6 +136,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B764913C1E802F7700B604CF /* ContactBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactBuilder.swift; sourceTree = "<group>"; };
 		B7667A661E759C0D0066375E /* DocumentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewModel.swift; sourceTree = "<group>"; };
 		B7667A691E75AFE20066375E /* UIAlertController+Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Document.swift"; sourceTree = "<group>"; };
 		B773326A1E6EE1B300A6B114 /* CardScanner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CardScanner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -220,7 +222,7 @@
 		FCF54E6C1E6331A400DAEA38 /* MonkeyLearnEntitiesAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonkeyLearnEntitiesAPI.swift; sourceTree = "<group>"; };
 		FCF54E6E1E63E5B600DAEA38 /* MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift; sourceTree = "<group>"; };
 		FCF54E741E6477F500DAEA38 /* Polygon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Polygon.swift; sourceTree = "<group>"; };
-		FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CNPostalAddress.swift; sourceTree = "<group>"; };
+		FCF64BD21E59A6A300E036D0 /* CNMutablePostalAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CNMutablePostalAddress.swift; sourceTree = "<group>"; };
 		FCF64BD41E59D1D500E036D0 /* AggregateTextAnnotationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregateTextAnnotationService.swift; sourceTree = "<group>"; };
 		FCF64BD61E59DE3500E036D0 /* GoogleVisionAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleVisionAPI.swift; sourceTree = "<group>"; };
 		FCF64BD81E59DE5B00E036D0 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
@@ -263,6 +265,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B764913B1E802F3300B604CF /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				B764913C1E802F7700B604CF /* ContactBuilder.swift */,
+			);
+			name = Builder;
+			sourceTree = "<group>";
+		};
 		B7667A681E75AF520066375E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +396,7 @@
 				FC91B7621E4C370400AF11C6 /* View Controller */,
 				FC0BF6D11E54AA3700A0ED29 /* View */,
 				FC7966FF1E52C36600D54859 /* Model */,
+				B764913B1E802F3300B604CF /* Builder */,
 				FC05917F1E58906F00B0DDB4 /* Factory */,
 				FCEDE6D61E58C093001B4776 /* Adapter */,
 				FC91B75F1E4C36DF00AF11C6 /* Service */,
@@ -429,7 +440,7 @@
 				FC8E71731E4AD5B300D37719 /* UIImage+Resize.swift */,
 				FCED884A1E4CC90F00623684 /* AsyncOperation.swift */,
 				FCE8A4F71E56046D00512D56 /* ManagedListViewController.swift */,
-				FCF64BD21E59A6A300E036D0 /* CNPostalAddress.swift */,
+				FCF64BD21E59A6A300E036D0 /* CNMutablePostalAddress.swift */,
 				FC00364F1E6591B900B722AC /* CGPoint.swift */,
 				B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */,
 				B7751B401E70563B0024D99B /* CGRect+CGPoint.swift */,
@@ -775,6 +786,7 @@
 			files = (
 				FCED88491E4CC7B300623684 /* Cancellable.swift in Sources */,
 				FC05917E1E588DB800B0DDB4 /* CoreLocationAddressResolutionService.swift in Sources */,
+				B764913D1E802F7700B604CF /* ContactBuilder.swift in Sources */,
 				FC00364E1E65796700B722AC /* FragmentAnnotationVertex.swift in Sources */,
 				FCED88471E4CC72D00623684 /* ScannerService.swift in Sources */,
 				FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */,
@@ -785,7 +797,7 @@
 				FC0BF6D01E54AA1F00A0ED29 /* DocumentViewController.swift in Sources */,
 				FC7967011E52C37500D54859 /* Document.swift in Sources */,
 				FCED884F1E4D8E9F00623684 /* AddressResolutionService.swift in Sources */,
-				FCF64BD31E59A6A300E036D0 /* CNPostalAddress.swift in Sources */,
+				FCF64BD31E59A6A300E036D0 /* CNMutablePostalAddress.swift in Sources */,
 				B7751B441E7452270024D99B /* ColorAnnotationsRenderer.swift in Sources */,
 				FCEF9BF81E608D3F00B7D509 /* Material.swift in Sources */,
 				FC0036501E6591B900B722AC /* CGPoint.swift in Sources */,
