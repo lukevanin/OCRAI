@@ -332,6 +332,7 @@
                         <outlet property="cameraButtonItem" destination="5IQ-Hp-med" id="E7Y-4N-MMm"/>
                         <outlet property="emptyContentPlaceholderView" destination="PD9-p8-7aY" id="GKV-BT-CVH"/>
                         <outlet property="libraryButtonItem" destination="2Ah-d0-OIV" id="Zs7-Dd-TJN"/>
+                        <outlet property="placeholderLabel" destination="wMv-Lb-h1Y" id="bfQ-7M-f97"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b9z-2W-Nis" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -387,7 +388,7 @@ Add photos from your library or camera to get started.</string>
                                         <rect key="frame" x="0.0" y="28" width="320" height="69"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="23m-fa-taN" id="ajb-LQ-xMF">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="68.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view alpha="0.60000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMr-yo-Lwz">
@@ -430,7 +431,7 @@ Add photos from your library or camera to get started.</string>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="mcf-ub-3bV"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="23m-fa-taN" id="upv-wO-cmi"/>

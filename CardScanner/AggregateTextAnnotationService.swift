@@ -26,7 +26,7 @@ private class AggregateTextAnnotationOperation: AsyncOperation {
     
     fileprivate override func execute(completion: @escaping AsyncOperation.Completion) {
         
-        // FIXME: Run services in sequence
+        // FIXME: Run services serially in sequence. Currently relies on race condition where data detector complets before web service.
         services.forEach(runService)
         
         group.notify(queue: DispatchQueue.global()) {

@@ -8,6 +8,20 @@
 
 import UIKit
 
+let coreData: CoreDataStack = {
+    let instance = try! CoreDataStack(name: "OCRAI")
+    instance.autosave(every: 30.0)
+    return instance
+}()
+
+let documentManager: DocumentManager = { 
+    let factory = DefaultServiceFactory()
+    return DocumentManager(
+        factory: factory,
+        coreData: coreData
+    )
+}()
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

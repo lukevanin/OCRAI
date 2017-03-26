@@ -12,7 +12,7 @@ import CoreData
 private let cameraSegue = "camera"
 private let documentSegue = "document"
 
-private let cellIdentifier = "DocumentCell"
+private let defaultPlaceholderText = "You don't have any images yet.\nAdd photos from your library or camera to get started."
 
 protocol ImageSource: class {
     var selectedImageData: Data? {
@@ -20,37 +20,54 @@ protocol ImageSource: class {
     }
 }
 
-class DocumentsViewController: UITableViewController {
-    
-    private lazy var coreData: CoreDataStack = {
-        let instance = try! CoreDataStack(name: "OCRAI")
-        instance.autosave(every: 30.0)
-        return instance
-    }()
-    
-    private lazy var documentManager: DocumentManager = { [unowned self] in
-        let factory = DefaultServiceFactory()
-        return DocumentManager(
-            factory: factory,
-            coreData: self.coreData
-        )
-    }()
+extension DocumentsViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        let fetchRequest: NSFetchRequest<Document>
 
-    private lazy var listController: ManagedListController<Document> = {
-        let fetchRequest: NSFetchRequest<Document> = Document.fetchRequest()
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "creationDate", ascending: false)
-        ]
-        return ManagedListController(
-            fetchRequest: fetchRequest,
-            context: self.coreData.mainContext,
-            delegate: self
-        )
+        if searchController.isActive {
+        
+            var predicates = [NSPredicate]()
+
+            if let query = searchController.searchBar.text, !query.isEmpty {
+                placeholderLabel.text = "No matches found for \"\(query)\"."
+                predicates.append(NSPredicate(format: "any fields.value contains[cd] %@", query))
+            }
+            else {
+                placeholderLabel.text = "Enter text to search."
+            }
+            
+            fetchRequest = Document.fetchRequest()
+            fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+            fetchRequest.sortDescriptors = [
+                NSSortDescriptor(key: "creationDate", ascending: false)
+            ]
+        }
+        else {
+            placeholderLabel.text = defaultPlaceholderText
+            fetchRequest = defaultFetchRequest
+        }
+        
+        self.fetchRequest = fetchRequest
+    }
+}
+
+class DocumentsViewController: DocumentsBaseViewController {
+    
+    private lazy var searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.searchResultsUpdater = self
+        controller.dimsBackgroundDuringPresentation = false
+        return controller
     }()
     
+    @IBOutlet weak var placeholderLabel: UILabel!
     @IBOutlet weak var libraryButtonItem: UIBarButtonItem!
     @IBOutlet weak var cameraButtonItem: UIBarButtonItem!
-    @IBOutlet weak var emptyContentPlaceholderView: UIView!
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+    }
     
     @IBAction func unwindToDocuments(_ segue: UIStoryboardSegue) {
         if let viewController = segue.source as? ImageSource {
@@ -85,7 +102,7 @@ class DocumentsViewController: UITableViewController {
             try context.save()
 
             DispatchQueue.main.async {
-                self.coreData.saveNow() { success in
+                coreData.saveNow() { success in
                     if success {
                         self.performSegue(withIdentifier: documentSegue, sender: document)
                     }
@@ -108,117 +125,14 @@ class DocumentsViewController: UITableViewController {
     }
     
     private func makeBlurredImage(from image: UIImage) -> UIImage {
-//        return UIImageEffects.imageByApplyingLightEffect(to: image)
         return UIImageEffects.imageByApplyingExtraLightEffect(to: image)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let viewController = segue.destination as? DocumentViewController {
-            
-            let document: Document
-            
-            if let item = sender as? Document {
-                // Document originated from import.
-                document = item
-            }
-            else if let indexPath = tableView.indexPathForSelectedRow, let item = listController.object(at: indexPath) {
-                // Tapped on existing document.
-                document = item
-            }
-            else {
-                return
-            }
-            
-            viewController.document = document
-            viewController.coreData = coreData
-            viewController.scanner = documentManager.createScanner(forDocument: document)
-        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItems = [editButtonItem]
-        
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
         cameraButtonItem.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         libraryButtonItem.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        listController.refresh()
-        tableView.reloadData()
-        updateViewState()
-        navigationController?.setToolbarHidden(false, animated: false)
-    }
-    
-    // MARK: Table view
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listController.numberOfItems(inSection: 0)
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DocumentCell
-        
-        if let document = listController.object(at: indexPath) {
-            let scanner = documentManager.getScanner(forDocument: document)
-            cell.configure(with: document, scanner: scanner)
-        }
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        if let document = listController.object(at: indexPath) {
-            presentActionsAlertForDocument(document: document)
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        switch editingStyle {
-            
-        case .delete:
-            deleteItem(at: indexPath)
-            
-        default:
-            break
-        }
-    }
-    
-    private func deleteItem(at indexPath: IndexPath) {
-        
-        guard let document = listController.object(at: indexPath) else {
-            return
-        }
-        
-        documentManager.removeScanner(forDocument: document)
-        
-        let context = coreData.mainContext
-        context.delete(document)
-
-        coreData.saveNow()
-    }
-    
-    // MARK: View state
-    
-    fileprivate func updateViewState() {
-        if tableView.numberOfRows(inSection: 0) == 0 {
-            // Table is empty
-            navigationItem.rightBarButtonItem = nil
-            tableView.setEditing(false, animated: true)
-            tableView.backgroundView = emptyContentPlaceholderView
-        }
-        else {
-            // Table has content.
-            navigationItem.rightBarButtonItem = editButtonItem
-            tableView.backgroundView = nil
-        }
-    }
-}
-
-extension DocumentsViewController: ManagedListControllerDelegate {
-    func applyChanges(_ changes: [Change]) {
-        tableView.applyChanges(changes)
-        updateViewState()
     }
 }

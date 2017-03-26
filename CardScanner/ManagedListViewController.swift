@@ -103,7 +103,12 @@ class ManagedListController<ResultType : NSManagedObject> : NSObject, NSFetchedR
     //
     //
     func refresh() {
-        try! fetchedResultsController.performFetch()
+        do {
+            try fetchedResultsController.performFetch()
+        }
+        catch {
+            print("Cannot refresh managed list controller: \(error)")
+        }
     }
     
     //
