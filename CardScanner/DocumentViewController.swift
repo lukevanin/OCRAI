@@ -17,11 +17,10 @@ private let imageCellIdentifier = "ImageCell"
 
 class DocumentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TextCellDelegate {
 
-    var documentIdentifier: String!
+    var document: Document!
     var coreData: CoreDataStack!
     var scanner: ScannerService?
     
-    private var document: Document?
     private var model: DocumentModel?
 
     @IBOutlet weak var tableView: UITableView!
@@ -205,42 +204,27 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     private func loadDocument() {
-        do {
-            self.document = try coreData.mainContext.documents(withIdentifier: documentIdentifier).first
-            
-            guard let document = self.document else {
-                return
-            }
-            
-            if let imageData = document.thumbnailImageData {
-                let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale)
-                documentView.image = image
-            }
-            else {
-                documentView.image = nil
-            }
-            
-            documentView.document = document
-
-            model = DocumentModel(
-                document: document,
-                coreData: coreData
-            )
-            model?.delegate = self
-            tableView.reloadData()
-
-            scanDocumentIfNeeded()
+        if let imageData = document.thumbnailImageData {
+            let image = UIImage(data: imageData as Data, scale: UIScreen.main.scale)
+            documentView.image = image
         }
-        catch {
-            print("Cannot fetch document: \(error)")
+        else {
+            documentView.image = nil
         }
+        
+        documentView.document = document
+
+        model = DocumentModel(
+            document: document,
+            coreData: coreData
+        )
+        model?.delegate = self
+        tableView.reloadData()
+
+        scanDocumentIfNeeded()
     }
     
     private func scanDocumentIfNeeded() {
-        guard let document = document else {
-            return
-        }
-        
         if document.didCompleteScan {
             return
         }
@@ -318,35 +302,35 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let model = model else {
-            return self.tableView(tableView, cellForBlankTextFragmentOfType: .unknown, at: indexPath)
+            return self.tableView(tableView, cellForBlankFieldTextOfType: .unknown, at: indexPath)
         }
         
         if isEditing && (indexPath.row == model.numberOfRowsInSection(indexPath.section)) {
             let type = model.typeForSection(at: indexPath.section)
-            return self.tableView(tableView, cellForBlankTextFragmentOfType: type, at: indexPath)
+            return self.tableView(tableView, cellForBlankFieldTextOfType: type, at: indexPath)
         }
         
-        let fragment = model.fragment(at: indexPath)
+        let field = model.fragment(at: indexPath)
         
-        switch fragment.type {
+        switch field.type {
             
         default:
-            return self.tableView(tableView, cellForTextFragment:fragment, at: indexPath)
+            return self.tableView(tableView, cellForField:field, at: indexPath)
         }
     }
     
-    private func tableView(_ tableView: UITableView, cellForBlankTextFragmentOfType type: FragmentType, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView(tableView, cellForFragmentType: type, at: indexPath)
+    private func tableView(_ tableView: UITableView, cellForBlankFieldTextOfType type: FieldType, at indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tableView(tableView, cellForType: type, at: indexPath)
         return cell
     }
     
-    private func tableView(_ tableView: UITableView, cellForTextFragment fragment: Fragment, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView(tableView, cellForFragmentType: fragment.type, at: indexPath)
-        cell.contentTextField.text = fragment.value
+    private func tableView(_ tableView: UITableView, cellForField field: Field, at indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tableView(tableView, cellForType: field.type, at: indexPath)
+        cell.contentTextField.text = field.value
         return cell
     }
     
-    private func tableView(_ tableView: UITableView, cellForFragmentType type: FragmentType, at indexPath: IndexPath) -> BasicFragmentCell {
+    private func tableView(_ tableView: UITableView, cellForType type: FieldType, at indexPath: IndexPath) -> BasicFragmentCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
         cell.delegate = self
         cell.configure(type: type, isEditing: isEditing)
@@ -521,11 +505,6 @@ extension DocumentViewController: ScannerObserver {
     func scanner(service: ScannerService, didChangeState state: ScannerService.State) {
         DispatchQueue.main.async {
             assert(Thread.isMainThread)
-            
-            guard service.identifier == self.documentIdentifier else {
-                return
-            }
-            
             self.handleScannerState(state)
         }
     }

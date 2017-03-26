@@ -13,12 +13,12 @@ import MonkeyLearnEntitiesAPI
 
 struct DefaultServiceFactory: ServiceFactory {
     
-    func imageAnnotationService() -> ImageAnnotationService? {
+    func imageAnnotationService() -> ImageAnnotationService {
         let service = try! GoogleVisionAPI()
         return GoogleVisionServiceAdapter(service: service)
     }
     
-    func textAnnotationService() -> TextAnnotationService? {
+    func textAnnotationService() -> TextAnnotationService {
         let googleNaturalLanguageService = try! GoogleNaturalLanguageAPI()
         let googleNaturalLanguageServiceAdapter = GoogleNaturalLanguageServiceAdapter(service: googleNaturalLanguageService)
         
@@ -26,7 +26,7 @@ struct DefaultServiceFactory: ServiceFactory {
 //        let monkeyLearnAdapter = MonkeyLearnEntitiesTextAnnotationServiceAdapter(service: monkeyLearnService)
         
         let dataDetectorService = DataDetectorTextAnnotationService()
-        return AggregateTextAnnotationService(appendDistinct: [
+        return AggregateTextAnnotationService(services: [
                 dataDetectorService,
                 googleNaturalLanguageServiceAdapter,
                 ])

@@ -1,65 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G1217" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="AddressFragment" representedClassName="AddressFragment" syncable="YES" codeGenerationType="class">
-        <attribute name="city" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="country" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="countryCode" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="postalCode" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="state" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="street" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" syncable="YES"/>
-        <relationship name="location" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Location" inverseName="address" inverseEntity="Location" syncable="YES"/>
+    <entity name="Annotation" representedClassName="Annotation" syncable="YES" codeGenerationType="class">
+        <attribute name="length" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="location" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="annotations" inverseEntity="Document" syncable="YES"/>
+        <relationship name="vertices" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Vertex" inverseName="annotation" inverseEntity="Vertex" syncable="YES"/>
     </entity>
     <entity name="Document" representedClassName="Document" syncable="YES" codeGenerationType="class">
         <attribute name="blurredImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="didCompleteScan" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="identifier" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="imageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
         <attribute name="imageHeight" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="imageWidth" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rawImageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumbnailImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
-        <relationship name="fragments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Fragment" inverseName="document" inverseEntity="Fragment" syncable="YES"/>
+        <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Annotation" inverseName="document" inverseEntity="Annotation" syncable="YES"/>
+        <relationship name="fields" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Field" inverseName="document" inverseEntity="Field" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Tag" inverseName="document" inverseEntity="Tag" syncable="YES"/>
     </entity>
-    <entity name="Fragment" representedClassName="Fragment" syncable="YES" codeGenerationType="class">
-        <attribute name="identifier" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="imageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
+    <entity name="Field" representedClassName="Field" syncable="YES" codeGenerationType="class">
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ordinality" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="rawType" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <attribute name="value" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FragmentAnnotation" inverseName="fragment" inverseEntity="FragmentAnnotation" syncable="YES"/>
-        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="fragments" inverseEntity="Document" syncable="YES"/>
+        <attribute name="rawType" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="value" attributeType="String" syncable="YES"/>
+        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="fields" inverseEntity="Document" syncable="YES"/>
     </entity>
-    <entity name="FragmentAnnotation" representedClassName="FragmentAnnotation" syncable="YES" codeGenerationType="class">
-        <relationship name="fragment" maxCount="1" deletionRule="Nullify" destinationEntity="Fragment" inverseName="annotations" inverseEntity="Fragment" syncable="YES"/>
-        <relationship name="vertices" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="FragmentAnnotationVertex" inverseName="annotation" inverseEntity="FragmentAnnotationVertex" syncable="YES"/>
+    <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
+        <attribute name="length" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="location" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rawType" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="text" attributeType="String" syncable="YES"/>
+        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="tags" inverseEntity="Document" syncable="YES"/>
     </entity>
-    <entity name="FragmentAnnotationVertex" representedClassName="FragmentAnnotationVertex" syncable="YES" codeGenerationType="class">
+    <entity name="Vertex" representedClassName="Vertex" syncable="YES" codeGenerationType="class">
         <attribute name="x" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="y" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="annotation" maxCount="1" deletionRule="Nullify" destinationEntity="FragmentAnnotation" inverseName="vertices" inverseEntity="FragmentAnnotation" syncable="YES"/>
-    </entity>
-    <entity name="Location" representedClassName="Location" syncable="YES" codeGenerationType="class">
-        <attribute name="administrativeArea" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="country" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="countryCode" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="locality" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="postalCode" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="subAdministrativeArea" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="subLocality" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="subThroughfare" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="throughfare" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="address" maxCount="1" deletionRule="Nullify" destinationEntity="AddressFragment" inverseName="location" inverseEntity="AddressFragment" syncable="YES"/>
+        <relationship name="annotation" maxCount="1" deletionRule="Nullify" destinationEntity="Annotation" inverseName="vertices" inverseEntity="Annotation" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AddressFragment" positionX="-27" positionY="99" width="128" height="30"/>
-        <element name="Document" positionX="-63" positionY="-18" width="128" height="180"/>
-        <element name="Fragment" positionX="-54" positionY="-9" width="128" height="165"/>
-        <element name="FragmentAnnotation" positionX="-54" positionY="108" width="128" height="75"/>
-        <element name="FragmentAnnotationVertex" positionX="-45" positionY="117" width="128" height="90"/>
-        <element name="Location" positionX="-36" positionY="9" width="128" height="225"/>
+        <element name="Annotation" positionX="-36" positionY="117" width="128" height="30"/>
+        <element name="Document" positionX="-63" positionY="-18" width="128" height="225"/>
+        <element name="Field" positionX="-54" positionY="108" width="128" height="30"/>
+        <element name="Tag" positionX="-45" positionY="81" width="128" height="120"/>
+        <element name="Vertex" positionX="-45" positionY="117" width="128" height="90"/>
     </elements>
 </model>

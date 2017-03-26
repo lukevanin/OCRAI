@@ -7,112 +7,81 @@
 //
 
 import Foundation
+import CoreData
 import GoogleVisionAPI
 
-extension ImageAnnotationRequest {
-    
-    typealias Feature = GoogleVisionAPI.Feature
-    
-    func googleVisionRequest() -> GoogleVisionAPI.AnnotationImageRequest {
-        
-        var features = [Feature]()
-        
-        if feature.contains(.text) {
-            features.append(Feature(type: .textDetection))
-        }
-        
-        // FIXME: Annotate faces, logo, and machine code.
-        
-        return GoogleVisionAPI.AnnotationImageRequest(
-            image: GoogleVisionAPI.Image(
-                data: image
-            ),
-            features: features
-        )
-    }
-}
-
-extension GoogleVisionAPI.Vertex {
-    func imageAnnotationVertex() -> Vertex? {
-        guard let x = self.x, let y = self.y else {
-            return nil
-        }
-        return Vertex(
-            x: x,
-            y: y
-        )
-    }
-}
-
-extension GoogleVisionAPI.BoundingPoly {
-    func imageAnnotationPolygon() -> Polygon {
-        var vertices = [Vertex]()
-        
-        for vertex in self.vertices {
-            if let v = vertex.imageAnnotationVertex() {
-                vertices.append(v)
-            }
-        }
-        
-        return Polygon(
-            vertices: vertices
-        )
-    }
-}
-
-extension GoogleVisionAPI.AnnotateImageResponse {
-    func imageAnnotationResponse() -> ImageAnnotationResponse {
-        return ImageAnnotationResponse(
-            textAnnotations: parseTextAnnotations(textAnnotations),
-            logoAnnotations: [], // FIXME: Parse logo
-            faceAnnotations: [], // FIXME: Parse face
-            codeAnnotations: [] // FIXME: Parse machine code
-        )
-    }
-    
-    private func parseTextAnnotations(_ allEntities: [GoogleVisionAPI.EntityAnnotation]?) -> AnnotatedText {
-        
-        guard let allEntities = allEntities, let rawValue = allEntities.first?.description else {
-            return AnnotatedText(text: "")
-        }
-        
-        var output = AnnotatedText(text: rawValue)
-        let composite = output.content
-        
-        // First text entity contains the aggregate of all remaining entities.
-        let components = allEntities.dropFirst()
-        
-        // Try to map the polygons of the individual entity components to the corresponding words in the composite string.
-        
-        var cursor = composite.startIndex ..< composite.endIndex
-        
-        for component in components {
-            if let componentText = component.description {
-                
-                guard let range = composite.range(of: componentText, options: [], range: cursor) else {
-                    fatalError("Invalid data")
-                }
-                
-                cursor = range.upperBound ..< composite.endIndex
-                
-                if let polygon = component.boundingPoly?.imageAnnotationPolygon() {
-                    let annotation = Annotation(content: componentText, bounds: polygon)
-                    output.add(shape: annotation, in: range)
-                }
-            }
-        }
-        
-        return output
-    }
-}
-
 struct GoogleVisionServiceAdapter: ImageAnnotationService {
+    
     let service: GoogleVisionAPI
-    func annotate(request: ImageAnnotationRequest, completion: @escaping ImageAnnotationCompletion) -> Cancellable {
-        let serviceRequest = request.googleVisionRequest()
-        return service.annotate(requests: [serviceRequest]) { (response, error) in
-            let output = response?.first?.imageAnnotationResponse()
-            completion(output, error)
+    
+    func annotate(content: Document, completion: @escaping ImageAnnotationServiceCompletion) {
+        
+        DispatchQueue.main.async { [content, service] in
+            
+            guard let imageData = content.imageData else {
+                completion(true, nil)
+                return
+            }
+        
+            let serviceRequest = GoogleVisionAPI.AnnotationImageRequest(
+                image: GoogleVisionAPI.Image(
+                    data: imageData
+                ),
+                features: [
+                    GoogleVisionAPI.Feature(type: .textDetection)
+                ]
+            )
+            
+            service.annotate(requests: [serviceRequest]) { (responses, error) in
+                
+                guard let response = responses?.first else {
+                    completion(false, error)
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    self.parseResponse(response: response, content: content)
+                    completion(true, nil)
+                }
+            }
+        }
+    }
+    
+    func parseResponse(response: GoogleVisionAPI.AnnotateImageResponse, content: Document) {
+        
+        guard let allEntities = response.textAnnotations, let rawText = allEntities.first?.description else {
+            return
+        }
+
+        let allText = rawText.components(separatedBy: "\n").joined(separator: ", ")
+        content.text = allText
+        
+        let entities = allEntities.dropFirst()
+        var cursor = allText.startIndex ..< allText.endIndex
+        
+        entities.forEach { entity in
+            
+            guard let text = entity.description else {
+                return
+            }
+            
+            guard let range = allText.range(of: text, options: [], range: cursor), let vertices = entity.boundingPoly?.vertices else {
+                fatalError("Invalid data")
+            }
+            
+            let points = vertices.flatMap { (vertex) -> CGPoint? in
+                guard let x = vertex.x, let y = vertex.y else {
+                    return nil
+                }
+                return CGPoint(x: x, y: y)
+            }
+            
+            content.annotate(
+                at: allText.convertRange(range),
+                vertices: points
+            )
+            
+            cursor = range.upperBound ..< allText.endIndex
         }
     }
 }

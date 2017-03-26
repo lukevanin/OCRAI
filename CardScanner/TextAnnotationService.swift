@@ -7,35 +7,9 @@
 //
 
 import Foundation
-import Contacts
 
-//struct Entity {
-//    var content: String
-//    var normalizedContent: String
-//    var annotations: [Annotation]
-//    init(content: String, normalizedContent: String? = nil, annotations: [Annotation]? = nil) {
-//        self.content = content
-//        self.normalizedContent = normalizedContent ?? content
-//        self.annotations = annotations ?? []
-//    }
-//}
-
-struct TextAnnotationResponse {
-//    var personEntities: [Entity]
-//    var organizationEntities: [Entity]
-//    var addressEntities: [Entity]
-//    var phoneEntities: [Entity]
-//    var urlEntities: [Entity]
-//    var emailEntities: [Entity]
-    let text: AnnotatedText
-}
-
-struct TextAnnotationRequest {
-    let text: AnnotatedText
-}
-
-typealias TextAnnotationCompletion = (TextAnnotationResponse?, Error?) -> Void
+typealias TextAnnotationServiceCompletion = (Bool, Error?) -> Void
 
 protocol TextAnnotationService {
-    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion)
+    func annotate(content: Document, completion: @escaping TextAnnotationServiceCompletion)
 }

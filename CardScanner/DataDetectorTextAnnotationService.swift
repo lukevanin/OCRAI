@@ -14,36 +14,43 @@ import CoreLocation
 
 private class DataDetectorTextAnnotationOperation: AsyncOperation {
     
-    private var text: AnnotatedText
-    private let completion: TextAnnotationCompletion
-    private let operationGroup: DispatchGroup
+    private let content: Document
+    private let completion: TextAnnotationServiceCompletion
     
-    init(text: AnnotatedText, completion: @escaping TextAnnotationCompletion) {
-        self.text = text
+    init(content: Document, completion: @escaping TextAnnotationServiceCompletion) {
+        self.content = content
         self.completion = completion
-        self.operationGroup = DispatchGroup()
     }
     
     fileprivate override func execute(completion: @escaping AsyncOperation.Completion) {
-        
-        let types: NSTextCheckingResult.CheckingType = [.phoneNumber, .link, .address]
-        let detector = try! NSDataDetector(types: types.rawValue)
-        let content = text.content
-        let range = NSRange(
-            location: 0,
-            length: content.characters.count
-        )
-        let matches = detector.matches(in: content, options: [], range: range)
-        annotatePhoneNumbers(matches)
-        annotateUrlAddresses(matches)
-        annotateEmailAddresses(matches)
-        annotatePostalAddresses(matches)
-        
-        operationGroup.notify(queue: DispatchQueue.global()) {
-            if !self.isCancelled {
-                let response = TextAnnotationResponse(text: self.text)
-                self.completion(response, nil)
+
+        DispatchQueue.main.async { [content] in
+            
+            if let content = content.text {
+
+                let types: NSTextCheckingResult.CheckingType = [.phoneNumber, .link, .address]
+                let detector = try! NSDataDetector(types: types.rawValue)
+                let range = NSRange(
+                    location: 0,
+                    length: content.characters.count
+                )
+                
+                let matches = detector.matches(
+                    in: content,
+                    options: [],
+                    range: range
+                )
+                
+                self.annotatePhoneNumbers(matches)
+                self.annotateUrlAddresses(matches)
+                self.annotateEmailAddresses(matches)
+                self.annotatePostalAddresses(matches)
             }
+            
+            if !self.isCancelled {
+                self.completion(true, nil)
+            }
+            
             completion()
         }
     }
@@ -107,41 +114,23 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
         return content
     }
     
-    private func annotate(type: FragmentType, matches: [NSTextCheckingResult], normalize: (NSTextCheckingResult) -> String?) {
+    private func annotate(type: FieldType, matches: [NSTextCheckingResult], normalize: (NSTextCheckingResult) -> String?) {
         for match in matches {
-            if let normalizedContent = normalize(match) {
-                if match.numberOfRanges > 1 {
-                    // FIXME: Handle multiple ranges in response
-                    fatalError("unsupported multiple ranges")
-                }
-                let range = text.convertRange(match.range)
-                self.text.add(type: type, text: normalizedContent, in: range)
+            guard let normalizedText = normalize(match) else {
+                continue
             }
-        }
-    }
-    
-    private func annotationsForMatch(_ match: NSTextCheckingResult) -> [Annotation] {
-        var output = [Annotation]()
-        for i in 0 ..< match.numberOfRanges {
-            let range = match.rangeAt(i)
-            let annotations = annotationForRange(range)
-            output.append(contentsOf: annotations)
-        }
-        return output
-    }
-    
-    private func annotationForRange(_ range: NSRange) -> [Annotation] {
-        return text.shapes(in: text.convertRange(range))
-    }
+            
+            if match.numberOfRanges > 1 {
+                // FIXME: Handle multiple ranges in response
+                fatalError("unsupported multiple ranges")
+            }
 
-    private func filter<T>(_ matches: [NSTextCheckingResult], value: (NSTextCheckingResult) -> T?) -> [T] {
-        var output = [T]()
-        for match in matches {
-            if let v = value(match) {
-                output.append(v)
-            }
+            content.annotate(
+                type: type,
+                text: normalizedText,
+                at: match.range
+            )
         }
-        return output
     }
 }
 
@@ -152,9 +141,9 @@ struct DataDetectorTextAnnotationService: TextAnnotationService {
         self.operationQueue = queue ?? OperationQueue()
     }
     
-    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) {
+    func annotate(content: Document, completion: @escaping TextAnnotationServiceCompletion) {
         let operation = DataDetectorTextAnnotationOperation(
-            text: request.text,
+            content: content,
             completion: completion
         )
         operationQueue.addOperation(operation)

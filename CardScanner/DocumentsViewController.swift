@@ -61,44 +61,39 @@ class DocumentsViewController: UITableViewController {
     }
 
     private func importDocumentFromImage(data: Data) {
-        coreData.performBackgroundChanges() { [weak self] context in
-            
-            guard let `self` = self else {
-                return
-            }
-            
-            guard let image = UIImage(data: data, scale: 1.0) else {
-                return
-            }
-                
-            let document = Document(
-                imageData: data,
-                imageSize: image.size,
-                context: context
-            )
+        
+        guard let image = UIImage(data: data, scale: 1.0) else {
+            return
+        }
 
-            // Render thumbnail
-            let thumbnailImage = self.makeThumbnail(from: image)
-            document.thumbnailImageData = UIImagePNGRepresentation(thumbnailImage) as NSData?
-            
-            // Render blurred thumbnail
-            let blurredImage = self.makeBlurredImage(from: image)
-            document.blurredImageData = UIImagePNGRepresentation(blurredImage) as NSData?
-            
-            do {
-                try context.save()
+        let context = coreData.mainContext
+        let document = Document(
+            imageData: data,
+            imageSize: image.size,
+            context: context
+        )
 
-                DispatchQueue.main.async {
-                    self.coreData.saveNow() { success in
-                        if success {
-                            self.performSegue(withIdentifier: documentSegue, sender: document.identifier!)
-                        }
+        // Render thumbnail
+        let thumbnailImage = self.makeThumbnail(from: image)
+        document.thumbnailImageData = UIImagePNGRepresentation(thumbnailImage) as NSData?
+        
+        // Render blurred thumbnail
+        let blurredImage = self.makeBlurredImage(from: image)
+        document.blurredImageData = UIImagePNGRepresentation(blurredImage) as NSData?
+        
+        do {
+            try context.save()
+
+            DispatchQueue.main.async {
+                self.coreData.saveNow() { success in
+                    if success {
+                        self.performSegue(withIdentifier: documentSegue, sender: document)
                     }
                 }
             }
-            catch {
-                print("Cannot save document: \(error)")
-            }
+        }
+        catch {
+            print("Cannot save document: \(error)")
         }
     }
     
@@ -120,23 +115,23 @@ class DocumentsViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let viewController = segue.destination as? DocumentViewController {
             
-            let identifier: String
+            let document: Document
             
-            if let itemIdentifier = sender as? String {
+            if let item = sender as? Document {
                 // Document originated from import.
-                identifier = itemIdentifier
+                document = item
             }
-            else if let indexPath = tableView.indexPathForSelectedRow, let item = listController.object(at: indexPath), let itemIdentifier = item.identifier {
+            else if let indexPath = tableView.indexPathForSelectedRow, let item = listController.object(at: indexPath) {
                 // Tapped on existing document.
-                identifier = itemIdentifier
+                document = item
             }
             else {
                 return
             }
             
-            viewController.documentIdentifier = identifier
+            viewController.document = document
             viewController.coreData = coreData
-            viewController.scanner = documentManager.createScanner(forDocument: identifier)
+            viewController.scanner = documentManager.createScanner(forDocument: document)
         }
     }
     
@@ -166,10 +161,7 @@ class DocumentsViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DocumentCell
         
         if let document = listController.object(at: indexPath) {
-            var scanner: ScannerService?
-            if let identifier = document.identifier {
-                scanner = documentManager.getScanner(forDocument: identifier)
-            }
+            let scanner = documentManager.getScanner(forDocument: document)
             cell.configure(with: document, scanner: scanner)
         }
         
@@ -195,20 +187,16 @@ class DocumentsViewController: UITableViewController {
     
     private func deleteItem(at indexPath: IndexPath) {
         
-        guard let document = listController.object(at: indexPath), let identifier = document.identifier else {
+        guard let document = listController.object(at: indexPath) else {
             return
         }
         
-        documentManager.removeScanner(forDocument: identifier)
+        documentManager.removeScanner(forDocument: document)
         
-        coreData.performBackgroundChanges() { [weak self] context in
-            guard let document = try context.documents(withIdentifier: identifier).first else {
-                return
-            }
-            
-            context.delete(document)
-            try context.save()
-        }
+        let context = coreData.mainContext
+        context.delete(document)
+
+        coreData.saveNow()
     }
     
     // MARK: View state

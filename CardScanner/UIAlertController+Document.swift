@@ -34,7 +34,7 @@ extension UIViewController {
         )
         
         // Fragment actions
-        for fragment in document.allFragments {
+        for fragment in document.allFields {
             switch (fragment.type, fragment.value) {
                 
             case (.phoneNumber, let .some(value)):

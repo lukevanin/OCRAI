@@ -68,26 +68,26 @@ class DocumentModel {
     
     private class Section {
         let title: String
-        let type: FragmentType
-        var values: [Fragment]
+        let type: FieldType
+        var values: [Field]
         
-        init(title: String, type: FragmentType, values: [Fragment]) {
+        init(title: String, type: FieldType, values: [Field]) {
             self.title = title
             self.type = type
             self.values = values
         }
         
-        @discardableResult func remove(at: Int) -> Fragment {
+        @discardableResult func remove(at: Int) -> Field {
             let output = values.remove(at: at)
             updateOrdering(from: at)
             return output
         }
         
-        func append(_ fragment: Fragment) {
+        func append(_ fragment: Field) {
             insert(fragment, at: values.count)
         }
         
-        func insert(_ fragment: Fragment, at: Int) {
+        func insert(_ fragment: Field, at: Int) {
             fragment.type = type
             fragment.ordinality = Int32(at)
             values.insert(fragment, at: at)
@@ -189,11 +189,11 @@ class DocumentModel {
         return sections
     }
     
-    private func makeSection(type: FragmentType) -> Section {
+    private func makeSection(type: FieldType) -> Section {
         return Section(
             title: type.description,
             type: type,
-            values: document.fragments(ofType: type)
+            values: document.fields(ofType: type)
         )
     }
     
@@ -292,7 +292,7 @@ class DocumentModel {
 
     // MARK: Query
     
-    func typeForSection(at index: Int) -> FragmentType {
+    func typeForSection(at index: Int) -> FieldType {
         return section(at: index).type
     }
     
@@ -304,7 +304,7 @@ class DocumentModel {
         return section(at: index).values.count
     }
     
-    func fragment(at indexPath: IndexPath) -> Fragment {
+    func fragment(at indexPath: IndexPath) -> Field {
         return section(at: indexPath.section).values[indexPath.row]
     }
     
@@ -339,7 +339,7 @@ class DocumentModel {
         activeSections.removeAll()
 
         let context = coreData.mainContext
-        let fragments = document.allFragments
+        let fragments = document.allFields
         for fragment in fragments {
             context.delete(fragment)
         }
@@ -405,7 +405,7 @@ class DocumentModel {
         
         let section = self.section(at: indexPath.section)
         let context = coreData.mainContext
-        let fragment = Fragment(type: section.type, value: value, context: context)
+        let fragment = Field(type: section.type, value: value, context: context)
         fragment.document = document
         section.insert(fragment, at: indexPath.row)
         

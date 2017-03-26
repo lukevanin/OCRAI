@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 import CoreData
 
-private let entityName = "FragmentAnnotationVertex"
+private let entityName = "Vertex"
 
-extension FragmentAnnotationVertex {
+extension Vertex {
     
     var point: CGPoint {
         get {

@@ -23,7 +23,7 @@ class CoreDataStack {
     let mainContext: NSManagedObjectContext
     
     fileprivate let backgroundContext: NSManagedObjectContext
-    fileprivate let changeContext: NSManagedObjectContext
+//    fileprivate let changeContext: NSManagedObjectContext
     
     convenience init(name: String) throws {
         try self.init(name: name, bundle: Bundle.main)
@@ -73,8 +73,8 @@ class CoreDataStack {
         mainContext.parent = backgroundContext
         
         //
-        changeContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        changeContext.parent = mainContext
+//        changeContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+//        changeContext.parent = mainContext
         
         // Add notification observers to save the context when the app enters the background.
         NotificationCenter.default.addObserver(self, selector: #selector(onApplicationWillResignActiveNotification), name: .UIApplicationWillResignActive, object: nil)
@@ -89,19 +89,30 @@ class CoreDataStack {
 
 extension CoreDataStack {
     
-    //
-    //  Execute a block on the change context. Any changes
-    //
-    func performBackgroundChanges(block: @escaping (NSManagedObjectContext) throws -> Void) {
-        changeContext.perform() {
+    func performChangesOnMainQueue(block: @escaping (NSManagedObjectContext) throws -> Void) {
+        DispatchQueue.main.async { [mainContext] in
             do {
-                try block(self.changeContext)
+                try block(mainContext)
             }
             catch {
-                print("Error executing background context: \(error)")
+                print("Error executing main context: \(error)")
             }
         }
     }
+    
+    //
+    //  Execute a block on the change context. Any changes
+    //
+//    func performBackgroundChanges(block: @escaping (NSManagedObjectContext) throws -> Void) {
+//        changeContext.perform() { [changeContext] in
+//            do {
+//                try block(changeContext)
+//            }
+//            catch {
+//                print("Error executing background context: \(error)")
+//            }
+//        }
+//    }
 }
 
 extension CoreDataStack {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension FragmentType {
+extension FieldType {
     var color: UIColor {
         return UIColor(white: 0.33, alpha: 1.0)
     }

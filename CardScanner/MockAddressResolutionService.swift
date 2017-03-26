@@ -6,21 +6,21 @@
 //  Copyright © 2017 Luke Van In. All rights reserved.
 //
 
-import Foundation
-import CoreLocation
-
-struct MockAddressResolutionService: AddressResolutionService {
-    
-    let response: [CLPlacemark]?
-    let error: Error?
-    
-    func resolve(entity: String, completion: @escaping AddressResolutionCompletion) -> Cancellable {
-        let cancellable = MockCancellable()
-        DispatchQueue.global().async {
-            if !cancellable.cancelled {
-                completion(self.response, self.error)
-            }
-        }
-        return cancellable
-    }
-}
+//import Foundation
+//import CoreLocation
+//
+//struct MockAddressResolutionService: AddressResolutionService {
+//    
+//    let response: [CLPlacemark]?
+//    let error: Error?
+//    
+//    func resolve(entity: String, completion: @escaping AddressResolutionCompletion) -> Cancellable {
+//        let cancellable = MockCancellable()
+//        DispatchQueue.global().async {
+//            if !cancellable.cancelled {
+//                completion(self.response, self.error)
+//            }
+//        }
+//        return cancellable
+//    }
+//}

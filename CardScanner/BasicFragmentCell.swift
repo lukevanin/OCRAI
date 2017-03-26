@@ -26,7 +26,7 @@ class BasicFragmentCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var colorAccentView: UIView!
     @IBOutlet weak var contentTextField: UITextField!
     
-    func configure(type: FragmentType, isEditing: Bool) {
+    func configure(type: FieldType, isEditing: Bool) {
         colorView.backgroundColor = isEditing ? UIColor(white: 0.90, alpha: 1.0) : UIColor.clear
         colorAccentView.backgroundColor = type.accentColor //withAlphaComponent(0.95)
         editingEnabled = isEditing

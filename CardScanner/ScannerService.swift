@@ -31,14 +31,13 @@ class ScannerService {
         }
     }
     
-    let identifier: String
-    
+    private let document: Document
     private let factory: ServiceFactory
     private let coreData: CoreDataStack
     private let operationQueue: OperationQueue
     
-    init(identifier: String, factory: ServiceFactory, coreData: CoreDataStack, queue: OperationQueue? = nil) {
-        self.identifier = identifier
+    init(document: Document, factory: ServiceFactory, coreData: CoreDataStack, queue: OperationQueue? = nil) {
+        self.document = document
         self.factory = factory
         self.coreData = coreData
         self.operationQueue = queue ?? OperationQueue()
@@ -86,8 +85,8 @@ class ScannerService {
         state = .active
 
         let operation = ScanOperation(
-            document: identifier,
-            service: self,
+            document: document,
+            factory: factory,
             coreData: coreData
         )
 
@@ -99,32 +98,5 @@ class ScannerService {
         }
 
         operationQueue.addOperation(operation)
-    }
-    
-    func annotateImage(image: Data, completion: @escaping (ImageAnnotationResponse?) -> Void) {
-        guard let service = factory.imageAnnotationService() else {
-            completion(nil)
-            return
-        }
-        let request = ImageAnnotationRequest(
-            image: image,
-            feature: [.text]
-        )
-        service.annotate(request: request) { response, error in
-            completion(response)
-        }
-    }
-    
-    func annotateText(text: AnnotatedText, completion: @escaping (TextAnnotationResponse?) -> Void) {
-        guard let service = factory.textAnnotationService() else {
-            completion(nil)
-            return
-        }
-        let request = TextAnnotationRequest(
-            text: text
-        )
-        service.annotate(request: request) { (response, error) in
-            completion(response)
-        }
     }
 }

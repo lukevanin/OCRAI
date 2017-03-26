@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ServiceFactory {
-    func textAnnotationService() -> TextAnnotationService?
-    func imageAnnotationService() -> ImageAnnotationService?
+    func textAnnotationService() -> TextAnnotationService
+    func imageAnnotationService() -> ImageAnnotationService
     func addressResolutionService() -> AddressResolutionService?
 }

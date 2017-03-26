@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum FragmentType: Int32 {
+enum FieldType: Int {
     case unknown = 0
     case person = 1
     case organization = 2
@@ -21,7 +21,7 @@ enum FragmentType: Int32 {
     case logo = 9
 }
 
-extension FragmentType: CustomStringConvertible {
+extension FieldType: CustomStringConvertible {
     var description: String {
         switch self {
         case .unknown:

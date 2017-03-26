@@ -32,10 +32,10 @@ struct ColorAnnotationsRenderer: AnnotationsRenderer {
     
     private func render(size: CGSize, context: CGContext) {
 
-        let scale = CGPoint(
-            x: size.width / document.imageSize.width,
-            y: size.height / document.imageSize.height
-        )
+//        let scale = CGPoint(
+//            x: size.width / document.imageSize.width,
+//            y: size.height / document.imageSize.height
+//        )
 
         // Background
 //        context.saveGState()
@@ -65,23 +65,23 @@ struct ColorAnnotationsRenderer: AnnotationsRenderer {
 //        context.cgContext.restoreGState()
 
         // Draw shapes
-        let fragments = document.allFragments
-        for fragment in fragments {
-
-            let points = fragment.points().map { $0.scale(by: scale) }
-
-            // Draw bounding box
-            let color = fragment.type.accentColor
-
-    //                for point in points {
-    //                    self.draw(point: point, color: color, context: context.cgContext)
-    //                }
-
-            if let aabb = CGRect(axisAlignedBoundingBoxForPoints: points) {
-                let rect = aabb.insetBy(dx: -2, dy: -2)
-                self.draw(rect: rect, color: color, context: context)
-            }
-        }
+//        let annotations = document.allAnnotations
+//        for annotation in annotations {
+//
+//            let points = annotation.points().map { $0.scale(by: scale) }
+//
+//            // Draw bounding box
+//            let color = fragment.type.accentColor
+//
+//    //                for point in points {
+//    //                    self.draw(point: point, color: color, context: context.cgContext)
+//    //                }
+//
+//            if let aabb = CGRect(axisAlignedBoundingBoxForPoints: points) {
+//                let rect = aabb.insetBy(dx: -2, dy: -2)
+//                self.draw(rect: rect, color: color, context: context)
+//            }
+//        }
     }
     
     private func draw(point: CGPoint, color: UIColor, context: CGContext) {

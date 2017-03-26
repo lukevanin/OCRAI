@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import CoreData
 import GoogleNaturalLanguageAPI
 
-extension FragmentType {
+extension FieldType {
     fileprivate init?(entityType: GoogleNaturalLanguageAPI.EntityType) {
         switch entityType {
         case .person:
@@ -25,59 +26,70 @@ extension FragmentType {
 }
 
 struct GoogleNaturalLanguageServiceAdapter: TextAnnotationService {
+    
     let service: GoogleNaturalLanguageAPI
     
     struct ResponseParser {
-        let text: AnnotatedText
         
-        func parse(response: GoogleNaturalLanguageAPI.AnalyzeEntitiesResponse) -> TextAnnotationResponse {
-            var text = self.text
-            annotate(text: &text, entities: response.entities)
-            return TextAnnotationResponse(text: text)
+        let content: Document
+        
+        func parse(response: GoogleNaturalLanguageAPI.AnalyzeEntitiesResponse) {
+            response.entities.forEach(annotate)
         }
         
-        private func annotate(text: inout AnnotatedText, entities: [GoogleNaturalLanguageAPI.Entity]) {
-            for entity in entities {
-                annotate(text: &text, entity: entity)
-            }
-        }
+        private func annotate(_ entity: GoogleNaturalLanguageAPI.Entity) {
         
-        private func annotate(text: inout AnnotatedText, entity: GoogleNaturalLanguageAPI.Entity) {
-        
-            guard let type = FragmentType(entityType: entity.type) else {
+            guard let type = FieldType(entityType: entity.type) else {
                 return
             }
             
             for mention in entity.mentions {
-                annotate(text: &text, mention: mention, type: type)
+                annotate(mention: mention, type: type)
             }
         }
         
-        private func annotate(text: inout AnnotatedText, mention: GoogleNaturalLanguageAPI.EntityMention, type: FragmentType) {
+        private func annotate(mention: GoogleNaturalLanguageAPI.EntityMention, type: FieldType) {
             let mentionText = mention.text
             let offset = mentionText.beginOffset
             let length = mentionText.content.characters.count
-            let range = text.convertRange(NSRange(location: offset, length: length))
-            text.add(type: type, text: mentionText.content, in: range)
+            let range = NSRange(location: offset, length: length)
+            content.annotate(
+                type: type,
+                text: mentionText.content,
+                at: range
+            )
         }
     }
     
-    func annotate(request: TextAnnotationRequest, completion: @escaping TextAnnotationCompletion) {
-        let text = request.text.content
-        let serviceRequest = GoogleNaturalLanguageAPI.AnalyzeEntitiesRequest(
-            encodingType: .utf16,
-            document: GoogleNaturalLanguageAPI.Document(
-                type: .plaintext,
-                content: text
-            ))
-        service.analyzeEntities(request: serviceRequest) { (response, error) in
-            guard let response = response else {
-                completion(nil, error)
+    func annotate(content: Document, completion: @escaping (Bool, Error?) -> Void) {
+
+        DispatchQueue.main.async { [content, service] in
+            
+            guard let text = content.text else {
+                completion(false, nil)
                 return
             }
-            let parser = ResponseParser(text: request.text)
-            let output = parser.parse(response: response)
-            completion(output, nil)
+        
+            let serviceRequest = GoogleNaturalLanguageAPI.AnalyzeEntitiesRequest(
+                encodingType: .utf16,
+                document: GoogleNaturalLanguageAPI.Document(
+                    type: .plaintext,
+                    content: text
+                ))
+            
+            service.analyzeEntities(request: serviceRequest) { (response, error) in
+                
+                guard let response = response else {
+                    completion(false, error)
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    let parser = ResponseParser(content: content)
+                    parser.parse(response: response)
+                    completion(true, nil)
+                }
+            }
         }
     }
 }

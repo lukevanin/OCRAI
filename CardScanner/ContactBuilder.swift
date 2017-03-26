@@ -86,35 +86,35 @@ class ContactBuilder {
 
 extension ContactBuilder {
     
-    func addOrganization(fragments: [Fragment]) {
-        if let organization = fragments.first?.value {
+    func addOrganization(fields: [Field]) {
+        if let organization = fields.first?.value {
             addOrganization(organization)
         }
     }
     
-    func addPerson(fragments: [Fragment]) {
-        if let name = fragments.first?.value {
+    func addPerson(fields: [Field]) {
+        if let name = fields.first?.value {
             addPerson(name)
         }
     }
     
-    func addPhoneNumbers(fragments: [Fragment]) {
-        let values = fragments.flatMap({ $0.value })
+    func addPhoneNumbers(fields: [Field]) {
+        let values = fields.flatMap({ $0.value })
         addPhoneNumbers(values)
     }
     
-    func addURLAddresses(fragments: [Fragment]) {
-        let values = fragments.flatMap({ $0.value })
+    func addURLAddresses(fields: [Field]) {
+        let values = fields.flatMap({ $0.value })
         addURLAddresses(values)
     }
     
-    func addEmailAddresses(fragments: [Fragment]) {
-        let values = fragments.flatMap({ $0.value })
+    func addEmailAddresses(fields: [Field]) {
+        let values = fields.flatMap({ $0.value })
         addEmailAddresses(values)
     }
     
-    func addPostalAddresses(fragments: [Fragment]) {
-        let values = fragments.flatMap({ $0.value })
+    func addPostalAddresses(fields: [Field]) {
+        let values = fields.flatMap({ $0.value })
         addPostalAddresses(values)
     }
 

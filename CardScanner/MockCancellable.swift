@@ -6,11 +6,11 @@
 //  Copyright © 2017 Luke Van In. All rights reserved.
 //
 
-import Foundation
-
-class MockCancellable: Cancellable {
-    var cancelled = false
-    func cancel() {
-        cancelled = true
-    }
-}
+//import Foundation
+//
+//class MockCancellable: Cancellable {
+//    var cancelled = false
+//    func cancel() {
+//        cancelled = true
+//    }
+//}

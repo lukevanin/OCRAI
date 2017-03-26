@@ -15,13 +15,18 @@ private let entityName = "Document"
 
 
 extension Document {
+    
+    var imageData: Data? {
+        return rawImageData as? Data
+    }
+
     convenience init(imageData: Data, imageSize: CGSize, context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             fatalError("Cannot initialize entity \(entityName)")
         }
         self.init(entity: entity, insertInto: context)
         self.identifier = UUID().uuidString
-        self.imageData = imageData as NSData
+        self.rawImageData = imageData as NSData
         self.imageSize = imageSize
         self.creationDate = Date(timeIntervalSinceNow: 0) as NSDate
     }
@@ -49,7 +54,7 @@ extension Document {
     var titles: [String] {
         var output = [String]()
         
-        let priorities: [FragmentType] = [
+        let priorities: [FieldType] = [
             .person,
             .organization,
             .url,
@@ -59,8 +64,7 @@ extension Document {
         ]
         
         for priority in priorities {
-            let fragment = fragments(ofType: priority).first
-            if let value = fragment?.value {
+            if let field = fields(ofType: priority).first, let value = field.value {
                 output.append(value)
             }
         }
@@ -68,31 +72,70 @@ extension Document {
         return output
     }
     
-    var primaryType: FragmentType {
-        let personFragment = allFragments.first { $0.type == .person }
-        let organizationFragment = allFragments.first { $0.type == .organization }
+    var primaryType: FieldType {
+        let personFragment = allFields.first { $0.type == .person }
+        let organizationFragment = allFields.first { $0.type == .organization }
         return personFragment?.type ?? organizationFragment?.type ?? .unknown
     }
     
     var contact: CNContact {
         let builder = ContactBuilder()
-        builder.addOrganization(fragments: fragments(ofType: .organization))
-        builder.addPerson(fragments: fragments(ofType: .person))
-        builder.addPhoneNumbers(fragments: fragments(ofType: .phoneNumber))
-        builder.addURLAddresses(fragments: fragments(ofType: .url))
-        builder.addEmailAddresses(fragments: fragments(ofType: .email))
-        builder.addPostalAddresses(fragments: fragments(ofType: .address))
+        builder.addOrganization(fields: fields(ofType: .organization))
+        builder.addPerson(fields: fields(ofType: .person))
+        builder.addPhoneNumbers(fields: fields(ofType: .phoneNumber))
+        builder.addURLAddresses(fields: fields(ofType: .url))
+        builder.addEmailAddresses(fields: fields(ofType: .email))
+        builder.addPostalAddresses(fields: fields(ofType: .address))
         return builder.build()
     }
     
-    var allFragments: [Fragment] {
-        return (fragments?.allObjects as? [Fragment]) ?? []
+    var allAnnotations: [Annotation] {
+        return (annotations?.allObjects as? [Annotation]) ?? []
     }
     
-    func fragments(ofType type: FragmentType) -> [Fragment] {
-        return allFragments
+    var allFields: [Field] {
+        return (fields?.array as? [Field]) ?? []
+    }
+    
+    var allTags: [Tag] {
+        return (tags?.array as? [Tag]) ?? []
+    }
+    
+    func fields(ofType type: FieldType) -> [Field] {
+        return allFields
             .filter() { $0.type == type }
             .sorted() { $0.ordinality < $1.ordinality }
+    }
+}
+
+extension Document {
+    
+    func annotate(at range: NSRange, vertices: [CGPoint]) {
+        
+        guard let context = self.managedObjectContext else {
+            return
+        }
+        
+        let annotation = Annotation(
+            range: range,
+            context: context
+        )
+        addToAnnotations(annotation)
+    }
+    
+    func annotate(type: FieldType, text: String, at range: NSRange) {
+        
+        guard let context = self.managedObjectContext else {
+            return
+        }
+        
+        let tag = Tag(
+            type: type,
+            text: text,
+            range: range,
+            context: context
+        )
+        addToTags(tag)
     }
 }
 
