@@ -109,27 +109,17 @@ class DocumentModel {
     
     var totalFragments: Int {
         var count = 0
-        for index in activeSections {
-            let section = sections[index];
+        for section in sections {
             count += section.values.count
         }
         return count
     }
     
     var numberOfSections: Int {
-        return activeSections.count
-    }
-    
-    var includeEmptySections = false {
-        didSet {
-            if includeEmptySections != oldValue {
-                updateActiveSections()
-            }
-        }
+        return sections.count
     }
 
     private var sections = [Section]()
-    private var activeSections = [Int]()
     
     private let document: Document
     private let coreData: CoreDataStack
@@ -146,16 +136,15 @@ class DocumentModel {
         var insertedSectionIndices = IndexSet()
         var insertedIndexPaths = [IndexPath]()
         
-        for i in 0 ..< activeSections.count {
+        for i in 0 ..< sections.count {
             deletedSectionIndices.insert(i)
         }
         
         sections = makeSections()
-        activeSections = makeActiveSections()
         
-        for i in 0 ..< activeSections.count {
+        for i in 0 ..< sections.count {
             insertedSectionIndices.insert(i)
-            let section = sections[activeSections[i]]
+            let section = sections[i]
             for j in 0 ..< section.values.count {
                 let indexPath = IndexPath(item: j, section: i)
                 insertedIndexPaths.append(indexPath)
@@ -183,14 +172,9 @@ class DocumentModel {
             sections.append(makeSection(type: fieldType))
         }
         
-//        sections.append(makeSection(type: .organization))
-//        sections.append(makeSection(type: .phoneNumber))
-//        sections.append(makeSection(type: .email))
-//        sections.append(makeSection(type: .url))
-//        sections.append(makeSection(type: .address))
         // FIXME: Add images
         // FIXME: Add dates
-        return sections
+        return sections.filter { $0.values.count > 0 }
     }
     
     private func makeSection(type: FieldType) -> Section {
@@ -199,92 +183,6 @@ class DocumentModel {
             type: type,
             values: document.fields(ofType: type)
         )
-    }
-    
-    private func makeActiveSections() -> [Int] {
-        var output = [Int]()
-        for i in 0 ..< sections.count {
-            let section = sections[i]
-            if section.values.count > 0 {
-                output.append(i)
-            }
-        }
-        return output
-    }
-    
-    private func updateActiveSections() {
-        if includeEmptySections {
-            insertEmptySections()
-        }
-        else {
-            removeEmptySections()
-        }
-    }
-    
-    private func insertEmptySections() {
-        activeSections.removeAll()
-        var indexPaths = [IndexPath]()
-        var sectionIndices = IndexSet()
-        for i in 0 ..< sections.count {
-            let section = sections[i]
-            activeSections.append(i)
-            
-            let count = section.values.count
-            
-            if count == 0 {
-                sectionIndices.insert(i)
-            }
-            else {
-                
-            }
-            
-            let indexPath = IndexPath(row: count, section: i)
-            indexPaths.append(indexPath)
-        }
-        
-        let changes = Changes(
-            hasIncrementalChanges: true,
-            insertedSections: sectionIndices,
-            deletedSections: nil,
-            insertedRows: indexPaths,
-            deletedRows: nil,
-            updatedRows: nil,
-            movedRows: nil
-        )
-        
-        notify(with: changes)
-    }
-    
-    private func removeEmptySections() {
-        activeSections.removeAll()
-        var indexPaths = [IndexPath]()
-        var sectionIndices = IndexSet()
-        for i in 0 ..< sections.count {
-            let section = sections[i]
-            let count = section.values.count
-            
-            if count == 0 {
-                sectionIndices.insert(i)
-            }
-            else {
-                activeSections.append(i)
-            }
-            
-            let indexPath = IndexPath(row: count, section: i)
-            indexPaths.append(indexPath)
-        }
-
-        let changes = Changes(
-            hasIncrementalChanges: true,
-            insertedSections: nil,
-            deletedSections: sectionIndices,
-            insertedRows: nil,
-            deletedRows: indexPaths,
-            updatedRows: nil,
-            movedRows: nil
-        )
-
-        notify(with: changes)
     }
     
     // MARK: Observer
@@ -313,7 +211,7 @@ class DocumentModel {
     }
     
     private func section(at index: Int) -> Section {
-        return sections[activeSections[index]]
+        return sections[index]
     }
     
     // MARK: Modify
@@ -327,7 +225,7 @@ class DocumentModel {
         var sectionIndices = IndexSet()
         var indexPaths = [IndexPath]()
         
-        for i in 0 ..< activeSections.count {
+        for i in 0 ..< sections.count {
             let section = self.section(at: i)
             let count = section.values.count
             
@@ -340,7 +238,6 @@ class DocumentModel {
         }
         
         sections.removeAll()
-        activeSections.removeAll()
 
         let context = coreData.mainContext
         let fragments = document.allFields
@@ -378,90 +275,6 @@ class DocumentModel {
             deletedRows: [indexPath],
             updatedRows: nil,
             movedRows: nil
-        )
-        notify(with: changes)
-    }
-    
-    func update(value: String?, at indexPath: IndexPath) {
-        let section = self.section(at: indexPath.section)
-        let fragment = section.values[indexPath.row]
-        fragment.value = value
-        
-        save()
-
-        let changes = Changes(
-            hasIncrementalChanges: true,
-            insertedSections: nil,
-            deletedSections: nil,
-            insertedRows: nil,
-            deletedRows: nil,
-            updatedRows: [indexPath],
-            movedRows: nil
-        )
-        notify(with: changes)
-    }
-    
-    func insert(value: String, at indexPath: IndexPath) {
-        
-        guard !value.isEmpty else {
-            return
-        }
-        
-        let section = self.section(at: indexPath.section)
-        let context = coreData.mainContext
-        let fragment = Field(type: section.type, value: value, context: context)
-        fragment.document = document
-        section.insert(fragment, at: indexPath.row)
-        
-        save()
-        
-        let changes = Changes(
-            hasIncrementalChanges: true,
-            insertedSections: nil,
-            deletedSections: nil,
-            insertedRows: [indexPath],
-            deletedRows: nil,
-            updatedRows: nil,
-            movedRows: nil
-        )
-        notify(with: changes)
-    }
-    
-    func targetIndexPathForMove(from sourceIndexPath: IndexPath, to proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        let destinationSection = section(at: proposedDestinationIndexPath.section)
-        
-        let limit: Int
-        
-        if sourceIndexPath.section == proposedDestinationIndexPath.section {
-            // Moving within same section.
-            limit = destinationSection.values.count - 1
-        }
-        else {
-            // Moving to a different section.
-            limit = destinationSection.values.count
-        }
-        
-        let index = min(limit, proposedDestinationIndexPath.row)
-        return IndexPath(row: index, section: proposedDestinationIndexPath.section)
-    }
-
-    func move(from sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let sourceSection = self.section(at: sourceIndexPath.section)
-        let destinationSection = self.section(at: destinationIndexPath.section)
-        let fragment = sourceSection.remove(at: sourceIndexPath.row)
-        fragment.type = destinationSection.type
-        destinationSection.insert(fragment, at: destinationIndexPath.row)
-        
-        save()
-        
-        let changes = Changes(
-            hasIncrementalChanges: true,
-            insertedSections: nil,
-            deletedSections: nil,
-            insertedRows: nil,
-            deletedRows: nil,
-            updatedRows: nil,
-            movedRows: [(sourceIndexPath, destinationIndexPath)]
         )
         notify(with: changes)
     }

@@ -15,7 +15,22 @@ private let basicCellIdentifier = "BasicCell"
 private let addressCellIdentifier = "AddressCell"
 private let imageCellIdentifier = "ImageCell"
 
-class DocumentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TextCellDelegate {
+extension DocumentViewController: DocumentModelDelegate {
+    func documentModel(model: DocumentModel, didUpdateWithChanges changes: DocumentModel.Changes) {
+        tableView.applyChanges(changes)
+    }
+}
+
+extension DocumentViewController: ScannerObserver {
+    func scanner(service: ScannerService, didChangeState state: ScannerService.State) {
+        DispatchQueue.main.async {
+            assert(Thread.isMainThread)
+            self.handleScannerState(state)
+        }
+    }
+}
+
+class DocumentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var document: Document!
     var coreData: CoreDataStack!
@@ -94,9 +109,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
-        
-        navigationItem.rightBarButtonItem = editButtonItem
-        
         initializeHeader()
     }
     
@@ -133,68 +145,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         scanner?.removeObserver(self)
-    }
-    
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        resignTextFieldIfNeeded()
-        super.setEditing(editing, animated: animated)
-        tableView.beginUpdates()
-        updateModelState()
-        tableView.setEditing(editing, animated: animated)
-        tableView.endUpdates()
-        updateButtonState()
-        updateTableCells()
-    }
-    
-    private func resignTextFieldIfNeeded() {
-        let cells = tableView.visibleCells
-        for cell in cells {
-            if let cell = cell as? BasicFragmentCell {
-                cell.contentTextField.resignFirstResponder()
-            }
-        }
-    }
-    
-    private func updateModelState() {
-        guard let model = model else {
-            return
-        }
-
-        model.includeEmptySections = isEditing
-    }
-    
-    private func updateTableCells() {
-    
-        guard let indexPaths = tableView.indexPathsForVisibleRows else {
-            return
-        }
-        
-        for indexPath in indexPaths {
-            updateTableCell(at: indexPath)
-        }
-    }
-    
-    private func updateTableCell(at indexPath: IndexPath) {
-        guard let model = model else {
-            return
-        }
-        guard let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell else {
-            return
-        }
-        let type = model.typeForSection(at: indexPath.section)
-        print("Configuring cell at \(indexPath) as \(type)")
-        cell.configure(type: type, isEditing: self.isEditing)
-    }
-    
-    //
-    //  Disable all buttons except for edit/done nav bar button when editing.
-    //
-    private func updateButtonState() {
-        guard let buttonItems = navigationItem.rightBarButtonItems else {
-            return
-        }
-        
-        buttonItems.filter({ $0 != editButtonItem }).forEach({ $0.isEnabled = !isEditing })
     }
     
     // MARK: Document
@@ -336,14 +286,12 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private func tableView(_ tableView: UITableView, cellForField field: Field, at indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView(tableView, cellForType: field.type, at: indexPath)
-        cell.contentTextField.text = field.value
+        cell.configure(field: field)
         return cell
     }
     
     private func tableView(_ tableView: UITableView, cellForType type: FieldType, at indexPath: IndexPath) -> BasicFragmentCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
-        cell.delegate = self
-        cell.configure(type: type, isEditing: isEditing)
         return cell
     }
     
@@ -392,52 +340,13 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         
         switch editingStyle {
             
-        case .none:
-            break
-            
         case .delete:
             delete(at: indexPath)
             
-        case .insert:
-            insert(at: indexPath)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        guard let model = model, isEditing else {
-            return false
-        }
-        if indexPath.row == model.numberOfRowsInSection(indexPath.section) {
-            return false
-        }
-        else {
-            return true
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        
-        guard let model = model else {
-            return proposedDestinationIndexPath
-        }
-        
-        return model.targetIndexPathForMove(from: sourceIndexPath, to: proposedDestinationIndexPath)
-    }
-    
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let model = model else {
+        default:
             return
         }
-        let delegate = model.delegate
-        model.delegate = nil
-        model.move(from: sourceIndexPath, to: destinationIndexPath)
-        model.delegate = delegate
-        tableView.reloadData()
     }
-
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let headerView = view as? UITableViewHeaderFooterView else {
@@ -447,75 +356,12 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         headerView.backgroundView?.backgroundColor = UIColor(white: 0.9, alpha: 1.0)
     }
     
-    // MARK: Cell delegate
-    
-    func textCell(cell: BasicFragmentCell, textDidChange text: String?) {
-
-        guard let indexPath = tableView.indexPath(for: cell) else {
-            return
-        }
-        
-        guard let model = model else {
-            return
-        }
-        
-        if isEditing && indexPath.row == model.numberOfRowsInSection(indexPath.section) {
-            insert(value: text, at: indexPath)
-            cell.contentTextField.text = nil
-        }
-        else {
-            if text?.isEmpty ?? true {
-                delete(at: indexPath)
-            }
-            else {
-                update(value: text, at: indexPath)
-            }
-        }
-    }
-
     // MARK: Data
-    
-    private func insert(at indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? BasicFragmentCell, let text = cell.contentTextField.text else {
-            return
-        }
-        cell.contentTextField.text = nil
-        insert(value: text, at: indexPath)
-    }
-    
-    private func insert(value: String?, at indexPath: IndexPath) {
-        guard let model = model, let value = value else {
-            return
-        }
-        model.insert(value: value, at: indexPath)
-    }
-    
-    private func update(value: String?, at indexPath: IndexPath) {
-        guard let model = model else {
-            return
-        }
-        model.update(value: value, at: indexPath)
-    }
     
     private func delete(at indexPath: IndexPath) {
         guard let model = model else {
             return
         }
         model.delete(at: indexPath)
-    }
-}
-
-extension DocumentViewController: DocumentModelDelegate {
-    func documentModel(model: DocumentModel, didUpdateWithChanges changes: DocumentModel.Changes) {
-        tableView.applyChanges(changes)
-    }
-}
-
-extension DocumentViewController: ScannerObserver {
-    func scanner(service: ScannerService, didChangeState state: ScannerService.State) {
-        DispatchQueue.main.async {
-            assert(Thread.isMainThread)
-            self.handleScannerState(state)
-        }
     }
 }

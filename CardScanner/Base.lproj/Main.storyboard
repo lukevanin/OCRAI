@@ -399,47 +399,28 @@ Add photos from your library or camera to get started.</string>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="60" id="23m-fa-taN" userLabel="Basic Cell" customClass="BasicFragmentCell" customModule="CardScanner" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="23m-fa-taN" id="ajb-LQ-xMF">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="23m-fa-taN" id="ajb-LQ-xMF">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HMr-yo-Lwz">
-                                                    <rect key="frame" x="8" y="8" width="304" height="44"/>
-                                                    <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="22"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="q43-5I-2Oz">
-                                                    <rect key="frame" x="30" y="8" width="260" height="44"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="mcf-ub-3bV"/>
-                                                    </constraints>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMM-LQ-CX8">
+                                                    <rect key="frame" x="8" y="16" width="304" height="27.5"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="23m-fa-taN" id="upv-wO-cmi"/>
-                                                    </connections>
-                                                </textField>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstItem="q43-5I-2Oz" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="8" id="8x6-ZJ-c4c"/>
-                                                <constraint firstAttribute="bottom" secondItem="HMr-yo-Lwz" secondAttribute="bottom" constant="8" id="FJ9-6Q-h8g"/>
-                                                <constraint firstAttribute="bottom" secondItem="q43-5I-2Oz" secondAttribute="bottom" constant="8" id="UCd-PO-aLs"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="q43-5I-2Oz" secondAttribute="trailing" constant="22" id="X4C-gm-Tfp"/>
-                                                <constraint firstItem="q43-5I-2Oz" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leadingMargin" constant="22" id="ePT-bX-Ufw"/>
-                                                <constraint firstItem="HMr-yo-Lwz" firstAttribute="trailing" secondItem="ajb-LQ-xMF" secondAttribute="trailingMargin" id="lXU-Ci-k2Z"/>
-                                                <constraint firstItem="HMr-yo-Lwz" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="8" id="pUP-XX-wGy"/>
-                                                <constraint firstItem="HMr-yo-Lwz" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leadingMargin" id="sl2-Wh-6fn"/>
+                                                <constraint firstItem="bMM-LQ-CX8" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leading" constant="8" id="EkV-mq-ERx"/>
+                                                <constraint firstAttribute="bottom" secondItem="bMM-LQ-CX8" secondAttribute="bottom" constant="16" id="O6F-ip-syq"/>
+                                                <constraint firstAttribute="trailing" secondItem="bMM-LQ-CX8" secondAttribute="trailing" constant="8" id="vcx-Rv-goL"/>
+                                                <constraint firstItem="bMM-LQ-CX8" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="16" id="zjt-FT-fQi"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <outlet property="contentTextField" destination="q43-5I-2Oz" id="oiq-Ut-Q7v"/>
+                                            <outlet property="contentLabel" destination="bMM-LQ-CX8" id="v04-57-wZp"/>
                                             <segue destination="TYJ-mo-Qt0" kind="show" id="qJe-Vt-p13"/>
                                         </connections>
                                     </tableViewCell>
@@ -559,11 +540,11 @@ Add photos from your library or camera to get started.</string>
         <scene sceneID="X3G-tj-Kq0">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="TYJ-mo-Qt0" customClass="EditFieldViewController" customModule="CardScanner" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="bX7-ft-QKn">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="bX7-ft-QKn">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <inset key="separatorInset" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="yMQ-uX-qN4">
                                 <cells>
@@ -571,7 +552,7 @@ Add photos from your library or camera to get started.</string>
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cRN-vR-H54" id="wzF-BL-T7c">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IBj-Lu-0V5">
@@ -610,24 +591,24 @@ Add photos from your library or camera to get started.</string>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="52" id="R2u-H8-PxI">
-                                        <rect key="frame" x="0.0" y="60" width="320" height="52"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="R2u-H8-PxI">
+                                        <rect key="frame" x="0.0" y="60" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R2u-H8-PxI" id="bB7-87-pQR">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="dFZ-Wu-hNR">
-                                                    <rect key="frame" x="8" y="0.0" width="304" height="44"/>
+                                                    <rect key="frame" x="8" y="8" width="304" height="43.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZ4-HG-rNc">
-                                                            <rect key="frame" x="22" y="0.0" width="260" height="44"/>
+                                                            <rect key="frame" x="22" y="0.0" width="260" height="43.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                             <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UTc-wB-n88">
-                                                            <rect key="frame" x="0.0" y="0.0" width="304" height="44"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="304" height="43.5"/>
                                                             <connections>
                                                                 <action selector="onTypeDropdownAction:" destination="TYJ-mo-Qt0" eventType="touchUpInside" id="b42-EA-OJJ"/>
                                                             </connections>
@@ -655,15 +636,15 @@ Add photos from your library or camera to get started.</string>
                                                 <constraint firstItem="dFZ-Wu-hNR" firstAttribute="leading" secondItem="bB7-87-pQR" secondAttribute="leading" constant="8" id="0ew-y7-TtU"/>
                                                 <constraint firstAttribute="bottom" secondItem="dFZ-Wu-hNR" secondAttribute="bottom" constant="8" id="ZOX-LI-hqa"/>
                                                 <constraint firstAttribute="trailing" secondItem="dFZ-Wu-hNR" secondAttribute="trailing" constant="8" id="cPI-Mq-Nyo"/>
-                                                <constraint firstItem="dFZ-Wu-hNR" firstAttribute="top" secondItem="bB7-87-pQR" secondAttribute="top" id="kwl-Bn-Iwr"/>
+                                                <constraint firstItem="dFZ-Wu-hNR" firstAttribute="top" secondItem="bB7-87-pQR" secondAttribute="top" constant="8" id="kwl-Bn-Iwr"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" tag="1" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="216" id="Va8-4a-zIL">
-                                        <rect key="frame" x="0.0" y="112" width="320" height="216"/>
+                                        <rect key="frame" x="0.0" y="120" width="320" height="216"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Va8-4a-zIL" id="Q6V-To-Rku">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="215"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQf-UQ-6VV">

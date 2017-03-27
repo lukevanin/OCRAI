@@ -8,70 +8,20 @@
 
 import UIKit
 
-protocol TextCellDelegate: class {
-    func textCell(cell: BasicFragmentCell, textDidChange text: String?)
-}
-
 class BasicFragmentCell: UITableViewCell, UITextFieldDelegate {
     
-    var editingEnabled = false {
-        didSet {
-            setEditable(editingEnabled)
-        }
+    @IBOutlet weak var contentLabel: UILabel!
+    
+    func configure(field: Field) {
+        contentLabel.text = field.value
     }
-    
-    weak var delegate: TextCellDelegate?
-    
-    @IBOutlet weak var contentTextField: UITextField!
-    
-    func configure(type: FieldType, isEditing: Bool) {
-        editingEnabled = isEditing
-        showsReorderControl = true
-        accessoryType = .none
-        editingAccessoryType = .none
-        contentTextField.placeholder = type.description
-}
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        editingEnabled = false
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        contentTextField.text = nil
-        editingEnabled = false
-        showsReorderControl = false
-        accessoryType = .none
-        editingAccessoryType = .none
-        contentTextField.placeholder = nil
-    }
-    
-    override func willTransition(to state: UITableViewCellStateMask) {
-        super.willTransition(to: state)
-        
-        if state.contains(.showingEditControlMask) {
-            editingEnabled = true
-        }
-        else {
-            editingEnabled = false
-        }
-    }
-    
-    func setEditable(_ enable: Bool) {
-        contentTextField.isUserInteractionEnabled = enable
-        
-        if !enable && contentTextField.isFirstResponder {
-            contentTextField.resignFirstResponder()
-        }
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        delegate?.textCell(cell: self, textDidChange: textField.text)
+        contentLabel.text = nil
     }
 }

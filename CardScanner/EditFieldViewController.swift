@@ -37,6 +37,7 @@ extension EditFieldViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         field.value = textField.text
         save()
+        textField.resignFirstResponder()
         return true
     }
 }
@@ -62,6 +63,7 @@ class EditFieldViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
