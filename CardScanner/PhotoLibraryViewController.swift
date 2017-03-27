@@ -25,7 +25,17 @@ class PhotoLibraryViewController: UICollectionViewController, ImageSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadPhotos()
+        startAutomaticUpdates()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAutomaticUpdates()
     }
     
     override func viewWillLayoutSubviews() {

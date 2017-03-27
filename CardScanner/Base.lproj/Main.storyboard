@@ -208,7 +208,7 @@
             </objects>
             <point key="canvasLocation" x="1185" y="1025.7042253521126"/>
         </scene>
-        <!--Documents View Controller-->
+        <!--Photos-->
         <scene sceneID="E2M-ac-VZ1">
             <objects>
                 <tableViewController id="4ko-Us-cua" customClass="DocumentsViewController" customModule="CardScanner" customModuleProvider="target" sceneMemberID="viewController">
@@ -335,8 +335,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="X2n-1p-zVv"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="IeT-pS-dDZ">
-                        <nil key="title"/>
+                    <navigationItem key="navigationItem" title="Photos" id="IeT-pS-dDZ">
                         <barButtonItem key="backBarButtonItem" title="Back" id="h1V-CY-iC6"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
