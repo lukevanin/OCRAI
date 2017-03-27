@@ -9,19 +9,43 @@
 import UIKit
 import AVFoundation
 
+extension CameraViewController: AVCapturePhotoCaptureDelegate {
+    
+    func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+        
+        guard let photoSampleBuffer = photoSampleBuffer else {
+            print("Cannot capture photo, photo sample buffer unavailable.")
+            return
+        }
+        
+        let jpegData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
+        
+        guard let imageData = jpegData else {
+            print("Cannot capture photo, cannot convert image buffer to image.")
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.previewImageData = imageData
+        }
+    }
+}
+
 class CameraViewController: UIViewController, ImageSource {
     
-    private let cancelSegue = "cancel"
+    private let dismissSegue = "dismiss"
     
     private var captureSession: AVCaptureSession!
     private var photoOutput: AVCapturePhotoOutput!
     fileprivate var imageContext: CIContext!
     
-    var selectedImageData: Data? {
+    var previewImageData: Data? {
         didSet {
             self.updateViewState()
         }
     }
+    
+    var selectedImageData: Data?
     
     @IBOutlet weak var cameraView: CameraView!
     @IBOutlet weak var cameraButton: UIButton!
@@ -40,16 +64,13 @@ class CameraViewController: UIViewController, ImageSource {
     }
     
     @IBAction func onUsePhotoButton(_ sender: Any) {
-        performSegue(withIdentifier: cancelSegue, sender: selectedImageData)
+        selectedImageData = previewImageData
+        performSegue(withIdentifier: dismissSegue, sender: nil)
     }
     
     @IBAction func retakePhotoButton(_ sender: Any) {
-        selectedImageData = nil
+        previewImageData = nil
     }
-    
-//    @IBAction func onCancelAction(_ sender: Any) {
-//        performSegue(withIdentifier: cancelSegue, sender: nil)
-//    }
     
     // MARK: Life cycle
     
@@ -68,11 +89,6 @@ class CameraViewController: UIViewController, ImageSource {
         super.viewWillLayoutSubviews()
         configureOrientation()
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        configureOrientation()
-//    }
     
     // MARK: Camera
     
@@ -167,7 +183,7 @@ class CameraViewController: UIViewController, ImageSource {
     }
     
     private func updateViewState() {
-        if let imageData = selectedImageData {
+        if let imageData = previewImageData {
             // Selected image
             captureSession.stopRunning()
             configureUI(showPreview: true, showCamera: false)
@@ -185,27 +201,5 @@ class CameraViewController: UIViewController, ImageSource {
         previewControlsView.isHidden = !showPreview
         cameraView.isHidden = !showCamera
         cameraButton.isHidden = !showCamera
-    }
-}
-
-extension CameraViewController: AVCapturePhotoCaptureDelegate {
- 
-    func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
-        
-        guard let photoSampleBuffer = photoSampleBuffer else {
-            print("Cannot capture photo, photo sample buffer uavailable.")
-            return
-        }
-        
-        let jpegData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
-        
-        guard let imageData = jpegData else {
-            print("Cannot capture photo, cannot convert image buffer to image.")
-            return
-        }
-        
-        DispatchQueue.main.async {
-            self.selectedImageData = imageData
-        }
     }
 }

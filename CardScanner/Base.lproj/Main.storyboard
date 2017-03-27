@@ -56,16 +56,11 @@
                                     <constraint firstAttribute="width" constant="50" id="PTY-gd-WUd"/>
                                     <constraint firstAttribute="height" constant="50" id="WNh-xz-IOn"/>
                                 </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" image="camera"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="22"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <integer key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                        <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <integer key="value" value="25"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -81,31 +76,46 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="ny1-jC-dWf" kind="unwind" unwindAction="unwindToDocuments:" id="Jjr-eD-YIK"/>
+                                    <segue destination="ny1-jC-dWf" kind="unwind" identifier="dismiss" unwindAction="unwindToDocuments:" id="Jjr-eD-YIK"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jPr-gc-7FG">
-                                <rect key="frame" x="64" y="518" width="192" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="jPr-gc-7FG">
+                                <rect key="frame" x="36" y="514" width="248" height="34"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="maD-t1-IPa">
-                                        <rect key="frame" x="0.0" y="0.0" width="92" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="116" height="34"/>
+                                        <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Retake Photo">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="17"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="retakePhotoButton:" destination="aHG-OR-GDB" eventType="touchUpInside" id="9Ne-GE-tRJ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qyt-uC-7xf">
-                                        <rect key="frame" x="100" y="0.0" width="92" height="30"/>
+                                        <rect key="frame" x="132" y="0.0" width="116" height="34"/>
+                                        <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Use Photo">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="17"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="onUsePhotoButton:" destination="aHG-OR-GDB" eventType="touchUpInside" id="vob-ze-sLF"/>
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="2UY-WN-IOM"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -118,9 +128,11 @@
                             <constraint firstAttribute="trailing" secondItem="dxn-kf-OW7" secondAttribute="trailing" id="MN2-OA-gBG"/>
                             <constraint firstItem="3eh-0s-bPC" firstAttribute="centerX" secondItem="aqq-23-q1F" secondAttribute="centerX" id="VAt-wZ-5AM"/>
                             <constraint firstItem="cxf-WB-23l" firstAttribute="top" secondItem="EMN-5b-ngc" secondAttribute="bottom" id="Z99-Fx-fpL"/>
+                            <constraint firstItem="jPr-gc-7FG" firstAttribute="leading" secondItem="aqq-23-q1F" secondAttribute="leadingMargin" constant="20" id="Zyh-Ry-cTC"/>
                             <constraint firstAttribute="bottom" secondItem="VCk-6z-Zmr" secondAttribute="bottom" id="g0p-BR-lQ3"/>
                             <constraint firstItem="mzC-lV-BmQ" firstAttribute="top" secondItem="3eh-0s-bPC" secondAttribute="bottom" constant="20" id="jLq-pn-WiI"/>
                             <constraint firstItem="mzC-lV-BmQ" firstAttribute="top" secondItem="jPr-gc-7FG" secondAttribute="bottom" constant="20" id="kT3-MH-lxj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jPr-gc-7FG" secondAttribute="trailing" constant="20" id="mrX-65-7Po"/>
                             <constraint firstItem="VCk-6z-Zmr" firstAttribute="top" secondItem="aqq-23-q1F" secondAttribute="top" id="uam-51-qCI"/>
                             <constraint firstAttribute="bottom" secondItem="dxn-kf-OW7" secondAttribute="bottom" id="vPh-dv-eJB"/>
                             <constraint firstItem="dxn-kf-OW7" firstAttribute="leading" secondItem="aqq-23-q1F" secondAttribute="leading" id="wYc-GQ-uJs"/>
@@ -344,10 +356,10 @@
                             <rect key="frame" x="8" y="14" width="304" height="122"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="picture" translatesAutoresizingMaskIntoConstraints="NO" id="0Lb-KD-6n6">
-                                    <rect key="frame" x="115" y="0.0" width="75" height="75"/>
+                                    <rect key="frame" x="114.5" y="0.0" width="75" height="75"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMv-Lb-h1Y">
-                                    <rect key="frame" x="12" y="75" width="281" height="47"/>
+                                    <rect key="frame" x="11.5" y="75" width="281" height="47"/>
                                     <string key="text">You don't have any images yet.
 Add photos from your library or camera to get started.</string>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -388,11 +400,11 @@ Add photos from your library or camera to get started.</string>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="60" id="23m-fa-taN" userLabel="Basic Cell" customClass="BasicFragmentCell" customModule="CardScanner" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="23m-fa-taN" id="ajb-LQ-xMF">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="23m-fa-taN" id="ajb-LQ-xMF">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMr-yo-Lwz">
+                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HMr-yo-Lwz">
                                                     <rect key="frame" x="8" y="8" width="304" height="44"/>
                                                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <userDefinedRuntimeAttributes>
@@ -401,7 +413,7 @@ Add photos from your library or camera to get started.</string>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="q43-5I-2Oz">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="q43-5I-2Oz">
                                                     <rect key="frame" x="30" y="8" width="260" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="mcf-ub-3bV"/>
