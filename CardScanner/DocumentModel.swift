@@ -260,8 +260,16 @@ class DocumentModel {
     }
     
     func delete(at indexPath: IndexPath) {
+        
         let section = self.section(at: indexPath.section)
         let fragment = section.remove(at: indexPath.row)
+        var sectionIndices: IndexSet?
+        
+        if section.values.count == 0 {
+            sections.remove(at: indexPath.section)
+            sectionIndices = IndexSet(integer: indexPath.section)
+        }
+        
         let context = coreData.mainContext
         context.delete(fragment)
         
@@ -270,7 +278,7 @@ class DocumentModel {
         let changes = Changes(
             hasIncrementalChanges: true,
             insertedSections: nil,
-            deletedSections: nil,
+            deletedSections: sectionIndices,
             insertedRows: nil,
             deletedRows: [indexPath],
             updatedRows: nil,

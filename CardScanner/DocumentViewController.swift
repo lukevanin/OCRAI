@@ -300,23 +300,21 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        guard let model = model else {
-            return .none
-        }
-        
-        if isEditing {
-            if indexPath.row == model.numberOfRowsInSection(indexPath.section) {
-                return .insert
-            }
-            else {
-                return .delete
-            }
-        }
-        else {
-            return .none
-        }
+        return .delete
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        switch editingStyle {
+            
+        case .delete:
+            delete(at: indexPath)
+            
+        default:
+            return
+        }
+    }
+
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         var output = [UITableViewRowAction]()
         
@@ -334,18 +332,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         return output
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-        switch editingStyle {
-            
-        case .delete:
-            delete(at: indexPath)
-            
-        default:
-            return
-        }
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
