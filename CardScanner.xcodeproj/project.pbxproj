@@ -22,6 +22,7 @@
 		B7A9BFCA1E86ED72009A8855 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A9BFC91E86ED72009A8855 /* Tag.swift */; };
 		B7B9CB111E6F18F8004765A9 /* UICollectionView+Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */; };
 		B7C662681E881F07002100A9 /* DocumentsBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C662671E881F07002100A9 /* DocumentsBaseViewController.swift */; };
+		B7C6626A1E88CE32002100A9 /* EditFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C662691E88CE32002100A9 /* EditFieldViewController.swift */; };
 		FC00364C1E6578FE00B722AC /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364B1E6578FE00B722AC /* Annotation.swift */; };
 		FC00364E1E65796700B722AC /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364D1E65796700B722AC /* Vertex.swift */; };
 		FC0036501E6591B900B722AC /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC00364F1E6591B900B722AC /* CGPoint.swift */; };
@@ -150,6 +151,7 @@
 		B7A9BFC91E86ED72009A8855 /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Photos.swift"; sourceTree = "<group>"; };
 		B7C662671E881F07002100A9 /* DocumentsBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsBaseViewController.swift; sourceTree = "<group>"; };
+		B7C662691E88CE32002100A9 /* EditFieldViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditFieldViewController.swift; sourceTree = "<group>"; };
 		FC00364B1E6578FE00B722AC /* Annotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Annotation.swift; sourceTree = "<group>"; };
 		FC00364D1E65796700B722AC /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		FC00364F1E6591B900B722AC /* CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 				FC0BF6CD1E54A9E200A0ED29 /* DocumentsViewController.swift */,
 				B7C662671E881F07002100A9 /* DocumentsBaseViewController.swift */,
 				FC0BF6CF1E54AA1F00A0ED29 /* DocumentViewController.swift */,
+				B7C662691E88CE32002100A9 /* EditFieldViewController.swift */,
 				FC0BF6CB1E54A99200A0ED29 /* CameraViewController.swift */,
 				FC8A0E581E6C540B00DC3C66 /* PhotoLibraryViewController.swift */,
 				B7667A691E75AFE20066375E /* UIAlertController+Document.swift */,
@@ -778,6 +781,7 @@
 				FCED88491E4CC7B300623684 /* Cancellable.swift in Sources */,
 				FC05917E1E588DB800B0DDB4 /* CoreLocationAddressResolutionService.swift in Sources */,
 				B764913D1E802F7700B604CF /* ContactBuilder.swift in Sources */,
+				B7C6626A1E88CE32002100A9 /* EditFieldViewController.swift in Sources */,
 				FC00364E1E65796700B722AC /* Vertex.swift in Sources */,
 				FCED88471E4CC72D00623684 /* ScannerService.swift in Sources */,
 				FCE8A4F81E56046D00512D56 /* ManagedListViewController.swift in Sources */,

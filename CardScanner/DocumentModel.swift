@@ -178,12 +178,16 @@ class DocumentModel {
     
     private func makeSections() -> [Section] {
         var sections = [Section]()
-        sections.append(makeSection(type: .person))
-        sections.append(makeSection(type: .organization))
-        sections.append(makeSection(type: .phoneNumber))
-        sections.append(makeSection(type: .email))
-        sections.append(makeSection(type: .url))
-        sections.append(makeSection(type: .address))
+        
+        for fieldType in FieldType.all {
+            sections.append(makeSection(type: fieldType))
+        }
+        
+//        sections.append(makeSection(type: .organization))
+//        sections.append(makeSection(type: .phoneNumber))
+//        sections.append(makeSection(type: .email))
+//        sections.append(makeSection(type: .url))
+//        sections.append(makeSection(type: .address))
         // FIXME: Add images
         // FIXME: Add dates
         return sections

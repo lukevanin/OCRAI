@@ -278,6 +278,16 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
+    // MARK: Segue
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let viewController = segue.destination as? EditFieldViewController {
+            if let indexPath = tableView.indexPathForSelectedRow, let field = model?.fragment(at: indexPath) {
+                viewController.field = field
+            }
+        }
+    }
+    
     // MARK: Table view
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -425,9 +435,9 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.reloadData()
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let headerView = view as? UITableViewHeaderFooterView else {
