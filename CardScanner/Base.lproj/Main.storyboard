@@ -456,7 +456,13 @@ Add photos from your library or camera to get started.</string>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="eua-vk-OZO"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="xtN-TH-PWv"/>
+                    <navigationItem key="navigationItem" id="xtN-TH-PWv">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="bM0-kN-TlN">
+                            <connections>
+                                <segue destination="TYJ-mo-Qt0" kind="show" id="eKr-SU-Vcd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="actionsButtonItem" destination="fJq-6s-6pA" id="nhn-HF-ccv"/>
                         <outlet property="activityIndicatorView" destination="JM3-Wu-Zi0" id="tk5-Nm-CGD"/>
@@ -707,5 +713,8 @@ Add photos from your library or camera to get started.</string>
         <image name="camera" width="34" height="34"/>
         <image name="picture" width="75" height="75"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="qJe-Vt-p13"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
 </document>

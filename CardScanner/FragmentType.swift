@@ -10,7 +10,7 @@ import Foundation
 
 enum FieldType: Int {
     
-    static let all: [FieldType] = [.unknown, .person, .organization, .department, .role, .phoneNumber, .email, .url, .note, .address]
+    static let all: [FieldType] = [.person, .organization, .department, .role, .phoneNumber, .email, .url, .address, .note, .unknown]
 
     case unknown = 0
     case person = 1
@@ -28,10 +28,10 @@ extension FieldType: CustomStringConvertible {
     var description: String {
         switch self {
         case .unknown:
-            return "Unknown"
+            return "Untagged"
             
         case .person:
-            return "Person"
+            return "Name"
             
         case .organization:
             return "Organization"

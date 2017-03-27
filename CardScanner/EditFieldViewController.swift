@@ -27,16 +27,12 @@ extension EditFieldViewController: UIPickerViewDataSource {
 
 extension EditFieldViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        field.type = FieldType.all[row]
         updateTypeLabel()
-        save()
     }
 }
 
 extension EditFieldViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        field.value = textField.text
-        save()
         textField.resignFirstResponder()
         return true
     }
@@ -52,10 +48,6 @@ class EditFieldViewController: UITableViewController {
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var typePickerView: UIPickerView!
     
-    func save() {
-        coreData.saveNow()
-    }
-    
     @IBAction func onTypeDropdownAction(_ sender: UIButton) {
         valueTextField.resignFirstResponder()
         setTypePickerVisible(!isTypePickerVisible, animated: true)
@@ -70,6 +62,18 @@ class EditFieldViewController: UITableViewController {
         super.viewWillAppear(animated)
         setTypePickerVisible(false, animated: false)
         updateView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        commitChanges()
+    }
+    
+    private func commitChanges() {
+        let row = typePickerView.selectedRow(inComponent: 0)
+        field.type = FieldType.all[row]
+        field.value = valueTextField.text
+        coreData.saveNow()
     }
     
     private func setTypePickerVisible(_ visible: Bool, animated: Bool) {
@@ -89,7 +93,9 @@ class EditFieldViewController: UITableViewController {
     
     fileprivate func updateTypeLabel() {
         let row = typePickerView.selectedRow(inComponent: 0)
-        typeLabel.text = String(describing: FieldType.all[row])
+        let fieldName = String(describing: FieldType.all[row])
+        typeLabel.text = fieldName
+        valueTextField.placeholder = fieldName
     }
     
     // MARK: Table view

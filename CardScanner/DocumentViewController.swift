@@ -235,6 +235,12 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             if let indexPath = tableView.indexPathForSelectedRow, let field = model?.fragment(at: indexPath) {
                 viewController.field = field
             }
+            else {
+                let field = Field(type: .unknown, value: "", context: coreData.mainContext)
+                document.addToFields(field)
+                coreData.saveNow()
+                viewController.field = field
+            }
         }
     }
     
