@@ -16,6 +16,7 @@
         <attribute name="rawImageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumbnailImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
+        <relationship name="addresses" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="PostalAddress" inverseName="document" inverseEntity="PostalAddress" syncable="YES"/>
         <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Annotation" inverseName="document" inverseEntity="Annotation" syncable="YES"/>
         <relationship name="fields" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Field" inverseName="document" inverseEntity="Field" syncable="YES"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Tag" inverseName="document" inverseEntity="Tag" syncable="YES"/>
@@ -26,6 +27,16 @@
         <attribute name="rawType" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="value" attributeType="String" syncable="YES"/>
         <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="fields" inverseEntity="Document" syncable="YES"/>
+    </entity>
+    <entity name="PostalAddress" representedClassName="PostalAddress" syncable="YES" codeGenerationType="class">
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasCoordinate" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="postalCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="street" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="document" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="addresses" inverseEntity="Document" syncable="YES"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
         <attribute name="length" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -41,8 +52,9 @@
     </entity>
     <elements>
         <element name="Annotation" positionX="-36" positionY="117" width="128" height="30"/>
-        <element name="Document" positionX="-63" positionY="-18" width="128" height="225"/>
-        <element name="Field" positionX="-54" positionY="108" width="128" height="30"/>
+        <element name="Document" positionX="-63" positionY="-18" width="128" height="240"/>
+        <element name="Field" positionX="-54" positionY="108" width="128" height="120"/>
+        <element name="PostalAddress" positionX="-54" positionY="90" width="128" height="165"/>
         <element name="Tag" positionX="-45" positionY="81" width="128" height="120"/>
         <element name="Vertex" positionX="-45" positionY="117" width="128" height="90"/>
     </elements>

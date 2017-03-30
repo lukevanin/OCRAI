@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B72F5AFD1E8ABB7100E0421F /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72F5AFC1E8ABB7100E0421F /* AddressCell.swift */; };
+		B72F5AFF1E8ABF3900E0421F /* PostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72F5AFE1E8ABF3900E0421F /* PostalAddress.swift */; };
 		B764913D1E802F7700B604CF /* ContactBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764913C1E802F7700B604CF /* ContactBuilder.swift */; };
 		B76491411E80492700B604CF /* DocumentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76491401E80492700B604CF /* DocumentManager.swift */; };
 		B7667A671E759C0D0066375E /* DocumentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7667A661E759C0D0066375E /* DocumentModel.swift */; };
@@ -134,6 +136,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B72F5AFC1E8ABB7100E0421F /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
+		B72F5AFE1E8ABF3900E0421F /* PostalAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostalAddress.swift; sourceTree = "<group>"; };
 		B764913C1E802F7700B604CF /* ContactBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactBuilder.swift; sourceTree = "<group>"; };
 		B76491401E80492700B604CF /* DocumentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentManager.swift; sourceTree = "<group>"; };
 		B7667A661E759C0D0066375E /* DocumentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentModel.swift; sourceTree = "<group>"; };
@@ -320,14 +324,15 @@
 		FC0BF6D11E54AA3700A0ED29 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B7751B421E7451D90024D99B /* Annotations */,
 				FC0BF6D61E54AA8600A0ED29 /* DocumentCell.swift */,
 				FC0BF6D21E54AA4E00A0ED29 /* BasicFragmentCell.swift */,
+				B72F5AFC1E8ABB7100E0421F /* AddressCell.swift */,
 				FC8A0E561E6C539C00DC3C66 /* PhotoLibraryCell.swift */,
 				FC0BF6DB1E54B40900A0ED29 /* CameraView.swift */,
 				FCD683331E66065A00022474 /* DocumentView.swift */,
 				B7751B471E74678A0024D99B /* PaddedLabel.swift */,
 				FCEF9BF71E608D3F00B7D509 /* Material.swift */,
-				B7751B421E7451D90024D99B /* Annotations */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -350,6 +355,7 @@
 				B7A9BFC91E86ED72009A8855 /* Tag.swift */,
 				B7A9BFC11E8670F8009A8855 /* Field.swift */,
 				FC00364B1E6578FE00B722AC /* Annotation.swift */,
+				B72F5AFE1E8ABF3900E0421F /* PostalAddress.swift */,
 				FCD6833F1E6723CC00022474 /* FragmentType.swift */,
 				FCD6833D1E6723B600022474 /* FieldType+Color.swift */,
 				B7751B4B1E747A4A0024D99B /* _Fragment+Geometry.swift */,
@@ -779,6 +785,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCED88491E4CC7B300623684 /* Cancellable.swift in Sources */,
+				B72F5AFD1E8ABB7100E0421F /* AddressCell.swift in Sources */,
 				FC05917E1E588DB800B0DDB4 /* CoreLocationAddressResolutionService.swift in Sources */,
 				B764913D1E802F7700B604CF /* ContactBuilder.swift in Sources */,
 				B7C6626A1E88CE32002100A9 /* EditFieldViewController.swift in Sources */,
@@ -811,6 +818,7 @@
 				FC91B75C1E4C36AB00AF11C6 /* TextAnnotationService.swift in Sources */,
 				B7667A671E759C0D0066375E /* DocumentModel.swift in Sources */,
 				FCED88531E4F037400623684 /* MockTextAnnotationService.swift in Sources */,
+				B72F5AFF1E8ABF3900E0421F /* PostalAddress.swift in Sources */,
 				FC8E71791E4AD5B300D37719 /* ContentError.swift in Sources */,
 				FC0BF6CC1E54A99200A0ED29 /* CameraViewController.swift in Sources */,
 				FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */,

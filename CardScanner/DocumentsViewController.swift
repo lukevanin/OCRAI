@@ -32,6 +32,10 @@ extension DocumentsViewController: UISearchResultsUpdating {
             if let query = searchController.searchBar.text, !query.isEmpty {
                 placeholderLabel.text = "No matches found for \"\(query)\"."
                 predicates.append(NSPredicate(format: "any fields.value contains[cd] %@", query))
+                predicates.append(NSPredicate(format: "any addresses.street contains[cd] %@", query))
+                predicates.append(NSPredicate(format: "any addresses.city contains[cd] %@", query))
+                predicates.append(NSPredicate(format: "any addresses.postalCode contains[cd] %@", query))
+                predicates.append(NSPredicate(format: "any addresses.country contains[cd] %@", query))
             }
             else {
                 placeholderLabel.text = "Enter text to search."

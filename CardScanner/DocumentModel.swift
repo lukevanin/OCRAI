@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol DocumentModelDelegate: class {
     func documentModel(model: DocumentModel, didUpdateWithChanges changes: DocumentModel.Changes)
@@ -68,40 +69,24 @@ class DocumentModel {
     
     private class Section {
         let title: String
-        let type: FieldType
-        var values: [Field]
+        var values: [NSManagedObject]
         
-        init(title: String, type: FieldType, values: [Field]) {
+        init(title: String, values: [NSManagedObject]) {
             self.title = title
-            self.type = type
             self.values = values
         }
         
-        @discardableResult func remove(at: Int) -> Field {
+        @discardableResult func remove(at: Int) -> NSManagedObject {
             let output = values.remove(at: at)
-            updateOrdering(from: at)
             return output
         }
         
-        func append(_ fragment: Field) {
+        func append(_ fragment: NSManagedObject) {
             insert(fragment, at: values.count)
         }
         
-        func insert(_ fragment: Field, at: Int) {
-            fragment.type = type
-            fragment.ordinality = Int32(at)
+        func insert(_ fragment: NSManagedObject, at: Int) {
             values.insert(fragment, at: at)
-            updateOrdering(from: at)
-        }
-        
-        func updateOrdering() {
-            updateOrdering(from: 0)
-        }
-        
-        func updateOrdering(from: Int) {
-            for i in from ..< values.count {
-                values[i].ordinality = Int32(i)
-            }
         }
     }
     
@@ -172,6 +157,8 @@ class DocumentModel {
             sections.append(makeSection(type: fieldType))
         }
         
+        sections.append(makeAddressSection())
+        
         // FIXME: Add images
         // FIXME: Add dates
         return sections.filter { $0.values.count > 0 }
@@ -179,9 +166,15 @@ class DocumentModel {
     
     private func makeSection(type: FieldType) -> Section {
         return Section(
-            title: type.description,
-            type: type,
+            title: String(describing: type.description),
             values: document.fields(ofType: type)
+        )
+    }
+    
+    private func makeAddressSection() -> Section {
+        return Section(
+            title: "Address",
+            values: document.allPostalAddresses
         )
     }
     
@@ -194,10 +187,6 @@ class DocumentModel {
 
     // MARK: Query
     
-    func typeForSection(at index: Int) -> FieldType {
-        return section(at: index).type
-    }
-    
     func titleForSection(at index: Int) -> String {
         return section(at: index).title
     }
@@ -206,7 +195,7 @@ class DocumentModel {
         return section(at: index).values.count
     }
     
-    func fragment(at indexPath: IndexPath) -> Field {
+    func fragment(at indexPath: IndexPath) -> Any {
         return section(at: indexPath.section).values[indexPath.row]
     }
     

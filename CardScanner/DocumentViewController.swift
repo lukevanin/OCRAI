@@ -12,8 +12,7 @@ import CoreData
 import Contacts
 
 private let basicCellIdentifier = "BasicCell"
-private let addressCellIdentifier = "AddressCell"
-private let imageCellIdentifier = "ImageCell"
+private let postalAddressCellIdentifier = "PostalAddressCell"
 
 extension DocumentViewController: DocumentModelDelegate {
     func documentModel(model: DocumentModel, didUpdateWithChanges changes: DocumentModel.Changes) {
@@ -38,6 +37,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private var model: DocumentModel?
 
+    @IBOutlet weak var addButtonItem: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var documentView: DocumentView!
@@ -147,6 +147,11 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         scanner?.removeObserver(self)
     }
     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
+    }
+
     // MARK: Document
     
     private func clearDocument() {
@@ -232,7 +237,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let viewController = segue.destination as? EditFieldViewController {
-            if let indexPath = tableView.indexPathForSelectedRow, let field = model?.fragment(at: indexPath) {
+            if let indexPath = tableView.indexPathForSelectedRow, let field = model?.fragment(at: indexPath) as? Field {
                 viewController.field = field
             }
             else {
@@ -268,31 +273,31 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let model = model else {
-            return self.tableView(tableView, cellForBlankFieldTextOfType: .unknown, at: indexPath)
+            fatalError("no model defined")
         }
         
-        if isEditing && (indexPath.row == model.numberOfRowsInSection(indexPath.section)) {
-            let type = model.typeForSection(at: indexPath.section)
-            return self.tableView(tableView, cellForBlankFieldTextOfType: type, at: indexPath)
-        }
+        let fragment = model.fragment(at: indexPath)
         
-        let field = model.fragment(at: indexPath)
-        
-        switch field.type {
-            
-        default:
-            return self.tableView(tableView, cellForField:field, at: indexPath)
+        if let field = fragment as? Field {
+            return self.tableView(tableView, cellForField: field, at: indexPath)
         }
-    }
-    
-    private func tableView(_ tableView: UITableView, cellForBlankFieldTextOfType type: FieldType, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView(tableView, cellForType: type, at: indexPath)
-        return cell
+        else if let address = fragment as? PostalAddress {
+            return self.tableView(tableView, cellForPostalAddress: address, at: indexPath)
+        }
+        else {
+            fatalError("unsupported model \(fragment)")
+        }
     }
     
     private func tableView(_ tableView: UITableView, cellForField field: Field, at indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView(tableView, cellForType: field.type, at: indexPath)
         cell.configure(field: field)
+        return cell
+    }
+    
+    private func tableView(_ tableView: UITableView, cellForPostalAddress address: PostalAddress, at indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: postalAddressCellIdentifier, for: indexPath) as! AddressCell
+        cell.configure(model: address)
         return cell
     }
     
@@ -320,24 +325,13 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             return
         }
     }
-
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        var output = [UITableViewRowAction]()
-        
-        output.append(
-            UITableViewRowAction(
-                style: .destructive,
-                title: "Delete",
-                handler: { (action, indexPath) in
-                    self.delete(at: indexPath)
-            })
-        )
-        
-        if output.count == 0 {
-            return nil
-        }
-        
-        return output
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 32
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 16
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -345,7 +339,20 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             return
         }
         
-        headerView.backgroundView?.backgroundColor = UIColor(white: 0.9, alpha: 1.0)
+        headerView.backgroundView?.backgroundColor = UIColor.white // UIColor(white: 0.95, alpha: 1.0)
+        
+        if let label = headerView.textLabel {
+            let font = UIFont(name: "Helvetica-Bold", size: 13)
+            label.font = font
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        guard let footerView = view as? UITableViewHeaderFooterView else {
+            return
+        }
+        
+        footerView.backgroundView?.backgroundColor = UIColor.clear
     }
     
     // MARK: Data

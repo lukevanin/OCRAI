@@ -54,14 +54,7 @@ extension Document {
     var titles: [String] {
         var output = [String]()
         
-        let priorities: [FieldType] = [
-            .person,
-            .organization,
-            .url,
-            .email,
-            .phoneNumber,
-            .address
-        ]
+        let priorities = FieldType.all
         
         for priority in priorities {
             if let field = fields(ofType: priority).first, let value = field.value {
@@ -85,7 +78,6 @@ extension Document {
         builder.addPhoneNumbers(fields: fields(ofType: .phoneNumber))
         builder.addURLAddresses(fields: fields(ofType: .url))
         builder.addEmailAddresses(fields: fields(ofType: .email))
-        builder.addPostalAddresses(fields: fields(ofType: .address))
         return builder.build()
     }
     
@@ -99,6 +91,10 @@ extension Document {
     
     var allTags: [Tag] {
         return (tags?.array as? [Tag]) ?? []
+    }
+    
+    var allPostalAddresses: [PostalAddress] {
+        return (addresses?.array as? [PostalAddress]) ?? []
     }
     
     func fields(ofType type: FieldType) -> [Field] {
@@ -136,6 +132,16 @@ extension Document {
             context: context
         )
         addToTags(tag)
+    }
+    
+    func annotate(address: CNPostalAddress, at range: NSRange) {
+        
+        guard let context = self.managedObjectContext else {
+            return
+        }
+        
+        let postalAddress = PostalAddress(address: address, context: context)
+        addToAddresses(postalAddress)
     }
 }
 

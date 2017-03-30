@@ -34,14 +34,14 @@ class DocumentCell: UITableViewCell {
 //            layer.borderColor = UIColor(white: 0.66, alpha: 1.0).cgColor
 //        }
         
-        if let layer = backgroundImageView?.layer {
-            layer.backgroundColor = UIColor.white.cgColor
-            layer.masksToBounds = false
-            layer.shadowColor = UIColor.black.cgColor
-            layer.shadowOffset = CGSize(width: 0, height: 0)
-            layer.shadowOpacity = 0.5
-            layer.shadowRadius = 4
-        }
+//        if let layer = backgroundImageView?.layer {
+//            layer.backgroundColor = UIColor.white.cgColor
+//            layer.masksToBounds = false
+//            layer.shadowColor = UIColor.black.cgColor
+//            layer.shadowOffset = CGSize(width: 0, height: 0)
+//            layer.shadowOpacity = 0.5
+//            layer.shadowRadius = 4
+//        }
         
         prepareForReuse()
     }
@@ -59,10 +59,10 @@ class DocumentCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        if let backgroundImageView = self.backgroundImageView {
-            let layer = backgroundImageView.layer
-            layer.shadowPath = UIBezierPath(rect: backgroundImageView.bounds).cgPath
-        }
+//        if let backgroundImageView = self.backgroundImageView {
+//            let layer = backgroundImageView.layer
+//            layer.shadowPath = UIBezierPath(rect: backgroundImageView.bounds).cgPath
+//        }
     }
     
     func configure(with document: Document, scanner: ScannerService?) {

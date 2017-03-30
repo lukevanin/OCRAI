@@ -15,8 +15,6 @@ extension FieldType {
     
     var accentColor: UIColor {
         switch self {
-        case .address:
-            return Material.Color.orange
             
         case .person:
             return Material.Color.pink

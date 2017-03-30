@@ -83,7 +83,7 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
     }
     
     private func annotatePostalAddresses(_ matches: [NSTextCheckingResult]) {
-        annotate(type: .address, matches: matches) { match in
+        annotate(matches: matches) { match in
             guard let components = match.addressComponents else {
                 return nil
             }
@@ -91,7 +91,7 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
         }
     }
     
-    private func makeAddress(_ entities: [String: String]) -> String? {
+    private func makeAddress(_ entities: [String: String]) -> CNPostalAddress {
         let address = CNMutablePostalAddress()
         
         if let street = entities[NSTextCheckingStreetKey] {
@@ -109,9 +109,8 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
         if let country = entities[NSTextCheckingCountryKey] {
             address.country = country
         }
-    
-        let content = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
-        return content
+        
+        return address
     }
     
     private func annotate(type: FieldType, matches: [NSTextCheckingResult], normalize: (NSTextCheckingResult) -> String?) {
@@ -124,10 +123,28 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
                 // FIXME: Handle multiple ranges in response
                 fatalError("unsupported multiple ranges")
             }
-
+            
             content.annotate(
                 type: type,
                 text: normalizedText,
+                at: match.range
+            )
+        }
+    }
+    
+    private func annotate(matches: [NSTextCheckingResult], normalize: (NSTextCheckingResult) -> CNPostalAddress?) {
+        for match in matches {
+            guard let address = normalize(match) else {
+                continue
+            }
+            
+            if match.numberOfRanges > 1 {
+                // FIXME: Handle multiple ranges in response
+                fatalError("unsupported multiple ranges")
+            }
+            
+            content.annotate(
+                address: address,
                 at: match.range
             )
         }

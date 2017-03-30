@@ -215,7 +215,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" id="RL5-h5-jZj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="DocumentCell" id="2AF-rX-AFp" customClass="DocumentCell" customModule="CardScanner" customModuleProvider="target">
@@ -227,6 +227,7 @@
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fKr-TA-Joh">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="112"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jIT-cw-Gv3">
                                             <rect key="frame" x="8" y="8" width="237" height="96"/>
@@ -299,7 +300,7 @@
                                         <constraint firstAttribute="bottom" secondItem="fKr-TA-Joh" secondAttribute="bottom" constant="8" id="PK0-mF-54k"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="fKr-TA-Joh" firstAttribute="leading" secondItem="2AF-rX-AFp" secondAttribute="leading" id="DbC-Nh-j6k"/>
                                     <constraint firstAttribute="trailing" secondItem="fKr-TA-Joh" secondAttribute="trailing" id="wYP-d9-T07"/>
@@ -392,9 +393,9 @@ Add photos from your library or camera to get started.</string>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0mp-zR-Y3a">
                                 <rect key="frame" x="0.0" y="-0.5" width="320" height="568"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <inset key="separatorInset" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                                <inset key="separatorInset" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="60" id="23m-fa-taN" userLabel="Basic Cell" customClass="BasicFragmentCell" customModule="CardScanner" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="60"/>
@@ -404,24 +405,98 @@ Add photos from your library or camera to get started.</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMM-LQ-CX8">
-                                                    <rect key="frame" x="8" y="16" width="304" height="27.5"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <rect key="frame" x="16" y="8" width="288" height="43.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="28" id="kVb-a4-BdA"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstItem="bMM-LQ-CX8" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leading" constant="8" id="EkV-mq-ERx"/>
-                                                <constraint firstAttribute="bottom" secondItem="bMM-LQ-CX8" secondAttribute="bottom" constant="16" id="O6F-ip-syq"/>
-                                                <constraint firstAttribute="trailing" secondItem="bMM-LQ-CX8" secondAttribute="trailing" constant="8" id="vcx-Rv-goL"/>
-                                                <constraint firstItem="bMM-LQ-CX8" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="16" id="zjt-FT-fQi"/>
+                                                <constraint firstItem="bMM-LQ-CX8" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leading" constant="16" id="EkV-mq-ERx"/>
+                                                <constraint firstAttribute="bottom" secondItem="bMM-LQ-CX8" secondAttribute="bottom" constant="8" id="O6F-ip-syq"/>
+                                                <constraint firstAttribute="trailing" secondItem="bMM-LQ-CX8" secondAttribute="trailing" constant="16" id="vcx-Rv-goL"/>
+                                                <constraint firstItem="bMM-LQ-CX8" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="8" id="zjt-FT-fQi"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="contentLabel" destination="bMM-LQ-CX8" id="v04-57-wZp"/>
                                             <segue destination="TYJ-mo-Qt0" kind="show" id="qJe-Vt-p13"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostalAddressCell" rowHeight="120" id="pgX-Tx-4IK" userLabel="Address Cell" customClass="AddressCell" customModule="CardScanner" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="88" width="320" height="120"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pgX-Tx-4IK" id="mlC-jR-c6v">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pMb-7N-TbD">
+                                                    <rect key="frame" x="16" y="8.5" width="288" height="104"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4Rv-lj-RWk">
+                                                            <rect key="frame" x="0.0" y="0.0" width="176" height="96"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Street" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKT-Qs-Uc3">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="176" height="18"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="City" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nPI-Lx-k3r">
+                                                                    <rect key="frame" x="0.0" y="26" width="176" height="18"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Postal Code" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Nv-zL-BoU">
+                                                                    <rect key="frame" x="0.0" y="52" width="176" height="18"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Country" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Gl-Rg-bym">
+                                                                    <rect key="frame" x="0.0" y="78" width="176" height="18"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="M7L-cJ-mRZ">
+                                                            <rect key="frame" x="184" y="0.0" width="104" height="104"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="104" id="QaW-dP-vDN"/>
+                                                                <constraint firstAttribute="width" constant="104" id="l79-d6-ofl"/>
+                                                            </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                    <integer key="value" value="52"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </mapView>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="pMb-7N-TbD" firstAttribute="top" secondItem="mlC-jR-c6v" secondAttribute="top" constant="8" id="0ZP-O5-xBI"/>
+                                                <constraint firstItem="pMb-7N-TbD" firstAttribute="leading" secondItem="mlC-jR-c6v" secondAttribute="leading" constant="16" id="0f6-A9-Rqb"/>
+                                                <constraint firstAttribute="bottom" secondItem="pMb-7N-TbD" secondAttribute="bottom" constant="8" id="QEa-DS-QeY"/>
+                                                <constraint firstAttribute="trailing" secondItem="pMb-7N-TbD" secondAttribute="trailing" constant="16" id="X2c-11-FqX"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="cityLabel" destination="nPI-Lx-k3r" id="ZSr-Ti-kE7"/>
+                                            <outlet property="countryLabel" destination="1Gl-Rg-bym" id="HdN-oe-bm0"/>
+                                            <outlet property="mapView" destination="M7L-cJ-mRZ" id="tna-Yi-t2H"/>
+                                            <outlet property="postalCodeLabel" destination="0Nv-zL-BoU" id="jkc-d4-KC8"/>
+                                            <outlet property="streetLabel" destination="bKT-Qs-Uc3" id="Aeg-I1-MtQ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -431,7 +506,7 @@ Add photos from your library or camera to get started.</string>
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="0mp-zR-Y3a" firstAttribute="width" secondItem="Pve-qS-ABj" secondAttribute="width" id="DrX-yw-JJn"/>
                             <constraint firstItem="0mp-zR-Y3a" firstAttribute="centerY" secondItem="Pve-qS-ABj" secondAttribute="centerY" id="KrA-e2-UoZ"/>
@@ -467,6 +542,7 @@ Add photos from your library or camera to get started.</string>
                         <outlet property="actionsButtonItem" destination="fJq-6s-6pA" id="nhn-HF-ccv"/>
                         <outlet property="activityIndicatorView" destination="JM3-Wu-Zi0" id="tk5-Nm-CGD"/>
                         <outlet property="activityOverlayView" destination="azp-7A-bLO" id="9fh-31-twP"/>
+                        <outlet property="addButtonItem" destination="bM0-kN-TlN" id="v5d-RV-lvH"/>
                         <outlet property="documentView" destination="1pD-XX-B08" id="vjW-lV-hf5"/>
                         <outlet property="emptyContentPlaceholderView" destination="xYa-76-Gbn" id="R5G-no-iHD"/>
                         <outlet property="headerView" destination="viy-im-j8j" id="adI-9R-N6y"/>
@@ -557,11 +633,11 @@ Add photos from your library or camera to get started.</string>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="cRN-vR-H54" userLabel="Value">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cRN-vR-H54" id="wzF-BL-T7c">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="cRN-vR-H54" id="wzF-BL-T7c">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IBj-Lu-0V5">
+                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IBj-Lu-0V5">
                                                     <rect key="frame" x="8" y="8" width="304" height="44"/>
                                                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <userDefinedRuntimeAttributes>
@@ -570,7 +646,7 @@ Add photos from your library or camera to get started.</string>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="EGJ-RM-4D6">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="EGJ-RM-4D6">
                                                     <rect key="frame" x="30" y="8" width="260" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="fnH-ah-MZI"/>
@@ -601,7 +677,7 @@ Add photos from your library or camera to get started.</string>
                                         <rect key="frame" x="0.0" y="60" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R2u-H8-PxI" id="bB7-87-pQR">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="dFZ-Wu-hNR">
@@ -650,7 +726,7 @@ Add photos from your library or camera to get started.</string>
                                         <rect key="frame" x="0.0" y="120" width="320" height="216"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Va8-4a-zIL" id="Q6V-To-Rku">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="215"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="215.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQf-UQ-6VV">
@@ -661,6 +737,7 @@ Add photos from your library or camera to get started.</string>
                                                     </connections>
                                                 </pickerView>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="YQf-UQ-6VV" firstAttribute="leading" secondItem="Q6V-To-Rku" secondAttribute="leading" id="41u-5X-FoT"/>
                                                 <constraint firstItem="YQf-UQ-6VV" firstAttribute="top" secondItem="Q6V-To-Rku" secondAttribute="top" id="YiF-rI-05Z"/>
