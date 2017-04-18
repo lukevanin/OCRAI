@@ -2,7 +2,7 @@
 //  EditFieldViewController.swift
 //  CardScanner
 //
-//  Created by Anonymous on 2017/03/27.
+//  Created by Luke Van In on 2017/03/27.
 //  Copyright © 2017 Luke Van In. All rights reserved.
 //
 

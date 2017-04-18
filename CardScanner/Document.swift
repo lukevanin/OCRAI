@@ -13,6 +13,13 @@ import Contacts
 
 private let entityName = "Document"
 
+extension NSManagedObjectContext {
+    func documents(withIdentifier identifier: String) throws -> [Document] {
+        let request: NSFetchRequest<Document> = Document.fetchRequest()
+        request.predicate = NSPredicate(format: "identifier == %@", identifier)
+        return try fetch(request)
+    }
+}
 
 extension Document {
     
@@ -142,13 +149,5 @@ extension Document {
         
         let postalAddress = PostalAddress(address: address, context: context)
         addToAddresses(postalAddress)
-    }
-}
-
-extension NSManagedObjectContext {
-    func documents(withIdentifier identifier: String) throws -> [Document] {
-        let request: NSFetchRequest<Document> = Document.fetchRequest()
-        request.predicate = NSPredicate(format: "identifier == %@", identifier)
-        return try fetch(request)
     }
 }

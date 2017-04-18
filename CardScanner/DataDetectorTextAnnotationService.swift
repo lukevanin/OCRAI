@@ -56,7 +56,18 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
     }
     
     private func annotatePhoneNumbers(_ matches: [NSTextCheckingResult]) {
-        annotate(type: .phoneNumber, matches: matches) { $0.phoneNumber }
+        annotate(type: .phoneNumber, matches: matches) {
+            guard let phoneNumber = $0.phoneNumber else {
+                return nil
+            }
+            return self.sanitize(phoneNumber: phoneNumber)
+        }
+    }
+    
+    private func sanitize(phoneNumber: String) -> String {
+        let characterSet  = NSCharacterSet(charactersIn: "+()0123456789").inverted
+        let components = phoneNumber.components(separatedBy: characterSet)
+        return components.joined(separator: "")
     }
     
     private func annotateUrlAddresses(_ matches: [NSTextCheckingResult]) {
@@ -78,7 +89,15 @@ private class DataDetectorTextAnnotationOperation: AsyncOperation {
             guard let url = $0.url, let scheme = url.scheme, scheme == "mailto" else {
                 return nil
             }
-            return url.absoluteString
+            let raw = url.absoluteString
+            let output: String
+            if let s = raw.range(of: "mailto:") {
+                output = raw.substring(from: s.upperBound)
+            }
+            else {
+                output = raw
+            }
+            return output
         }
     }
     

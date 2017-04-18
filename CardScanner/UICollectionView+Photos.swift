@@ -2,7 +2,7 @@
 //  UICollectionView+Photos.swift
 //  CardScanner
 //
-//  Created by Anonymous on 2017/03/07.
+//  Created by Luke Van In on 2017/03/07.
 //  Copyright © 2017 Luke Van In. All rights reserved.
 //
 

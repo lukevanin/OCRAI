@@ -235,19 +235,19 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     // MARK: Segue
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let viewController = segue.destination as? EditFieldViewController {
-            if let indexPath = tableView.indexPathForSelectedRow, let field = model?.fragment(at: indexPath) as? Field {
-                viewController.field = field
-            }
-            else {
-                let field = Field(type: .unknown, value: "", context: coreData.mainContext)
-                document.addToFields(field)
-                coreData.saveNow()
-                viewController.field = field
-            }
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let viewController = segue.destination as? EditFieldViewController {
+//            if let indexPath = tableView.indexPathForSelectedRow, let field = model?.fragment(at: indexPath) as? Field {
+//                viewController.field = field
+//            }
+//            else {
+//                let field = Field(type: .unknown, value: "", context: coreData.mainContext)
+//                document.addToFields(field)
+//                coreData.saveNow()
+//                viewController.field = field
+//            }
+//        }
+//    }
     
     // MARK: Table view
     
@@ -304,6 +304,17 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     private func tableView(_ tableView: UITableView, cellForType type: FieldType, at indexPath: IndexPath) -> BasicFragmentCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let actionable = model?.fragment(at: indexPath) as? Actionable else {
+            return
+        }
+        
+        let controller = actionable.makeAlert(viewController: self)
+        present(controller, animated: true) { [weak tableView] in
+            tableView?.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -2,7 +2,7 @@
 //  Location.swift
 //  CardScanner
 //
-//  Created by Anonymous on 2017/03/28.
+//  Created by Luke Van In on 2017/03/28.
 //  Copyright © 2017 Luke Van In. All rights reserved.
 //
 
@@ -12,6 +12,32 @@ import CoreLocation
 import Contacts
 
 private let entityName = "PostalAddress"
+
+extension PostalAddress: Actionable {
+    
+    var actionsTitle: String? {
+        return "Postal Address"
+    }
+    
+    var actionsDescription: String? {
+        return String(describing: self)
+    }
+    
+    var actions: [Action] {
+        return [
+            ShowAddressAction(address: self.address, coordinate: self.location),
+            CopyTextAction(text: description),
+            ShareAction(items: [description]),
+            DeleteAction(object: self, context: self.managedObjectContext!)
+        ]
+    }
+}
+
+extension PostalAddress {
+    public override var description: String {
+        return CNPostalAddressFormatter.string(from: self.address, style: .mailingAddress)
+    }
+}
 
 extension PostalAddress {
     

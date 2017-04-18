@@ -2,7 +2,7 @@
 //  UIAlertController+Document.swift
 //  CardScanner
 //
-//  Created by Anonymous on 2017/03/12.
+//  Created by Luke Van In on 2017/03/12.
 //  Copyright © 2017 Luke Van In. All rights reserved.
 //
 

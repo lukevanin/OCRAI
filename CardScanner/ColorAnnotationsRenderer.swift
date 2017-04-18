@@ -2,7 +2,7 @@
 //  ColorAnnotationsRenderer.swift
 //  CardScanner
 //
-//  Created by Anonymous on 2017/03/11.
+//  Created by Luke Van In on 2017/03/11.
 //  Copyright © 2017 Luke Van In. All rights reserved.
 //
 
