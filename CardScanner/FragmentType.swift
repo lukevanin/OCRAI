@@ -55,3 +55,21 @@ extension FieldType: CustomStringConvertible {
         }
     }
 }
+
+extension FieldType {
+    var preferredKeyboardType: UIKeyboardType {
+        switch self {
+        case .phoneNumber:
+            return .phonePad
+            
+        case .email:
+            return .emailAddress
+            
+        case .url:
+            return .URL
+            
+        default:
+            return .default
+        }
+    }
+}

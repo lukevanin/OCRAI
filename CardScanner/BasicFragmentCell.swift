@@ -8,12 +8,58 @@
 
 import UIKit
 
-class BasicFragmentCell: UITableViewCell, UITextFieldDelegate {
+protocol FieldInputDelegate: class {
+    func fieldInput(cell: BasicFragmentCell, valueChanged value: String?)
+}
+
+extension BasicFragmentCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
-    @IBOutlet weak var contentLabel: UILabel!
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.delegate?.fieldInput(cell: self, valueChanged: value)
+    }
+}
+
+class BasicFragmentCell: UITableViewCell {
+    
+    weak var delegate: FieldInputDelegate?
+    
+    @IBOutlet weak var contentTextField: UITextField!
+    @IBOutlet weak var underlineView: UIView!
+    
+    var value: String? {
+        return contentTextField.text
+    }
     
     func configure(field: Field) {
-        contentLabel.text = field.value
+        contentTextField.placeholder = String(describing: field.type)
+        contentTextField.text = field.value
+        contentTextField.keyboardType = field.type.preferredKeyboardType
+        enableTextInputIfNeeded(animated: true)
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        enableTextInputIfNeeded(animated: animated)
+    }
+    
+    private func enableTextInputIfNeeded(animated: Bool) {
+        setInputEnabled(isEditing, animated: animated)
+    }
+    
+    private func setInputEnabled(_ enabled: Bool, animated: Bool) {
+        contentTextField.isUserInteractionEnabled = enabled
+        
+        UIView.animate(withDuration: 0.25) { 
+            self.underlineView.alpha = enabled ? 1.0 : 0.0
+        }
+        
+        if contentTextField.isFirstResponder && !enabled {
+            contentTextField.resignFirstResponder()
+        }
     }
 
     override func awakeFromNib() {
@@ -22,6 +68,9 @@ class BasicFragmentCell: UITableViewCell, UITextFieldDelegate {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        contentLabel.text = nil
+        delegate = nil
+        contentTextField.placeholder = nil
+        contentTextField.text = nil
+        setInputEnabled(false, animated: false)
     }
 }

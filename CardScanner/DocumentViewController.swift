@@ -29,13 +29,27 @@ extension DocumentViewController: ScannerObserver {
     }
 }
 
+extension DocumentViewController: FieldInputDelegate {
+    func fieldInput(cell: BasicFragmentCell, valueChanged value: String?) {
+        guard
+            let indexPath = tableView.indexPath(for: cell),
+            let model = self.model,
+            let field = model.fragment(at: indexPath) as? Field
+        else {
+            return
+        }
+        field.value = value
+        model.save()
+    }
+}
+
 class DocumentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var document: Document!
     var coreData: CoreDataStack!
     var scanner: ScannerService?
     
-    private var model: DocumentModel?
+    fileprivate var model: DocumentModel?
 
     @IBOutlet weak var addButtonItem: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -106,6 +120,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.rightBarButtonItem = editButtonItem
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -147,10 +162,13 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         scanner?.removeObserver(self)
     }
     
+    // MARK: Editing
+
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
     }
+    
 
     // MARK: Document
     
@@ -233,21 +251,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    // MARK: Segue
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let viewController = segue.destination as? EditFieldViewController {
-//            if let indexPath = tableView.indexPathForSelectedRow, let field = model?.fragment(at: indexPath) as? Field {
-//                viewController.field = field
-//            }
-//            else {
-//                let field = Field(type: .unknown, value: "", context: coreData.mainContext)
-//                document.addToFields(field)
-//                coreData.saveNow()
-//                viewController.field = field
-//            }
-//        }
-//    }
     
     // MARK: Table view
     
@@ -303,6 +306,9 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private func tableView(_ tableView: UITableView, cellForType type: FieldType, at indexPath: IndexPath) -> BasicFragmentCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
+        cell.delegate = self
+        cell.accessoryType = .disclosureIndicator
+        cell.editingAccessoryType = .none
         return cell
     }
     
