@@ -10,7 +10,7 @@ import Foundation
 
 enum FieldType: Int {
     
-    static let all: [FieldType] = [.person, .role, .organization, .department, .phoneNumber, .email, .url, .note, .unknown]
+    static let all: [FieldType] = [.person, .organization, .phoneNumber, .email, .url]
 
     case unknown = 0
     case person = 1
@@ -18,9 +18,9 @@ enum FieldType: Int {
     case phoneNumber = 3
     case email = 4
     case url = 5
-    case note = 6
-    case role = 8
-    case department = 9
+//    case note = 6
+//    case role = 8
+//    case department = 9
 }
 
 extension FieldType: CustomStringConvertible {
@@ -44,14 +44,14 @@ extension FieldType: CustomStringConvertible {
         case .url:
             return "URL"
             
-        case .note:
-            return "Note"
+//        case .note:
+//            return "Note"
             
-        case .role:
-            return "Role"
+//        case .role:
+//            return "Role"
             
-        case .department:
-            return "Department"
+//        case .department:
+//            return "Department"
         }
     }
 }

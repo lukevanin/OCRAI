@@ -31,9 +31,6 @@ extension FieldType {
         case .phoneNumber:
             return Material.Color.cyan
             
-        case .note:
-            return Material.Color.lime
-            
         default:
             return Material.Color.grey
         }
