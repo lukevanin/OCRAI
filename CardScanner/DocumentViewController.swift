@@ -448,7 +448,8 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             return
         }
         
-        headerView.backgroundView?.backgroundColor = UIColor.white // UIColor(white: 0.95, alpha: 1.0)
+        headerView.backgroundView?.backgroundColor = UIColor.white
+//        headerView.backgroundView?.backgroundColor = UIColor(white: 0.8, alpha: 1.0)
         
         if let label = headerView.textLabel {
             let font = UIFont(name: "Helvetica-Bold", size: 13)

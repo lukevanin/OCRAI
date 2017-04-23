@@ -234,6 +234,7 @@ class DocumentModel {
         
         var sectionIndices = IndexSet()
         var indexPaths = [IndexPath]()
+        var fragments = [NSManagedObject]()
         
         for i in 0 ..< sections.count {
             let section = self.section(at: i)
@@ -242,6 +243,9 @@ class DocumentModel {
             for j in 0 ..< count {
                 let indexPath = IndexPath(row: j, section: i)
                 indexPaths.append(indexPath)
+                
+                let value = section.values[j]
+                fragments.append(value)
             }
             
             sectionIndices.insert(i)
@@ -250,7 +254,6 @@ class DocumentModel {
         sections.removeAll()
 
         let context = coreData.mainContext
-        let fragments = document.allFields
         for fragment in fragments {
             context.delete(fragment)
         }

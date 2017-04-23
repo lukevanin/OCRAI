@@ -10,12 +10,16 @@ import Foundation
 import GoogleVisionAPI
 import GoogleNaturalLanguageAPI
 import MonkeyLearnEntitiesAPI
+import MicrosoftVision
 
 struct DefaultServiceFactory: ServiceFactory {
     
     func imageAnnotationService() -> ImageAnnotationService {
-        let service = try! GoogleVisionAPI()
-        return GoogleVisionServiceAdapter(service: service)
+//        let service = try! GoogleVisionAPI()
+//        return GoogleVisionServiceAdapter(service: service)
+
+        let service = try! MicrosoftVisionOCR()
+        return MicrosoftVisionAdapter(service: service)
     }
     
     func textAnnotationService() -> TextAnnotationService {

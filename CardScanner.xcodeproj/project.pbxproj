@@ -10,6 +10,14 @@
 		B706DCE61EACB2120038FF51 /* KeyboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706DCE51EACB2120038FF51 /* KeyboardController.swift */; };
 		B706DCE81EACB5A10038FF51 /* UIViewAnimationCurve+UIViewAnimationOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706DCE71EACB5A10038FF51 /* UIViewAnimationCurve+UIViewAnimationOption.swift */; };
 		B706DCEE1EACD7980038FF51 /* PlaceholderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706DCED1EACD7980038FF51 /* PlaceholderCell.swift */; };
+		B706DD211EACFBE70038FF51 /* MicrosoftVision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B706DD181EACFBE60038FF51 /* MicrosoftVision.framework */; };
+		B706DD281EACFBE70038FF51 /* MicrosoftVisionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706DD271EACFBE70038FF51 /* MicrosoftVisionTests.swift */; };
+		B706DD2A1EACFBE70038FF51 /* MicrosoftVision.h in Headers */ = {isa = PBXBuildFile; fileRef = B706DD1A1EACFBE60038FF51 /* MicrosoftVision.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B706DD2D1EACFBE70038FF51 /* MicrosoftVision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B706DD181EACFBE60038FF51 /* MicrosoftVision.framework */; };
+		B706DD2E1EACFBE70038FF51 /* MicrosoftVision.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B706DD181EACFBE60038FF51 /* MicrosoftVision.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B706DD361EACFC290038FF51 /* MicrosoftVisionOCR.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706DD351EACFC290038FF51 /* MicrosoftVisionOCR.swift */; };
+		B706DD381EAD2F3A0038FF51 /* microsoft-api-config.plist in Resources */ = {isa = PBXBuildFile; fileRef = B706DD371EAD2F3A0038FF51 /* microsoft-api-config.plist */; };
+		B706DD3A1EAD2FE20038FF51 /* MicrosoftVisionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706DD391EAD2FE20038FF51 /* MicrosoftVisionAdapter.swift */; };
 		B72F5AFD1E8ABB7100E0421F /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72F5AFC1E8ABB7100E0421F /* AddressCell.swift */; };
 		B72F5AFF1E8ABF3900E0421F /* PostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72F5AFE1E8ABF3900E0421F /* PostalAddress.swift */; };
 		B764913D1E802F7700B604CF /* ContactBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764913C1E802F7700B604CF /* ContactBuilder.swift */; };
@@ -108,6 +116,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B706DD221EACFBE70038FF51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FC8E71551E4AD56C00D37719 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B706DD171EACFBE60038FF51;
+			remoteInfo = MicrosoftVision;
+		};
+		B706DD241EACFBE70038FF51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FC8E71551E4AD56C00D37719 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FC8E715C1E4AD56C00D37719;
+			remoteInfo = CardScanner;
+		};
+		B706DD2B1EACFBE70038FF51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FC8E71551E4AD56C00D37719 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B706DD171EACFBE60038FF51;
+			remoteInfo = MicrosoftVision;
+		};
 		FC05918C1E58996200B0DDB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FC8E71551E4AD56C00D37719 /* Project object */;
@@ -138,6 +167,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B706DD2E1EACFBE70038FF51 /* MicrosoftVision.framework in Embed Frameworks */,
 				FCEDE6D21E58BF69001B4776 /* GoogleVisionAPI.framework in Embed Frameworks */,
 				FC05918F1E58996200B0DDB4 /* GoogleNaturalLanguageAPI.framework in Embed Frameworks */,
 				FCF54E681E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework in Embed Frameworks */,
@@ -151,6 +181,15 @@
 		B706DCE51EACB2120038FF51 /* KeyboardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardController.swift; sourceTree = "<group>"; };
 		B706DCE71EACB5A10038FF51 /* UIViewAnimationCurve+UIViewAnimationOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewAnimationCurve+UIViewAnimationOption.swift"; sourceTree = "<group>"; };
 		B706DCED1EACD7980038FF51 /* PlaceholderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderCell.swift; sourceTree = "<group>"; };
+		B706DD181EACFBE60038FF51 /* MicrosoftVision.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MicrosoftVision.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B706DD1A1EACFBE60038FF51 /* MicrosoftVision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MicrosoftVision.h; sourceTree = "<group>"; };
+		B706DD1B1EACFBE60038FF51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B706DD201EACFBE70038FF51 /* MicrosoftVisionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MicrosoftVisionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B706DD271EACFBE70038FF51 /* MicrosoftVisionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftVisionTests.swift; sourceTree = "<group>"; };
+		B706DD291EACFBE70038FF51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B706DD351EACFC290038FF51 /* MicrosoftVisionOCR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicrosoftVisionOCR.swift; sourceTree = "<group>"; };
+		B706DD371EAD2F3A0038FF51 /* microsoft-api-config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "microsoft-api-config.plist"; sourceTree = "<group>"; };
+		B706DD391EAD2FE20038FF51 /* MicrosoftVisionAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicrosoftVisionAdapter.swift; sourceTree = "<group>"; };
 		B72F5AFC1E8ABB7100E0421F /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AddressCell.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B72F5AFE1E8ABF3900E0421F /* PostalAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PostalAddress.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B764913C1E802F7700B604CF /* ContactBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ContactBuilder.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -254,6 +293,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B706DD141EACFBE60038FF51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B706DD1D1EACFBE70038FF51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B706DD211EACFBE70038FF51 /* MicrosoftVision.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FC0591831E58996200B0DDB4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -269,6 +323,7 @@
 				FCEDE6D11E58BF69001B4776 /* GoogleVisionAPI.framework in Frameworks */,
 				FC05918E1E58996200B0DDB4 /* GoogleNaturalLanguageAPI.framework in Frameworks */,
 				FC0BF6DA1E54AB8300A0ED29 /* MapKit.framework in Frameworks */,
+				B706DD2D1EACFBE70038FF51 /* MicrosoftVision.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +344,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B706DD191EACFBE60038FF51 /* MicrosoftVision */ = {
+			isa = PBXGroup;
+			children = (
+				B706DD1A1EACFBE60038FF51 /* MicrosoftVision.h */,
+				B706DD1B1EACFBE60038FF51 /* Info.plist */,
+				B706DD351EACFC290038FF51 /* MicrosoftVisionOCR.swift */,
+			);
+			path = MicrosoftVision;
+			sourceTree = "<group>";
+		};
+		B706DD261EACFBE70038FF51 /* MicrosoftVisionTests */ = {
+			isa = PBXGroup;
+			children = (
+				B706DD271EACFBE70038FF51 /* MicrosoftVisionTests.swift */,
+				B706DD291EACFBE70038FF51 /* Info.plist */,
+			);
+			path = MicrosoftVisionTests;
+			sourceTree = "<group>";
+		};
 		B764913B1E802F3300B604CF /* Builder */ = {
 			isa = PBXGroup;
 			children = (
@@ -444,6 +518,8 @@
 				FC0591881E58996200B0DDB4 /* GoogleNaturalLanguageAPI */,
 				FCEDE6CB1E58BF69001B4776 /* GoogleVisionAPI */,
 				FCF54E611E63319000DAEA38 /* MonkeyLearnEntitiesAPI */,
+				B706DD191EACFBE60038FF51 /* MicrosoftVision */,
+				B706DD261EACFBE70038FF51 /* MicrosoftVisionTests */,
 				FC8E715E1E4AD56C00D37719 /* Products */,
 				FC0BF6D81E54AB8300A0ED29 /* Frameworks */,
 			);
@@ -456,6 +532,8 @@
 				FC0591871E58996200B0DDB4 /* GoogleNaturalLanguageAPI.framework */,
 				FCEDE6CA1E58BF69001B4776 /* GoogleVisionAPI.framework */,
 				FCF54E601E63319000DAEA38 /* MonkeyLearnEntitiesAPI.framework */,
+				B706DD181EACFBE60038FF51 /* MicrosoftVision.framework */,
+				B706DD201EACFBE70038FF51 /* MicrosoftVisionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -468,9 +546,9 @@
 				B7667A681E75AF520066375E /* Controller */,
 				FC91B7621E4C370400AF11C6 /* View Controller */,
 				FC0BF6D11E54AA3700A0ED29 /* View */,
-				B764913B1E802F3300B604CF /* Builder */,
 				FC7966FF1E52C36600D54859 /* Model */,
 				FC05917F1E58906F00B0DDB4 /* Factory */,
+				B764913B1E802F3300B604CF /* Builder */,
 				FC91B75F1E4C36DF00AF11C6 /* Service */,
 				FCEDE6D61E58C093001B4776 /* Adapter */,
 				FC91B7601E4C36E500AF11C6 /* Utility */,
@@ -565,6 +643,7 @@
 				FCD683391E66DE2200022474 /* google-api-config.default.plist */,
 				FCD683371E66DD8000022474 /* monkeylearn-api-config.plist */,
 				FCD6833B1E66DE3B00022474 /* monkeylearn-api-config.default.plist */,
+				B706DD371EAD2F3A0038FF51 /* microsoft-api-config.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -621,6 +700,7 @@
 		FCEDE6D61E58C093001B4776 /* Adapter */ = {
 			isa = PBXGroup;
 			children = (
+				B706DD391EAD2FE20038FF51 /* MicrosoftVisionAdapter.swift */,
 				FCF64BDA1E59E08900E036D0 /* GoogleVisionServiceAdapter.swift */,
 				FCEDE6D71E58C0C0001B4776 /* GoogleNaturalLanguageServiceAdapter.swift */,
 				FCF54E6E1E63E5B600DAEA38 /* _MonkeyLearnEntitiesTextAnnotationServiceAdapter.swift */,
@@ -641,6 +721,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		B706DD151EACFBE60038FF51 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B706DD2A1EACFBE70038FF51 /* MicrosoftVision.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FC0591841E58996200B0DDB4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -668,6 +756,43 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		B706DD171EACFBE60038FF51 /* MicrosoftVision */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B706DD2F1EACFBE70038FF51 /* Build configuration list for PBXNativeTarget "MicrosoftVision" */;
+			buildPhases = (
+				B706DD131EACFBE60038FF51 /* Sources */,
+				B706DD141EACFBE60038FF51 /* Frameworks */,
+				B706DD151EACFBE60038FF51 /* Headers */,
+				B706DD161EACFBE60038FF51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MicrosoftVision;
+			productName = MicrosoftVision;
+			productReference = B706DD181EACFBE60038FF51 /* MicrosoftVision.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B706DD1F1EACFBE70038FF51 /* MicrosoftVisionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B706DD321EACFBE70038FF51 /* Build configuration list for PBXNativeTarget "MicrosoftVisionTests" */;
+			buildPhases = (
+				B706DD1C1EACFBE70038FF51 /* Sources */,
+				B706DD1D1EACFBE70038FF51 /* Frameworks */,
+				B706DD1E1EACFBE70038FF51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B706DD231EACFBE70038FF51 /* PBXTargetDependency */,
+				B706DD251EACFBE70038FF51 /* PBXTargetDependency */,
+			);
+			name = MicrosoftVisionTests;
+			productName = MicrosoftVisionTests;
+			productReference = B706DD201EACFBE70038FF51 /* MicrosoftVisionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		FC0591861E58996200B0DDB4 /* GoogleNaturalLanguageAPI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FC0591901E58996200B0DDB4 /* Build configuration list for PBXNativeTarget "GoogleNaturalLanguageAPI" */;
@@ -701,6 +826,7 @@
 				FC05918D1E58996200B0DDB4 /* PBXTargetDependency */,
 				FCEDE6D01E58BF69001B4776 /* PBXTargetDependency */,
 				FCF54E661E63319000DAEA38 /* PBXTargetDependency */,
+				B706DD2C1EACFBE70038FF51 /* PBXTargetDependency */,
 			);
 			name = CardScanner;
 			productName = CardScanner;
@@ -753,6 +879,18 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Luke Van In";
 				TargetAttributes = {
+					B706DD171EACFBE60038FF51 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = DBK476475Y;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
+					B706DD1F1EACFBE70038FF51 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = DBK476475Y;
+						ProvisioningStyle = Automatic;
+						TestTargetID = FC8E715C1E4AD56C00D37719;
+					};
 					FC0591861E58996200B0DDB4 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = DBK476475Y;
@@ -804,11 +942,27 @@
 				FC0591861E58996200B0DDB4 /* GoogleNaturalLanguageAPI */,
 				FCEDE6C91E58BF69001B4776 /* GoogleVisionAPI */,
 				FCF54E5F1E63319000DAEA38 /* MonkeyLearnEntitiesAPI */,
+				B706DD171EACFBE60038FF51 /* MicrosoftVision */,
+				B706DD1F1EACFBE70038FF51 /* MicrosoftVisionTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B706DD161EACFBE60038FF51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B706DD1E1EACFBE70038FF51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FC0591851E58996200B0DDB4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -824,6 +978,7 @@
 				FCD6833C1E66DE3B00022474 /* monkeylearn-api-config.default.plist in Resources */,
 				FCD6833A1E66DE2200022474 /* google-api-config.default.plist in Resources */,
 				FC8E716B1E4AD56C00D37719 /* LaunchScreen.storyboard in Resources */,
+				B706DD381EAD2F3A0038FF51 /* microsoft-api-config.plist in Resources */,
 				FC8E71681E4AD56C00D37719 /* Assets.xcassets in Resources */,
 				FCD683381E66DD8000022474 /* monkeylearn-api-config.plist in Resources */,
 				FC8E71661E4AD56C00D37719 /* Main.storyboard in Resources */,
@@ -847,6 +1002,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B706DD131EACFBE60038FF51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B706DD361EACFC290038FF51 /* MicrosoftVisionOCR.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B706DD1C1EACFBE70038FF51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B706DD281EACFBE70038FF51 /* MicrosoftVisionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FC0591821E58996200B0DDB4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -923,6 +1094,7 @@
 				FC91B7671E4C3B8700AF11C6 /* MockImageAnnotationService.swift in Sources */,
 				FCC8ADA51E56B99500F32CC4 /* ServiceFactory.swift in Sources */,
 				B77C5CA11EA5E45C007C8593 /* TextMessageAction.swift in Sources */,
+				B706DD3A1EAD2FE20038FF51 /* MicrosoftVisionAdapter.swift in Sources */,
 				FC8A0E571E6C539C00DC3C66 /* PhotoLibraryCell.swift in Sources */,
 				B7C662681E881F07002100A9 /* DocumentsBaseViewController.swift in Sources */,
 				FCD683321E65D15700022474 /* AnnotationsRenderer.swift in Sources */,
@@ -959,6 +1131,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B706DD231EACFBE70038FF51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B706DD171EACFBE60038FF51 /* MicrosoftVision */;
+			targetProxy = B706DD221EACFBE70038FF51 /* PBXContainerItemProxy */;
+		};
+		B706DD251EACFBE70038FF51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FC8E715C1E4AD56C00D37719 /* CardScanner */;
+			targetProxy = B706DD241EACFBE70038FF51 /* PBXContainerItemProxy */;
+		};
+		B706DD2C1EACFBE70038FF51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B706DD171EACFBE60038FF51 /* MicrosoftVision */;
+			targetProxy = B706DD2B1EACFBE70038FF51 /* PBXContainerItemProxy */;
+		};
 		FC05918D1E58996200B0DDB4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FC0591861E58996200B0DDB4 /* GoogleNaturalLanguageAPI */;
@@ -996,6 +1183,81 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		B706DD301EACFBE70038FF51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DBK476475Y;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = MicrosoftVision/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukevanin.MicrosoftVision;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B706DD311EACFBE70038FF51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DBK476475Y;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = MicrosoftVision/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukevanin.MicrosoftVision;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B706DD331EACFBE70038FF51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = DBK476475Y;
+				INFOPLIST_FILE = MicrosoftVisionTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukevanin.MicrosoftVisionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardScanner.app/CardScanner";
+			};
+			name = Debug;
+		};
+		B706DD341EACFBE70038FF51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = DBK476475Y;
+				INFOPLIST_FILE = MicrosoftVisionTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukevanin.MicrosoftVisionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardScanner.app/CardScanner";
+			};
+			name = Release;
+		};
 		FC0591911E58996200B0DDB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1268,6 +1530,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B706DD2F1EACFBE70038FF51 /* Build configuration list for PBXNativeTarget "MicrosoftVision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B706DD301EACFBE70038FF51 /* Debug */,
+				B706DD311EACFBE70038FF51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B706DD321EACFBE70038FF51 /* Build configuration list for PBXNativeTarget "MicrosoftVisionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B706DD331EACFBE70038FF51 /* Debug */,
+				B706DD341EACFBE70038FF51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		FC0591901E58996200B0DDB4 /* Build configuration list for PBXNativeTarget "GoogleNaturalLanguageAPI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
