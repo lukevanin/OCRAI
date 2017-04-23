@@ -67,12 +67,16 @@ class DocumentModel {
         let movedRows: [(IndexPath, IndexPath)]?
     }
     
+    private typealias InsertValueIntoSection = () -> NSManagedObject
+    
     private class Section {
         let title: String
+        let insert: InsertValueIntoSection
         var values: [NSManagedObject]
         
-        init(title: String, values: [NSManagedObject]) {
+        init(title: String, values: [NSManagedObject], insert: @escaping InsertValueIntoSection) {
             self.title = title
+            self.insert = insert
             self.values = values
         }
         
@@ -83,6 +87,13 @@ class DocumentModel {
         
         func append(_ fragment: NSManagedObject) {
             insert(fragment, at: values.count)
+        }
+        
+        func create() -> Int {
+            let value = insert()
+            let index = values.count
+            values.append(value)
+            return index
         }
         
         func insert(_ fragment: NSManagedObject, at: Int) {
@@ -161,22 +172,31 @@ class DocumentModel {
         
         // FIXME: Add images
         // FIXME: Add dates
-        return sections.filter { $0.values.count > 0 }
+//        return sections.filter { $0.values.count > 0 }
+        return sections
     }
     
     private func makeSection(type: FieldType) -> Section {
-        return Section(
-            title: String(describing: type.description),
-            values: document.fields(ofType: type)
-        )
+        let title = String(describing: type.description)
+        let values = document.fields(ofType: type)
+        return Section(title: title, values: values) { [document, coreData] in
+            let context = coreData.mainContext
+            let field = Field(type: type, value: "", ordinality: 0, context: context)
+            field.document = document
+            return field
+        }
     }
     
     private func makeAddressSection() -> Section {
-        return Section(
-            title: "Address",
-            values: document.allPostalAddresses
-        )
+        let values = document.allPostalAddresses
+        return Section(title: "Address", values: values) { [document, coreData] in
+            let context = coreData.mainContext
+            let field = PostalAddress(address: nil, location: nil, context: context)
+            field.document = document
+            return field
+        }
     }
+    
     
     // MARK: Observer
     
@@ -202,6 +222,7 @@ class DocumentModel {
     private func section(at index: Int) -> Section {
         return sections[index]
     }
+
     
     // MARK: Modify
     
@@ -248,28 +269,97 @@ class DocumentModel {
         notify(with: changes)
     }
     
-    func delete(at indexPath: IndexPath) {
+    func delete(at indexPaths: [IndexPath]) {
         
-        let section = self.section(at: indexPath.section)
-        let fragment = section.remove(at: indexPath.row)
-        var sectionIndices: IndexSet?
-        
-        if section.values.count == 0 {
-            sections.remove(at: indexPath.section)
-            sectionIndices = IndexSet(integer: indexPath.section)
+        guard indexPaths.count > 0 else {
+            return
         }
-        
+
         let context = coreData.mainContext
-        context.delete(fragment)
+        
+        for indexPath in indexPaths {
+            let section = self.section(at: indexPath.section)
+            let fragment = section.remove(at: indexPath.row)
+            context.delete(fragment)
+        }
         
         save()
         
         let changes = Changes(
             hasIncrementalChanges: true,
             insertedSections: nil,
-            deletedSections: sectionIndices,
+            deletedSections: nil,
             insertedRows: nil,
-            deletedRows: [indexPath],
+            deletedRows: indexPaths,
+            updatedRows: nil,
+            movedRows: nil
+        )
+        notify(with: changes)
+    }
+    
+    func insert(in sectionIndex: Int) {
+        let section = self.section(at: sectionIndex)
+        let index = section.create()
+        
+        save()
+        
+        let indexPath = IndexPath(row: index, section: sectionIndex)
+
+        let changes = Changes(
+            hasIncrementalChanges: true,
+            insertedSections: nil,
+            deletedSections: nil,
+            insertedRows: [indexPath],
+            deletedRows: nil,
+            updatedRows: nil,
+            movedRows: nil
+        )
+        notify(with: changes)
+    }
+    
+    func cleanup() {
+        
+        var indexPaths = [IndexPath]()
+        
+        for s in 0 ..< sections.count {
+            let section = sections[s]
+            var values = [NSManagedObject]()
+            
+            for v in 0 ..< section.values.count {
+                let value = section.values[v]
+                let indexPath = IndexPath(row: v, section: s)
+                var isEmpty = false
+                
+                // FIXME: Create protocol with isEmpty property. Make Field and PostalAddress conformant.
+                
+                if let field = value as? Field {
+                    isEmpty = field.value?.isEmpty ?? true
+                }
+                else if let field = value as? PostalAddress {
+                    let isStreetEmpty = field.street?.isEmpty ?? true
+                    let isCityEmpty = field.city?.isEmpty ?? true
+                    let isCodeEmpty = field.postalCode?.isEmpty ?? true
+                    let isCountryEmpty = field.country?.isEmpty ?? true
+                    isEmpty = isStreetEmpty && isCityEmpty && isCodeEmpty && isCountryEmpty
+                }
+                
+                if isEmpty {
+                    indexPaths.append(indexPath)
+                }
+                else {
+                    values.append(value)
+                }
+            }
+            
+            section.values = values
+        }
+        
+        let changes = Changes(
+            hasIncrementalChanges: true,
+            insertedSections: nil,
+            deletedSections: nil,
+            insertedRows: nil,
+            deletedRows: indexPaths,
             updatedRows: nil,
             movedRows: nil
         )

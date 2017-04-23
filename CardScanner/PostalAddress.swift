@@ -27,8 +27,8 @@ extension PostalAddress: Actionable {
         return [
             ShowAddressAction(address: self.address, coordinate: self.location),
             CopyTextAction(text: description),
-            ShareAction(items: [description]),
-            DeleteAction(object: self, context: self.managedObjectContext!)
+            ShareAction(items: [description])
+//            DeleteAction(object: self, context: self.managedObjectContext!)
         ]
     }
 }

@@ -11,6 +11,8 @@ import MapKit
 import CoreData
 import Contacts
 
+private let headerCellIdentifier = "HeaderCell"
+private let placeholderCellIdentifier = "PlaceholderCell"
 private let basicCellIdentifier = "BasicCell"
 private let postalAddressCellIdentifier = "PostalAddressCell"
 
@@ -33,7 +35,6 @@ extension DocumentViewController: FieldInputDelegate {
     func fieldInput(cell: BasicFragmentCell, valueChanged value: String?) {
         guard
             let indexPath = tableView.indexPath(for: cell),
-            let model = self.model,
             let field = model.fragment(at: indexPath) as? Field
         else {
             return
@@ -47,7 +48,6 @@ extension DocumentViewController: AddressCellDelegate {
     func addressCellDidChangeAddress(cell: AddressCell) {
         guard
             let indexPath = tableView.indexPath(for: cell),
-            let model = self.model,
             let address = model.fragment(at: indexPath) as? PostalAddress
         else {
             return
@@ -60,6 +60,18 @@ extension DocumentViewController: AddressCellDelegate {
     }
 }
 
+extension DocumentViewController: PlaceholderCellDelegate {
+    func placeholderCellSelected(cell: PlaceholderCell) {
+        guard
+            let indexPath = tableView.indexPath(for: cell)
+        else {
+            return
+        }
+        let _ = model.insert(in: indexPath.section)
+        // FIXME: Focus inserted text field.
+    }
+}
+
 class DocumentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var document: Document!
@@ -68,7 +80,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private var keyboardController: KeyboardController!
     
-    fileprivate var model: DocumentModel?
+    fileprivate var model: DocumentModel!
 
     @IBOutlet weak var addButtonItem: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -111,7 +123,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         let controller = UIAlertController(
-            title: nil,
+            title: "Scan Image",
             message: "Do you want to overwrite existing content?",
             preferredStyle: .alert
         )
@@ -140,11 +152,15 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = editButtonItem
+        configureTableView()
+        initializeKeyboard()
+        initializeHeader()
+    }
+    
+    private func configureTableView() {
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
-        initializeKeyboard()
-        initializeHeader()
     }
     
     private func initializeHeader() {
@@ -193,12 +209,32 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
         
+        // Change separator color depending on edit state.
         let editingSeparatorColor = UIColor(white: 0.9, alpha: 1.0)
         let defaultSeparatorColor = UIColor(white: 0.8, alpha: 1.0)
         tableView.separatorColor = editing ? editingSeparatorColor : defaultSeparatorColor
+
+        // Update placeholders ("Add X" buttons).
+        var indexPaths = [IndexPath]()
+        for s in 0 ..< model.numberOfSections {
+            let r = model.numberOfRowsInSection(s)
+            let i = IndexPath(row: r, section: s)
+            indexPaths.append(i)
+        }
+
+        tableView.beginUpdates()
+        if isEditing {
+            tableView.insertRows(at: indexPaths, with: .middle)
+        }
+        else {
+            tableView.deleteRows(at: indexPaths, with: .middle)
+        }
+        tableView.endUpdates()
         
-//        tableView.beginUpdates()
-//        tableView.endUpdates()
+        // Clear out blank data.
+        if !editing {
+            model.cleanup()
+        }
     }
     
 
@@ -291,41 +327,37 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let numberOfItems = model?.numberOfRowsInSection(section) ?? 0
-        
-        if isEditing {
-            return numberOfItems + 1
-        }
-        else {
-            return numberOfItems
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return model?.titleForSection(at: section)
+        let numberOfRows = model?.numberOfRowsInSection(section) ?? 0
+        let totalRows = numberOfRows + (isEditing ? 1 : 0)
+        return totalRows
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let model = model else {
-            fatalError("no model defined")
-        }
-        
-        let fragment = model.fragment(at: indexPath)
-        
-        if let field = fragment as? Field {
-            return self.tableView(tableView, cellForField: field, at: indexPath)
-        }
-        else if let address = fragment as? PostalAddress {
-            return self.tableView(tableView, cellForPostalAddress: address, at: indexPath)
+        if indexPath.row >= model.numberOfRowsInSection(indexPath.section) {
+            // Place-holder
+            let title = model.titleForSection(at: indexPath.section)
+            return self.tableView(tableView, cellForPlaceholder: title, at: indexPath)
         }
         else {
-            fatalError("unsupported model \(fragment)")
+            //
+        
+            let fragment = model.fragment(at: indexPath)
+            
+            if let field = fragment as? Field {
+                return self.tableView(tableView, cellForField: field, at: indexPath)
+            }
+            else if let address = fragment as? PostalAddress {
+                return self.tableView(tableView, cellForPostalAddress: address, at: indexPath)
+            }
+            else {
+                fatalError("unsupported model \(fragment)")
+            }
         }
     }
     
-    private func tableView(_ tableView: UITableView, cellForField field: Field, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView(tableView, cellForType: field.type, at: indexPath)
+    private func tableView(_ tableView: UITableView, cellForField field: Field, at indexPath: IndexPath) -> BasicFragmentCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
         cell.configure(field: field)
         cell.delegate = self
         cell.accessoryType = .disclosureIndicator
@@ -333,7 +365,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
-    private func tableView(_ tableView: UITableView, cellForPostalAddress address: PostalAddress, at indexPath: IndexPath) -> UITableViewCell {
+    private func tableView(_ tableView: UITableView, cellForPostalAddress address: PostalAddress, at indexPath: IndexPath) -> AddressCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: postalAddressCellIdentifier, for: indexPath) as! AddressCell
         cell.configure(model: address)
         cell.delegate = self;
@@ -342,20 +374,28 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
-    private func tableView(_ tableView: UITableView, cellForType type: FieldType, at indexPath: IndexPath) -> BasicFragmentCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
+    private func tableView(_ tableView: UITableView, cellForPlaceholder title: String, at indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: placeholderCellIdentifier, for: indexPath) as! PlaceholderCell
+        cell.titleLabel.text = "Add \(title)"
+        cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let actionable = model?.fragment(at: indexPath) as? Actionable else {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        if indexPath.row >= model.numberOfRowsInSection(indexPath.section) {
+            let _ = model.insert(in: indexPath.section)
+            return
+        }
+        
+        guard let actionable = model.fragment(at: indexPath) as? Actionable else {
             return
         }
         
         let controller = actionable.makeAlert(viewController: self)
-        present(controller, animated: true) { [weak tableView] in
-            tableView?.deselectRow(at: indexPath, animated: true)
-        }
+        present(controller, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -363,7 +403,12 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return .delete
+        if indexPath.row >= model.numberOfRowsInSection(indexPath.section) {
+            return .insert
+        }
+        else {
+            return .delete
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -378,12 +423,24 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return model.titleForSection(at: section)
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 32
+        return 34
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 16
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        guard let footerView = view as? UITableViewHeaderFooterView else {
+            return
+        }
+        
+        footerView.backgroundView?.backgroundColor = UIColor.clear
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -395,24 +452,14 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         
         if let label = headerView.textLabel {
             let font = UIFont(name: "Helvetica-Bold", size: 13)
+            label.textColor = UIColor(white: 0.8, alpha: 1.0)
             label.font = font
         }
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        guard let footerView = view as? UITableViewHeaderFooterView else {
-            return
-        }
-        
-        footerView.backgroundView?.backgroundColor = UIColor.clear
     }
     
     // MARK: Data
     
     private func delete(at indexPath: IndexPath) {
-        guard let model = model else {
-            return
-        }
-        model.delete(at: indexPath)
+        model.delete(at: [indexPath])
     }
 }

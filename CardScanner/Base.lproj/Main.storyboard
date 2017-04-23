@@ -397,11 +397,77 @@ Add photos from your library or camera to get started.</string>
                                 <color key="separatorColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
                                 <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HeaderCell" id="2AE-ZB-oF8" customClass="SectionHeaderCell" customModule="CardScanner" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2AE-ZB-oF8" id="6H4-ts-TLl">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SY8-e2-4sV">
+                                                    <rect key="frame" x="16" y="8" width="34" height="27"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="SY8-e2-4sV" firstAttribute="top" secondItem="6H4-ts-TLl" secondAttribute="top" constant="8" id="3Jr-tR-gdv"/>
+                                                <constraint firstAttribute="bottom" secondItem="SY8-e2-4sV" secondAttribute="bottom" constant="8" id="c26-Oi-2TQ"/>
+                                                <constraint firstItem="SY8-e2-4sV" firstAttribute="leading" secondItem="6H4-ts-TLl" secondAttribute="leading" constant="16" id="zra-kO-qGV"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="SY8-e2-4sV" id="HHw-U5-laB"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceholderCell" rowHeight="60" id="TEB-aU-lTV" userLabel="PlaceholderCell" customClass="PlaceholderCell" customModule="CardScanner" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="320" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TEB-aU-lTV" id="bo2-Cy-bPe">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Content" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Yy-LY-Ta7">
+                                                    <rect key="frame" x="16" y="8" width="83" height="43.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="28" id="8uO-ui-QfI"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="15"/>
+                                                    <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LYw-xU-HKS">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                                    <connections>
+                                                        <action selector="onSelectionAction:" destination="TEB-aU-lTV" eventType="touchUpInside" id="PN3-0s-Dnc"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="LYw-xU-HKS" firstAttribute="leading" secondItem="bo2-Cy-bPe" secondAttribute="leading" id="5gH-EF-bub"/>
+                                                <constraint firstItem="3Yy-LY-Ta7" firstAttribute="top" secondItem="bo2-Cy-bPe" secondAttribute="top" constant="8" id="XmB-vy-9Rt"/>
+                                                <constraint firstItem="3Yy-LY-Ta7" firstAttribute="leading" secondItem="bo2-Cy-bPe" secondAttribute="leading" constant="16" id="c1A-FA-TAJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="LYw-xU-HKS" secondAttribute="trailing" id="cuk-EY-z2e"/>
+                                                <constraint firstAttribute="bottom" secondItem="3Yy-LY-Ta7" secondAttribute="bottom" constant="8" id="i3B-KX-s2R"/>
+                                                <constraint firstItem="LYw-xU-HKS" firstAttribute="top" secondItem="bo2-Cy-bPe" secondAttribute="top" id="io7-bL-raD"/>
+                                                <constraint firstAttribute="bottom" secondItem="LYw-xU-HKS" secondAttribute="bottom" id="nyo-0Q-TNB"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="3Yy-LY-Ta7" id="Ibk-Mk-JDx"/>
+                                        </connections>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicCell" rowHeight="60" id="23m-fa-taN" userLabel="Basic Cell" customClass="BasicFragmentCell" customModule="CardScanner" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="132" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="23m-fa-taN" id="ajb-LQ-xMF">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Placeholder" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rcq-ew-lMk">
@@ -431,10 +497,10 @@ Add photos from your library or camera to get started.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostalAddressCell" rowHeight="179" id="pgX-Tx-4IK" userLabel="Address Cell" customClass="AddressCell" customModule="CardScanner" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="179"/>
+                                        <rect key="frame" x="0.0" y="192" width="320" height="179"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pgX-Tx-4IK" id="mlC-jR-c6v">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="178"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="178.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pMb-7N-TbD">
@@ -543,7 +609,7 @@ Add photos from your library or camera to get started.</string>
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="cGz-G7-k9Q"/>
-                        <barButtonItem title="Scan" id="dYx-b0-b5h">
+                        <barButtonItem title="👁‍🗨" id="dYx-b0-b5h">
                             <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="onScanAction:" destination="3eI-as-eBM" id="gg9-IV-2cF"/>

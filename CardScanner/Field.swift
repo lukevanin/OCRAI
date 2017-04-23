@@ -72,12 +72,12 @@ extension Field: Actionable {
             }
         }
         
-        actions.append(
-            DeleteAction(
-                object: self,
-                context: self.managedObjectContext!
-            )
-        )
+//        actions.append(
+//            DeleteAction(
+//                object: self,
+//                context: self.managedObjectContext!
+//            )
+//        )
         
         return actions
     }
