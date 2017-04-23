@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B706DCE61EACB2120038FF51 /* KeyboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706DCE51EACB2120038FF51 /* KeyboardController.swift */; };
+		B706DCE81EACB5A10038FF51 /* UIViewAnimationCurve+UIViewAnimationOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706DCE71EACB5A10038FF51 /* UIViewAnimationCurve+UIViewAnimationOption.swift */; };
 		B72F5AFD1E8ABB7100E0421F /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72F5AFC1E8ABB7100E0421F /* AddressCell.swift */; };
 		B72F5AFF1E8ABF3900E0421F /* PostalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72F5AFE1E8ABF3900E0421F /* PostalAddress.swift */; };
 		B764913D1E802F7700B604CF /* ContactBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764913C1E802F7700B604CF /* ContactBuilder.swift */; };
@@ -145,6 +147,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B706DCE51EACB2120038FF51 /* KeyboardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardController.swift; sourceTree = "<group>"; };
+		B706DCE71EACB5A10038FF51 /* UIViewAnimationCurve+UIViewAnimationOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewAnimationCurve+UIViewAnimationOption.swift"; sourceTree = "<group>"; };
 		B72F5AFC1E8ABB7100E0421F /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AddressCell.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B72F5AFE1E8ABF3900E0421F /* PostalAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PostalAddress.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B764913C1E802F7700B604CF /* ContactBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ContactBuilder.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -510,6 +514,8 @@
 				B7B9CB101E6F18F8004765A9 /* UICollectionView+Photos.swift */,
 				B7751B401E70563B0024D99B /* CGRect+CGPoint.swift */,
 				B7A9BFC31E867FE6009A8855 /* String.swift */,
+				B706DCE51EACB2120038FF51 /* KeyboardController.swift */,
+				B706DCE71EACB5A10038FF51 /* UIViewAnimationCurve+UIViewAnimationOption.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -874,6 +880,7 @@
 				B7751B441E7452270024D99B /* ColorAnnotationsRenderer.swift in Sources */,
 				FCEF9BF81E608D3F00B7D509 /* Material.swift in Sources */,
 				FC0036501E6591B900B722AC /* CGPoint.swift in Sources */,
+				B706DCE81EACB5A10038FF51 /* UIViewAnimationCurve+UIViewAnimationOption.swift in Sources */,
 				FC0BF6DC1E54B40900A0ED29 /* CameraView.swift in Sources */,
 				B7751B481E74678A0024D99B /* PaddedLabel.swift in Sources */,
 				FC0BF6D31E54AA4E00A0ED29 /* BasicFragmentCell.swift in Sources */,
@@ -893,6 +900,7 @@
 				FCED88531E4F037400623684 /* MockTextAnnotationService.swift in Sources */,
 				B72F5AFF1E8ABF3900E0421F /* PostalAddress.swift in Sources */,
 				FC8E71791E4AD5B300D37719 /* ContentError.swift in Sources */,
+				B706DCE61EACB2120038FF51 /* KeyboardController.swift in Sources */,
 				FC0BF6CC1E54A99200A0ED29 /* CameraViewController.swift in Sources */,
 				FC7683811E5755CA007B73AE /* ScanOperation.swift in Sources */,
 				B7751B411E70563B0024D99B /* CGRect+CGPoint.swift in Sources */,

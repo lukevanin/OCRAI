@@ -66,6 +66,8 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     var coreData: CoreDataStack!
     var scanner: ScannerService?
     
+    private var keyboardController: KeyboardController!
+    
     fileprivate var model: DocumentModel?
 
     @IBOutlet weak var addButtonItem: UIBarButtonItem!
@@ -141,6 +143,7 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
+        initializeKeyboard()
         initializeHeader()
     }
     
@@ -164,6 +167,11 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
             headerView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
             headerView.widthAnchor.constraint(equalTo: tableView.widthAnchor)
             ])
+    }
+    
+    private func initializeKeyboard() {
+        let toolbarInset = navigationController?.toolbar?.frame.height
+        keyboardController = KeyboardController(scrollView: tableView, defaultInset: toolbarInset)
     }
     
     override func viewWillAppear(_ animated: Bool) {
