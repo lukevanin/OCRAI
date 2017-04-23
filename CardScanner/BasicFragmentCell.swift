@@ -28,7 +28,6 @@ class BasicFragmentCell: UITableViewCell {
     weak var delegate: FieldInputDelegate?
     
     @IBOutlet weak var contentTextField: UITextField!
-    @IBOutlet weak var underlineView: UIView!
     
     var value: String? {
         return contentTextField.text
@@ -51,15 +50,12 @@ class BasicFragmentCell: UITableViewCell {
     }
     
     private func setInputEnabled(_ enabled: Bool, animated: Bool) {
-        contentTextField.isUserInteractionEnabled = enabled
-        
-        UIView.animate(withDuration: 0.25) { 
-            self.underlineView.alpha = enabled ? 1.0 : 0.0
-        }
         
         if contentTextField.isFirstResponder && !enabled {
             contentTextField.resignFirstResponder()
         }
+        
+        contentTextField.isUserInteractionEnabled = enabled
     }
 
     override func awakeFromNib() {

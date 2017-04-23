@@ -9,40 +9,85 @@
 import UIKit
 import MapKit
 
+protocol AddressCellDelegate: class {
+    func addressCellDidChangeAddress(cell: AddressCell)
+}
+
+extension AddressCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        delegate?.addressCellDidChangeAddress(cell: self)
+    }
+}
+
 class AddressCell: UITableViewCell {
     
-    @IBOutlet weak var streetLabel: UILabel!
-    @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var postalCodeLabel: UILabel!
-    @IBOutlet weak var countryLabel: UILabel!
+    weak var delegate: AddressCellDelegate?
+    
+    @IBOutlet weak var streetTextField: UITextField!
+    @IBOutlet weak var cityTextField: UITextField!
+    @IBOutlet weak var postalCodeTextField: UITextField!
+    @IBOutlet weak var countryTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        streetLabel.text = nil
-        cityLabel.text = nil
-        postalCodeLabel.text = nil
-        countryLabel.text = nil
+        delegate = nil
+        streetTextField.text = nil
+        cityTextField.text = nil
+        postalCodeTextField.text = nil
+        countryTextField.text = nil
+        setInputEnabled(false)
         configure(location: nil)
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        setInputEnabled(editing)
+        mapView.isHidden = editing
+    }
+    
+    private func setInputEnabled(_ enabled: Bool) {
+        setInputEnabled(enabled, forTextField: streetTextField)
+        setInputEnabled(enabled, forTextField: cityTextField)
+        setInputEnabled(enabled, forTextField: postalCodeTextField)
+        setInputEnabled(enabled, forTextField: countryTextField)
+    }
+    
+    private func setInputEnabled(_ enabled: Bool, forTextField textField: UITextField) {
+        
+        if !enabled && textField.isFirstResponder {
+            textField.resignFirstResponder()
+        }
+        
+        textField.isUserInteractionEnabled = enabled
+        setVisibilityForTextField(textField)
     }
 
     func configure(model: PostalAddress) {
-        configure(label: streetLabel, value: model.street, defaultValue: "Street")
-        configure(label: cityLabel, value: model.city, defaultValue: "City")
-        configure(label: postalCodeLabel, value: model.postalCode, defaultValue: "Postal Code")
-        configure(label: countryLabel, value: model.country, defaultValue: "Country")
+        configure(textField: streetTextField, value: model.street, defaultValue: "Street")
+        configure(textField: cityTextField, value: model.city, defaultValue: "City")
+        configure(textField: postalCodeTextField, value: model.postalCode, defaultValue: "Postal Code")
+        configure(textField: countryTextField, value: model.country, defaultValue: "Country")
         configure(location: model.location)
     }
     
-    private func configure(label: UILabel, value: String?, defaultValue: String) {
-        if let value = value, !value.isEmpty {
-            label.text = value
-            label.isHidden = false
-        }
-        else {
-            label.text = defaultValue
-            label.isHidden = true
-        }
+    private func configure(textField: UITextField, value: String?, defaultValue: String) {
+        textField.text = value
+        textField.placeholder = defaultValue
+        setVisibilityForTextField(textField)
+    }
+    
+    private func setVisibilityForTextField(_ textField: UITextField) {
+        
+        // FIXME: Row height is not updated when changing table view setEditing.
+        
+//        let isEmpty = textField.text?.isEmpty ?? true
+//        textField.isHidden = isEditing ? false : isEmpty
     }
     
     private func configure(location: CLLocationCoordinate2D?) {

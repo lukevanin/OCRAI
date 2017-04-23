@@ -391,7 +391,7 @@ Add photos from your library or camera to get started.</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0mp-zR-Y3a">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0mp-zR-Y3a">
                                 <rect key="frame" x="0.0" y="-0.5" width="320" height="568"/>
                                 <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -401,7 +401,7 @@ Add photos from your library or camera to get started.</string>
                                         <rect key="frame" x="0.0" y="28" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="23m-fa-taN" id="ajb-LQ-xMF">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Placeholder" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rcq-ew-lMk">
@@ -416,21 +416,11 @@ Add photos from your library or camera to get started.</string>
                                                         <outlet property="delegate" destination="23m-fa-taN" id="vbf-xx-liy"/>
                                                     </connections>
                                                 </textField>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ooE-uN-66N">
-                                                    <rect key="frame" x="16" y="51.5" width="288" height="1"/>
-                                                    <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="1" id="za4-AD-Mek"/>
-                                                    </constraints>
-                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="Rcq-ew-lMk" secondAttribute="bottom" constant="8" id="2tQ-Ic-s4f"/>
                                                 <constraint firstAttribute="trailing" secondItem="Rcq-ew-lMk" secondAttribute="trailing" constant="16" id="BmR-bc-EEt"/>
-                                                <constraint firstItem="ooE-uN-66N" firstAttribute="top" secondItem="Rcq-ew-lMk" secondAttribute="bottom" id="JIZ-A6-afq"/>
-                                                <constraint firstItem="ooE-uN-66N" firstAttribute="width" secondItem="Rcq-ew-lMk" secondAttribute="width" id="d2g-lV-DwA"/>
-                                                <constraint firstItem="ooE-uN-66N" firstAttribute="centerX" secondItem="Rcq-ew-lMk" secondAttribute="centerX" id="dB8-Qr-7Sc"/>
                                                 <constraint firstItem="Rcq-ew-lMk" firstAttribute="leading" secondItem="ajb-LQ-xMF" secondAttribute="leading" constant="16" id="iHC-jg-6ZW"/>
                                                 <constraint firstItem="Rcq-ew-lMk" firstAttribute="top" secondItem="ajb-LQ-xMF" secondAttribute="top" constant="8" id="isz-v3-NsQ"/>
                                             </constraints>
@@ -438,50 +428,74 @@ Add photos from your library or camera to get started.</string>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="contentTextField" destination="Rcq-ew-lMk" id="uLx-IH-Lyr"/>
-                                            <outlet property="underlineView" destination="ooE-uN-66N" id="w2W-Pl-Fgf"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostalAddressCell" rowHeight="120" id="pgX-Tx-4IK" userLabel="Address Cell" customClass="AddressCell" customModule="CardScanner" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="120"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostalAddressCell" rowHeight="179" id="pgX-Tx-4IK" userLabel="Address Cell" customClass="AddressCell" customModule="CardScanner" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="88" width="320" height="179"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pgX-Tx-4IK" id="mlC-jR-c6v">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="178"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pMb-7N-TbD">
-                                                    <rect key="frame" x="16" y="8.5" width="288" height="104"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pMb-7N-TbD">
+                                                    <rect key="frame" x="16" y="8.5" width="288" height="162.5"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4Rv-lj-RWk">
-                                                            <rect key="frame" x="0.0" y="0.0" width="176" height="96"/>
+                                                            <rect key="frame" x="0.0" y="12.5" width="176" height="138"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Street" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKT-Qs-Uc3">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="176" height="18"/>
+                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Street" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dw5-tG-Yvb">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="176" height="28.5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="28" id="Sel-yp-BEc"/>
+                                                                    </constraints>
+                                                                    <nil key="textColor"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="City" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nPI-Lx-k3r">
-                                                                    <rect key="frame" x="0.0" y="26" width="176" height="18"/>
+                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="pgX-Tx-4IK" id="eyv-Xy-34b"/>
+                                                                    </connections>
+                                                                </textField>
+                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ERj-dX-ycI">
+                                                                    <rect key="frame" x="0.0" y="36.5" width="176" height="28.5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="28" id="m2T-BX-PxZ"/>
+                                                                    </constraints>
+                                                                    <nil key="textColor"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Postal Code" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Nv-zL-BoU">
-                                                                    <rect key="frame" x="0.0" y="52" width="176" height="18"/>
+                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="pgX-Tx-4IK" id="xCN-UB-Qqk"/>
+                                                                    </connections>
+                                                                </textField>
+                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Postal Code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="px0-ij-iR1">
+                                                                    <rect key="frame" x="0.0" y="73" width="176" height="28.5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="28" id="RAE-5D-8zI"/>
+                                                                    </constraints>
+                                                                    <nil key="textColor"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Country" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Gl-Rg-bym">
-                                                                    <rect key="frame" x="0.0" y="78" width="176" height="18"/>
+                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="pgX-Tx-4IK" id="Tgw-1S-FAC"/>
+                                                                    </connections>
+                                                                </textField>
+                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Country" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="il9-Hh-A4B">
+                                                                    <rect key="frame" x="0.0" y="109.5" width="176" height="28.5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="28" id="TUQ-B7-fC5"/>
+                                                                    </constraints>
+                                                                    <nil key="textColor"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                                    <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
+                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="pgX-Tx-4IK" id="DVf-pd-TvC"/>
+                                                                    </connections>
+                                                                </textField>
                                                             </subviews>
                                                         </stackView>
-                                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="M7L-cJ-mRZ">
-                                                            <rect key="frame" x="184" y="0.0" width="104" height="104"/>
+                                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsBuildings="NO" showsCompass="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7L-cJ-mRZ">
+                                                            <rect key="frame" x="184" y="29" width="104" height="104.5"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="104" id="QaW-dP-vDN"/>
                                                                 <constraint firstAttribute="width" constant="104" id="l79-d6-ofl"/>
@@ -505,11 +519,11 @@ Add photos from your library or camera to get started.</string>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <outlet property="cityLabel" destination="nPI-Lx-k3r" id="ZSr-Ti-kE7"/>
-                                            <outlet property="countryLabel" destination="1Gl-Rg-bym" id="HdN-oe-bm0"/>
+                                            <outlet property="cityTextField" destination="ERj-dX-ycI" id="M3i-eB-0b8"/>
+                                            <outlet property="countryTextField" destination="il9-Hh-A4B" id="j5Q-bY-yxb"/>
                                             <outlet property="mapView" destination="M7L-cJ-mRZ" id="tna-Yi-t2H"/>
-                                            <outlet property="postalCodeLabel" destination="0Nv-zL-BoU" id="jkc-d4-KC8"/>
-                                            <outlet property="streetLabel" destination="bKT-Qs-Uc3" id="Aeg-I1-MtQ"/>
+                                            <outlet property="postalCodeTextField" destination="px0-ij-iR1" id="C88-o1-R3D"/>
+                                            <outlet property="streetTextField" destination="dw5-tG-Yvb" id="hVC-ht-pT4"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

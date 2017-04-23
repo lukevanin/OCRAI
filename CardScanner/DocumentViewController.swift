@@ -43,6 +43,23 @@ extension DocumentViewController: FieldInputDelegate {
     }
 }
 
+extension DocumentViewController: AddressCellDelegate {
+    func addressCellDidChangeAddress(cell: AddressCell) {
+        guard
+            let indexPath = tableView.indexPath(for: cell),
+            let model = self.model,
+            let address = model.fragment(at: indexPath) as? PostalAddress
+        else {
+            return
+        }
+        address.street = cell.streetTextField.text
+        address.city = cell.cityTextField.text
+        address.postalCode = cell.postalCodeTextField.text
+        address.country = cell.countryTextField.text
+        model.save()
+    }
+}
+
 class DocumentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var document: Document!
@@ -167,6 +184,13 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
+        
+        let editingSeparatorColor = UIColor(white: 0.9, alpha: 1.0)
+        let defaultSeparatorColor = UIColor(white: 0.8, alpha: 1.0)
+        tableView.separatorColor = editing ? editingSeparatorColor : defaultSeparatorColor
+        
+//        tableView.beginUpdates()
+//        tableView.endUpdates()
     }
     
 
@@ -295,20 +319,23 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     private func tableView(_ tableView: UITableView, cellForField field: Field, at indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView(tableView, cellForType: field.type, at: indexPath)
         cell.configure(field: field)
+        cell.delegate = self
+        cell.accessoryType = .disclosureIndicator
+        cell.editingAccessoryType = .none
         return cell
     }
     
     private func tableView(_ tableView: UITableView, cellForPostalAddress address: PostalAddress, at indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: postalAddressCellIdentifier, for: indexPath) as! AddressCell
         cell.configure(model: address)
+        cell.delegate = self;
+        cell.accessoryType = .disclosureIndicator
+        cell.editingAccessoryType = .none
         return cell
     }
     
     private func tableView(_ tableView: UITableView, cellForType type: FieldType, at indexPath: IndexPath) -> BasicFragmentCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: basicCellIdentifier, for: indexPath) as! BasicFragmentCell
-        cell.delegate = self
-        cell.accessoryType = .disclosureIndicator
-        cell.editingAccessoryType = .none
         return cell
     }
     
