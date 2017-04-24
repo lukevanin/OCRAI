@@ -67,8 +67,7 @@ extension DocumentViewController: PlaceholderCellDelegate {
         else {
             return
         }
-        let _ = model.insert(in: indexPath.section)
-        // FIXME: Focus inserted text field.
+        model.performAction(at: indexPath)
     }
 }
 
@@ -214,23 +213,9 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         let defaultSeparatorColor = UIColor(white: 0.8, alpha: 1.0)
         tableView.separatorColor = editing ? editingSeparatorColor : defaultSeparatorColor
 
-        // Update placeholders ("Add X" buttons).
-        var indexPaths = [IndexPath]()
-        for s in 0 ..< model.numberOfSections {
-            let r = model.numberOfRowsInSection(s)
-            let i = IndexPath(row: r, section: s)
-            indexPaths.append(i)
-        }
+        // Show / hide editing controls.
+        model.isEditing = editing
 
-        tableView.beginUpdates()
-        if isEditing {
-            tableView.insertRows(at: indexPaths, with: .middle)
-        }
-        else {
-            tableView.deleteRows(at: indexPaths, with: .middle)
-        }
-        tableView.endUpdates()
-        
         // Clear out blank data.
         if !editing {
             model.cleanup()
@@ -327,32 +312,24 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let numberOfRows = model?.numberOfRowsInSection(section) ?? 0
-        let totalRows = numberOfRows + (isEditing ? 1 : 0)
-        return totalRows
+        return model?.numberOfRowsInSection(section) ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row >= model.numberOfRowsInSection(indexPath.section) {
-            // Place-holder
-            let title = model.titleForSection(at: indexPath.section)
-            return self.tableView(tableView, cellForPlaceholder: title, at: indexPath)
+        let fragment = model.fragment(at: indexPath)
+        
+        if let field = fragment as? Field {
+            return self.tableView(tableView, cellForField: field, at: indexPath)
+        }
+        else if let address = fragment as? PostalAddress {
+            return self.tableView(tableView, cellForPostalAddress: address, at: indexPath)
+        }
+        else if let action = fragment as? DocumentModel.Action {
+            return self.tableView(tableView, cellForAction: action, at: indexPath)
         }
         else {
-            //
-        
-            let fragment = model.fragment(at: indexPath)
-            
-            if let field = fragment as? Field {
-                return self.tableView(tableView, cellForField: field, at: indexPath)
-            }
-            else if let address = fragment as? PostalAddress {
-                return self.tableView(tableView, cellForPostalAddress: address, at: indexPath)
-            }
-            else {
-                fatalError("unsupported model \(fragment)")
-            }
+            fatalError("unsupported model \(fragment)")
         }
     }
     
@@ -374,9 +351,9 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
-    private func tableView(_ tableView: UITableView, cellForPlaceholder title: String, at indexPath: IndexPath) -> UITableViewCell {
+    private func tableView(_ tableView: UITableView, cellForAction action: DocumentModel.Action, at indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: placeholderCellIdentifier, for: indexPath) as! PlaceholderCell
-        cell.titleLabel.text = "Add \(title)"
+        cell.titleLabel.text = "Add \(action.title)"
         cell.delegate = self
         return cell
     }
@@ -385,11 +362,6 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
         
         tableView.deselectRow(at: indexPath, animated: true)
 
-        if indexPath.row >= model.numberOfRowsInSection(indexPath.section) {
-            let _ = model.insert(in: indexPath.section)
-            return
-        }
-        
         guard let actionable = model.fragment(at: indexPath) as? Actionable else {
             return
         }
@@ -403,7 +375,8 @@ class DocumentViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        if indexPath.row >= model.numberOfRowsInSection(indexPath.section) {
+        let fragment = model.fragment(at: indexPath)
+        if fragment is DocumentModel.Action {
             return .insert
         }
         else {
