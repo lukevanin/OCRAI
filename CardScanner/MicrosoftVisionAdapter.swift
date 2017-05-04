@@ -46,10 +46,10 @@ struct MicrosoftVisionAdapter: ImageAnnotationService {
                 }
                 return words.joined(separator: " ")
             }
-            return sentences.joined(separator: "\n")
+            return sentences.joined(separator: ", ")
         }
         
-        let text = paragraphs.joined(separator: "\n")
+        let text = paragraphs.joined(separator: ". ")
         
         content.text = text
         
